@@ -13,6 +13,12 @@ const cvData = JSON.parse(fs.readFileSync(path.join(__dirname, '../src/config/cv
 // Function to format date for display
 function formatDate(dateString) {
   if (dateString === "Present") return "Present";
+  
+  // Handle year-only strings (like "2025", "2022")
+  if (/^\d{4}$/.test(dateString)) {
+    return dateString;
+  }
+  
   const date = new Date(dateString);
   return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
 }
