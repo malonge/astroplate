@@ -1,13 +1,14 @@
+import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 import AutoImport from "astro-auto-import";
-import { defineConfig } from "astro/config";
 import remarkCollapse from "remark-collapse";
 import remarkToc from "remark-toc";
 import sharp from "sharp";
 import config from "./src/config/config.json";
+import { generateCV } from "./scripts/generateCV.js";
 
 // https://astro.build/config
 export default defineConfig({
@@ -17,8 +18,6 @@ export default defineConfig({
   image: { service: sharp() },
   vite: { plugins: [tailwindcss()] },
   integrations: [
-    react(),
-    sitemap(),
     AutoImport({
       imports: [
         "@/shortcodes/Button",
@@ -31,10 +30,25 @@ export default defineConfig({
       ],
     }),
     mdx(),
+    react(),
+    sitemap(),
   ],
   markdown: {
     remarkPlugins: [remarkToc, [remarkCollapse, { test: "Table of contents" }]],
     shikiConfig: { theme: "one-dark-pro", wrap: true },
     extendDefaultPlugins: true,
   },
+  build: {
+    hooks: {
+      'astro:build:done': async () => {
+        console.log('🔄 Generating CV PDF...');
+        try {
+          await generateCV();
+          console.log('✅ CV PDF generated successfully!');
+        } catch (error) {
+          console.error('❌ Error generating CV PDF:', error);
+        }
+      }
+    }
+  }
 });

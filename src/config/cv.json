@@ -1,0 +1,181 @@
+{
+  "basics": {
+    "name": "Michael Alonge",
+    "label": "Software Engineer & Computational Biologist",
+    "image": "/images/profile.png",
+    "email": "malonge11@gmail.com",
+    "phone": "+1 (831) 201-2788",
+    "url": "https://malonge.com",
+    "summary": "Experienced professional with expertise in [your field]. Passionate about [key interests] and committed to delivering [value proposition].",
+    "location": {
+      "address": "",
+      "postalCode": "90036",
+      "city": "Los Angeles",
+      "countryCode": "US",
+      "region": "CA"
+    },
+    "profiles": [
+      {
+        "network": "LinkedIn",
+        "username": "michael-alonge",
+        "url": "https://www.linkedin.com/in/michael-alonge-1348a973/"
+      },
+      {
+        "network": "GitHub",
+        "username": "malonge",
+        "url": "https://github.com/malonge"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "Ohalo Genetics",
+      "position": "Lead Software Engineer, Computational Biology",
+      "url": "https://ohalo.com",
+      "startDate": "2021-12-06",
+      "endDate": "Present",
+      "summary": "Brief description of role and company",
+      "highlights": [
+        "Key achievement or responsibility 1",
+        "Key achievement or responsibility 2",
+        "Key achievement or responsibility 3"
+      ]
+    },
+    {
+      "name": "Johns Hopkins University",
+      "position": "Ph.D. Student, Computer Science",
+      "url": "https://jhu.edu",
+      "startDate": "2020-06-01",
+      "endDate": "2021-12-31",
+      "summary": "Brief description of role and company",
+      "highlights": [
+        "Key achievement or responsibility 1",
+        "Key achievement or responsibility 2"
+      ]
+    }
+  ],
+  "volunteer": [
+    {
+      "organization": "Volunteer Organization",
+      "position": "Volunteer Role",
+      "url": "https://volunteer.org",
+      "startDate": "2021-01-01",
+      "endDate": "Present",
+      "summary": "Description of volunteer work",
+      "highlights": [
+        "Volunteer achievement 1",
+        "Volunteer achievement 2"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "University Name",
+      "url": "https://university.edu",
+      "area": "Degree Field",
+      "studyType": "Bachelor",
+      "startDate": "2016-09-01",
+      "endDate": "2020-05-01",
+      "score": "3.8",
+      "courses": [
+        "Course 1",
+        "Course 2",
+        "Course 3"
+      ]
+    }
+  ],
+  "awards": [
+    {
+      "title": "Award Name",
+      "date": "2023-06-01",
+      "awarder": "Awarding Organization",
+      "summary": "Description of the award and why it was received."
+    }
+  ],
+  "certificates": [
+    {
+      "name": "Certification Name",
+      "date": "2023-03-15",
+      "issuer": "Certifying Organization",
+      "url": "https://certificate.org"
+    }
+  ],
+  "publications": [
+    {
+      "name": "Publication Title",
+      "publisher": "Publisher Name",
+      "releaseDate": "2023-01-01",
+      "url": "https://publication.org",
+      "summary": "Brief description of the publication and its significance."
+    }
+  ],
+  "skills": [
+    {
+      "name": "Technical Skills",
+      "level": "Advanced",
+      "keywords": [
+        "Skill 1",
+        "Skill 2",
+        "Skill 3",
+        "Skill 4",
+        "Skill 5"
+      ]
+    },
+    {
+      "name": "Programming Languages",
+      "level": "Advanced",
+      "keywords": [
+        "Language 1",
+        "Language 2"
+      ]
+    },
+    {
+      "name": "Tools & Technologies",
+      "level": "Intermediate",
+      "keywords": [
+        "Tool 1",
+        "Tool 2",
+        "Tool 3"
+      ]
+    }
+  ],
+  "languages": [
+    {
+      "language": "English",
+      "fluency": "Native speaker"
+    },
+    {
+      "language": "Spanish",
+      "fluency": "Fluent"
+    }
+  ],
+  "interests": [
+    {
+      "name": "Professional Interests",
+      "keywords": [
+        "Interest 1",
+        "Interest 2",
+        "Interest 3"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "name": "Reference Name",
+      "reference": "Reference description and contact information."
+    }
+  ],
+  "projects": [
+    {
+      "name": "Project Name",
+      "startDate": "2023-01-01",
+      "endDate": "2023-06-01",
+      "description": "Brief description of the project",
+      "highlights": [
+        "Project achievement 1",
+        "Project achievement 2"
+      ],
+      "url": "https://project-url.com"
+    }
+  ]
+}

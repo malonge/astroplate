@@ -110,13 +110,6 @@ To access the shell within the container:
 docker run -it --rm astroplate ash
 ```
 
-<!-- reporting issue -->
-
-## 🐞 Reporting Issues
-
-We use GitHub Issues as the official bug tracker for this Template. Please Search [existing issues](https://github.com/zeon-studio/astroplate/issues). It’s possible someone has already reported the same problem.
-If your problem or idea has not been addressed yet, feel free to [open a new issue](https://github.com/zeon-studio/astroplate/issues).
-
 <!-- licence -->
 
 ## 📝 License
@@ -127,6 +120,6 @@ Copyright (c) 2023 - Present, Designed & Developed by [Zeon Studio](https://zeon
 
 **Image license:** The images are only for demonstration purposes. They have their license, we don't have permission to share those images.
 
-## 💻 Need Custom Development Services?
+## 📄 CV
 
-If you need a custom theme, theme customization, or complete website development services from scratch you can [Hire Us](https://zeon.studio/).
+I am using the [JSON Resume](https://jsonresume.org/) format for my CV. The resume data is in the `src/config/cv.json` file. I made a script `scripts/generateCV.js` to generate the CV in markdown and PDF format. I updated the configuration such that the CV is generated automatically when the site is built.
