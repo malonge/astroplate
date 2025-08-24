@@ -1,0 +1,44 @@
+---
+import CVSection from "./CVSection.astro";
+
+interface Education {
+  institution: string;
+  area: string;
+  studyType: string;
+  startDate: string;
+  endDate: string;
+}
+
+interface Props {
+  education?: Education[];
+}
+
+const { education } = Astro.props;
+
+// Format date for display
+function formatDate(dateString: string): string {
+  if (dateString === "Present") return "Present";
+  
+  // Handle year-only strings (like "2025", "2022")
+  if (/^\d{4}$/.test(dateString)) {
+    return dateString;
+  }
+  
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+}
+---
+
+<CVSection title="Education">
+  {education?.map((edu) => (
+    <div class="job-entry">
+      <div class="job-header">
+        <h3 class="job-title">{edu.studyType} in {edu.area}</h3>
+        <span class="job-dates">
+          {formatDate(edu.startDate)} - {formatDate(edu.endDate)}
+        </span>
+      </div>
+      <div class="job-company">{edu.institution}</div>
+    </div>
+  ))}
+</CVSection>

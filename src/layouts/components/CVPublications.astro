@@ -1,0 +1,45 @@
+---
+import CVSection from "./CVSection.astro";
+
+interface Publication {
+  name: string;
+  publisher: string;
+  releaseDate: string;
+  url?: string;
+}
+
+interface Props {
+  publications: Publication[];
+}
+
+const { publications } = Astro.props;
+
+// Format date for display
+function formatDate(dateString: string): string {
+  if (dateString === "Present") return "Present";
+  
+  // Handle year-only strings (like "2025", "2022")
+  if (/^\d{4}$/.test(dateString)) {
+    return dateString;
+  }
+  
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+}
+---
+
+<CVSection title="Selected Publications">
+  {publications.slice(0, 8).map((pub) => (
+    <div class="publication-entry">
+      <span class="publication-title">{pub.name}</span><br/>
+      <span class="publication-details">
+        {pub.publisher} ({formatDate(pub.releaseDate)})
+      </span>
+    </div>
+  ))}
+  {publications.length > 8 && (
+    <div style="font-style: italic; font-size: 0.8rem; margin-top: 0.5rem;">
+      ...and {publications.length - 8} additional publications
+    </div>
+  )}
+</CVSection>

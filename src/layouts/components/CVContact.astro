@@ -1,0 +1,37 @@
+---
+interface Props {
+  email: string;
+  phone: string;
+  location: { city: string; region: string };
+  url: string;
+  profiles?: Array<{ network: string; url: string }>;
+  class?: string;
+}
+
+const { email, phone, location, url, profiles, class: className } = Astro.props;
+---
+
+<div class={`contact-grid ${className || ''}`}>
+  <div class="contact-item">
+    <i class="fas fa-envelope"></i>
+    <a href={`mailto:${email}`}>{email}</a>
+  </div>
+  <div class="contact-item">
+    <i class="fas fa-phone"></i>
+    <span>{phone}</span>
+  </div>
+  <div class="contact-item">
+    <i class="fas fa-map-marker-alt"></i>
+    <span>{location.city}, {location.region}</span>
+  </div>
+  <div class="contact-item">
+    <i class="fas fa-globe"></i>
+    <a href={url} target="_blank" rel="noopener noreferrer">{url}</a>
+  </div>
+  {profiles?.map((profile) => (
+    <div class="contact-item">
+      <i class={`fab fa-${profile.network.toLowerCase()}`}></i>
+      <a href={profile.url} target="_blank" rel="noopener noreferrer">{profile.network}</a>
+    </div>
+  ))}
+</div>

@@ -1,12 +1,12 @@
 {
   "basics": {
     "name": "Michael Alonge",
-    "label": "Software Engineer & Computational Biologist",
+    "label": "Software Engineer | Computational Biologist | Team Lead",
     "image": "/images/profile.png",
     "email": "malonge11@gmail.com",
     "phone": "+1 (831) 201-2788",
-    "url": "https://malonge.com",
-    "summary": "Experienced professional with expertise in [your field]. Passionate about [key interests] and committed to delivering [value proposition].",
+    "url": "https://michaelalonge.com",
+    "summary": "Software engineer and computational biologist with 10+ years of experience designing and leading scalable data platforms. Ph.D. in Computer Science from Johns Hopkins with a strong publication record in top journals including Nature, Science, and Cell. Skilled in cloud-native architecture, data engineering, and bioinformatics, with a proven ability to bridge genomics and software engineering to build reliable, production-ready systems for biotech.",
     "location": {
       "address": "",
       "postalCode": "90036",
@@ -39,11 +39,11 @@
       "url": "https://ohalo.com",
       "startDate": "2025-03-16",
       "endDate": "Present",
-      "summary": "I lead the design and development of the genomics data platform for Ohalo Genetics responsible for automated and scalable management and analysis of genomics data supporting breeding, gene editing, and scientific IP. I also serve as the lead subject matter expert for genomics and bioinformatics with an emphasis on scalable and accurate genotyping methods.",
+      "summary": "Leading the design and development of Ohalo’s genomics data platform, enabling automated and scalable management of genomics data to support breeding, gene editing, and IP strategy. Serving as the company’s lead subject matter expert in genomics and bioinformatics, with an emphasis on scalable and accurate genotyping methods.",
       "highlights": [
-        "Lead the development of the genomics data platform for Ohalo Genetics",
-        "Manage and mentor a team of software engineers and bioinformaticians",
-        "Lead the strategic direction of genomics supporting gene editing, breeding, and IP"
+        "Architect and lead development of Ohalo’s genomics data platform for large-scale breeding and gene editing programs",
+        "Manage and mentor a cross-functional team of software engineers and bioinformaticians",
+        "Set strategic direction for genomics and bioinformatics in support of IP and product development"
       ]
     },
     {
@@ -52,11 +52,11 @@
       "url": "https://ohalo.com",
       "startDate": "2021-12-06",
       "endDate": "2025-03-16",
-      "summary": "Brief description of role and company",
+      "summary": "Directed bioinformatics and genomics analysis for Ohalo’s breeding and gene editing programs, with a focus on scalable genotyping methods and intellectual property development.",
       "highlights": [
-        "Lead bioinformatics and genomics analysis for Ohalo's Boosted Breeding™ foundational patents.",
-        "Developed Ohalo's first scalable genotyping pipeline supporting breeding and gene editing.",
-        "Lead bioinformatics and genomics analysis for all programs, like Ohalo's 'FruitionOne' Almond program."
+        "Led bioinformatics strategy and analysis for Ohalo’s Boosted Breeding™ foundational patents",
+        "Developed Ohalo’s first scalable genotyping pipeline, supporting breeding and gene editing initiatives",
+        "Directed genomics analysis for all programs, including Ohalo’s ‘FruitionOne’ Almond program"
       ]
     },
     {
@@ -64,11 +64,11 @@
       "position": "Ph.D. Student, Computer Science",
       "url": "https://cs.jhu.edu",
       "startDate": "2017-08-31",
-      "endDate": "2021-05-03",
-      "summary": "I completed my Ph.D. in Computer Science at Johns Hopkins University under the supervision of Professor Michael Schatz. My research focused on advanced applications of genome assembly and structural genetic variation in both humans and plants. I served as a teaching assistant for 'Computational Genomics: Sequences', taught by Professor Ben Langmead.",
+      "endDate": "2021-12-03",
+      "summary": "Ph.D. in Computer Science under Professor Michael Schatz, focused on genome assembly and structural variation in humans and plants. Served as teaching assistant for ‘Computational Genomics: Sequences’ with Professor Ben Langmead.",
       "highlights": [
-        "Published several first author papers in journals such as Cell and Science",
-        "Inited speaker at a Galaxy webinar and the Boyce Thompson Institute for Plant Research"
+        "Published multiple first-author papers in journals including Cell and Science",
+        "Invited speaker at a Galaxy webinar and the Boyce Thompson Institute for Plant Research"
       ]
     },
     {
@@ -77,11 +77,11 @@
       "url": "https://www.driscolls.com/",
       "startDate": "2014-11-01",
       "endDate": "2017-08-01",
-      "summary": "I led computational biology projects with the ultimate goal of assisting breeders and molecular biologists. I especially focused on establishing reference genome assemblies to facilitate downstream genomics analyses. I also assisted with wet-lab protocols and plant phenotyping.",
+      "summary": "Led computational biology projects to support plant breeding and molecular biology, with a focus on establishing reference genome assemblies. Contributed to wet-lab protocols and plant phenotyping.",
       "highlights": [
-        "Led computational biology projects with the ultimate goal of assisting breeders and molecular biologists",
-        "Established reference genome assemblies to facilitate downstream genomics analyses",
-        "Assisted with wet-lab protocols and plant phenotyping"
+        "Generated reference genome assemblies to enable downstream genomics analyses",
+        "Designed and executed computational pipelines supporting strawberry and raspberry breeding programs",
+        "Collaborated with molecular biologists and breeders to integrate genomics into crop improvement"
       ]
     }
   ],
@@ -92,165 +92,203 @@
       "url": "https://jhu.edu",
       "area": "Computer Science",
       "studyType": "Ph.D.",
-      "startDate": "2017-08-31",
-      "endDate": "2021-05-03",
-      "score": null,
-      "courses": null
+      "startDate": "2017-08",
+      "endDate": "2021-12",
+      "thesis": "Pan-genomics and the structural diversity of plant genomes"
     },
     {
       "institution": "University of California, Santa Cruz",
       "url": "https://ucsc.edu",
       "area": "Biomolecular Engineering",
       "studyType": "Bachelor of Science",
-      "startDate": "2009-09-01",
-      "endDate": "2014-06-01",
-      "score": null,
-      "courses": null
+      "startDate": "2009-09",
+      "endDate": "2014-06"
     }
-  ],
+  ]
+  ,
   "awards": null,
   "certificates": null,
   "publications": [
     {
       "name": "Solanum pan-genetics reveals paralogues as contingencies in crop engineering",
-      "publisher": "Nature Publishing Group UK London",
+      "publisher": "Nature",
       "releaseDate": "2025",
-      "url": "https://doi.org/10.1038/s41586-025-08619-6",
-      "summary": "Published in Nature. Co-authored with Benoit, Matthias; Jenike, Katharine M; Satterlee, James W; Ramakrishnan, Srividya; Gentile, Iacopo; Hendelman, Anat; Passalacqua, Michael J; Suresh, Hamsini; Shohat, Hagai; Robitaille, Gina M."
-    },
-    {
-      "name": "The complete sequence of a human genome",
-      "publisher": "American Association for the Advancement of Science",
-      "releaseDate": "2022",
-      "url": "https://doi.org/10.1126/science.abj6987",
-      "summary": "Published in Science, Volume 376, Issue 6588, Pages 44-53. Co-authored with Nurk, Sergey; Koren, Sergey; Rhie, Arang; Rautiainen, Mikko; Bzikadze, Andrey V; Mikheenko, Alla; Vollger, Mitchell R; Altemose, Nicolas; Uralsky, Lev; Gershman, Ariel."
-    },
-    {
-      "name": "Chasing perfection: validation and polishing strategies for telomere-to-telomere genome assemblies",
-      "publisher": "Nature Publishing Group",
-      "releaseDate": "2022",
-      "url": "https://doi.org/10.1038/s41592-022-01440-3",
-      "summary": "Published in Nature Methods, Pages 687-695. Co-authored with Mc Cartney, Ann M; Shafin, Kishwar; Bzikadze, Andrey V; Formenti, Giulio; Fungtammasan, Arkarachai; Howe, Kerstin; Jain, Chirag; Koren, Sergey; Logsdon, Glennis A."
+      "url": "https://doi.org/10.1038/s41586-025-08619-6"
     },
     {
       "name": "Establishing Physalis as a new Solanaceae model system enables genetic reevaluation of the inflated calyx syndrome",
-      "publisher": "Oxford University Press",
+      "publisher": "The Plant Cell",
       "releaseDate": "2023",
-      "url": "https://doi.org/10.1093/plcell/koac305",
-      "summary": "Published in The Plant Cell, Pages 351-368. Co-authored with He, Jia; Ramakrishnan, Srividya; Benoit, Matthias; Soyk, Sebastian; Reem, Nathan T; Hendelman, Anat; Van Eck, Joyce; Schatz, Michael C; Lippman, Zachary B."
+      "url": "https://doi.org/10.1093/plcell/koac305"
     },
     {
-      "name": "Automated assembly scaffolding using RagTag elevates a new tomato system for high-throughput genome editing",
-      "publisher": "BioMed Central",
+      "name": "The complete sequence of a human genome",
+      "publisher": "Science",
       "releaseDate": "2022",
-      "url": "https://doi.org/10.1186/s13059-022-02823-7",
-      "summary": "Published in Genome Biology, Volume 23, Issue 1, Page 258. Co-authored with Lebeigle, Ludivine; Kirsche, Melanie; Jenike, Katie; Ou, Shujun; Aganezov, Sergey; Wang, Xingang; Lippman, Zachary B; Schatz, Michael C; Soyk, Sebastian."
+      "url": "https://doi.org/10.1126/science.abj6987"
+    },
+    {
+      "name": "Chasing perfection: validation and polishing strategies for telomere-to-telomere genome assemblies (first author)",
+      "publisher": "Nature Methods",
+      "releaseDate": "2022",
+      "url": "https://doi.org/10.1038/s41592-022-01440-3"
+    },
+    {
+      "name": "Automated assembly scaffolding using RagTag elevates a new tomato system for high-throughput genome editing (first author)",
+      "publisher": "Genome Biology",
+      "releaseDate": "2022",
+      "url": "https://doi.org/10.1186/s13059-022-02823-7"
     },
     {
       "name": "Natural genetic diversity in tomato flavor genes",
-      "publisher": "Frontiers",
+      "publisher": "Frontiers in Plant Science",
       "releaseDate": "2021",
-      "url": "https://doi.org/10.3389/fpls.2021.642828",
-      "summary": "Published in Frontiers in Plant Science, Volume 12, Page 642828. Co-authored with Pereira, Lara; Sapkota, Manoj; Zheng, Yi; Zhang, Youjun; Razifard, Hamid; Taitano, Nathan K; Schatz, Michael; Fernie, Alisdair; Wang, Ying."
+      "url": "https://doi.org/10.3389/fpls.2021.642828"
     },
     {
-      "name": "The genetic and epigenetic landscape of the Arabidopsis centromeres",
-      "publisher": "American Association for the Advancement of Science",
+      "name": "The genetic and epigenetic landscape of the Arabidopsis centromeres (first author)",
+      "publisher": "Science",
       "releaseDate": "2021",
-      "url": "https://doi.org/10.1126/science.abi7489",
-      "summary": "Published in Science, Volume 374, Issue 6569, Page eabi7489. Co-authored with Naish, Matthew; Wlodzimierz, Piotr; Tock, Andrew J; Abramson, Bradley W; Schmücker, Anna; Mandáková, Terezie; Jamge, Bhagyshree; Lambing, Christophe; Kuo, Pallas."
+      "url": "https://doi.org/10.1126/science.abi7489"
     },
     {
-      "name": "Pan-genomics and the structural diversity of plant genomes",
-      "publisher": "Johns Hopkins University",
+      "name": "Pan-genomics and the structural diversity of plant genomes (first author)",
+      "publisher": "Ph.D. Dissertation, Johns Hopkins University",
       "releaseDate": "2021",
-      "url": "http://jhir.library.jhu.edu/handle/1774.2/66801",
-      "summary": "Ph.D. Dissertation. Published by Johns Hopkins University."
+      "url": "http://jhir.library.jhu.edu/handle/1774.2/66801"
     },
     {
-      "name": "Major Impacts of Widespread Structural Variation on Gene Expression and Crop Improvement in Tomato",
-      "publisher": "Elsevier",
+      "name": "Major Impacts of Widespread Structural Variation on Gene Expression and Crop Improvement in Tomato (first author)",
+      "publisher": "Cell",
       "releaseDate": "2020",
-      "url": "https://doi.org/10.1016/j.cell.2020.05.021",
-      "summary": "Published in Cell, Volume 182, Issue 1, Pages 145-161.e23. Co-authored with Wang, Xingang; Benoit, Matthias; Soyk, Sebastian; Pereira, Lara; Zhang, Lei; Suresh, Hamsini; Ramakrishnan, Srividya; Maumus, Florian; Ciren, Danielle."
+      "url": "https://doi.org/10.1016/j.cell.2020.05.021"
     },
     {
-      "name": "Chromosome-Scale Assembly of the Bread Wheat Genome Reveals Thousands of Additional Gene Copies",
-      "publisher": "Genetics Soc America",
+      "name": "Chromosome-Scale Assembly of the Bread Wheat Genome Reveals Thousands of Additional Gene Copies (first author)",
+      "publisher": "Genetics",
       "releaseDate": "2020",
-      "url": "https://doi.org/10.1534/genetics.120.303501",
-      "summary": "Published in Genetics, Volume 216, Issue 2, Pages 599-608. Co-authored with Shumate, Alaina; Puiu, Daniela; Zimin, Aleksey; Salzberg, Steven L."
+      "url": "https://doi.org/10.1534/genetics.120.303501"
     },
     {
-      "name": "A master regulator of regeneration",
-      "publisher": "American Association for the Advancement of Science",
+      "name": "A master regulator of regeneration (first author)",
+      "publisher": "Science",
       "releaseDate": "2019",
-      "url": "https://doi.org/10.1126/science.aaw6258",
-      "summary": "Published in Science, Volume 363, Issue 6432, Pages 1152-1153. Co-authored with Schatz, Michael C."
+      "url": "https://doi.org/10.1126/science.aaw6258"
     },
     {
       "name": "Duplication of a domestication locus neutralized a cryptic variant that caused a breeding barrier in tomato",
-      "publisher": "Nature Publishing Group",
+      "publisher": "Nature Plants",
       "releaseDate": "2019",
-      "url": "https://doi.org/10.1038/s41477-019-0422-z",
-      "summary": "Published in Nature Plants, Volume 5, Issue 5, Pages 471-479. Co-authored with Soyk, Sebastian; Lemmon, Zachary H; Sedlazeck, Fritz J; Jiménez-Gómez, José M; Hutton, Samuel F; Van Eck, Joyce; Schatz, Michael C; Lippman, Zachary B."
+      "url": "https://doi.org/10.1038/s41477-019-0422-z"
     },
     {
       "name": "Accurate circular consensus long-read sequencing improves variant detection and assembly of a human genome",
-      "publisher": "Nature Publishing Group",
+      "publisher": "Nature Biotechnology",
       "releaseDate": "2019",
-      "url": "https://doi.org/10.1038/s41587-019-0217-9",
-      "summary": "Published in Nature Biotechnology, Volume 37, Issue 10, Pages 1155-1162. Co-authored with Wenger, Aaron M; Peluso, Paul; Rowell, William J; Chang, Pi-Chuan; Hall, Richard J; Concepcion, Gregory T; Ebler, Jana; Fungtammasan, Arkarachai; Kolesnikov, Alexey; Olson, Nathan D."
+      "url": "https://doi.org/10.1038/s41587-019-0217-9"
     },
     {
       "name": "The bracteatus pineapple genome and domestication of clonally propagated crops",
-      "publisher": "Nature Publishing Group",
+      "publisher": "Nature Genetics",
       "releaseDate": "2019",
-      "url": "https://doi.org/10.1038/s41588-019-0506-8",
-      "summary": "Published in Nature Genetics, Volume 51, Issue 10, Pages 1549-1558. Co-authored with Chen, Li-Yu; VanBuren, Robert; Paris, Margot; Zhou, Hongye; Zhang, Xingtan; Wai, Ching Man; Yan, Hansong; Chen, Shuai; Ramakrishnan, Srividya."
+      "url": "https://doi.org/10.1038/s41588-019-0506-8"
     },
     {
-      "name": "RaGOO: fast and accurate reference-guided scaffolding of draft genomes",
-      "publisher": "BioMed Central",
+      "name": "RaGOO: fast and accurate reference-guided scaffolding of draft genomes (first author)",
+      "publisher": "Genome Biology",
       "releaseDate": "2019",
-      "url": "https://doi.org/10.1186/s13059-019-1829-6",
-      "summary": "Published in Genome Biology, Volume 20, Issue 1, Page 224. Co-authored with Soyk, Sebastian; Ramakrishnan, Srividya; Wang, Xingang; Goodwin, Sara; Sedlazeck, Fritz J; Lippman, Zachary B; Schatz, Michael C."
+      "url": "https://doi.org/10.1186/s13059-019-1829-6"
     },
     {
       "name": "The genome sequence and transcriptome of Potentilla micrantha and their comparison to Fragaria vesca (the woodland strawberry)",
-      "publisher": "Oxford University Press",
+      "publisher": "GigaScience",
       "releaseDate": "2018",
-      "url": "https://doi.org/10.1093/gigascience/giy010",
-      "summary": "Published in GigaScience, Volume 7, Issue 4, Pages 1-14. Co-authored with Buti, Matteo; Moretto, Marco; Barghini, Elena; Mascagni, Flavia; Natali, Lucia; Brilli, Matteo; Lomsadze, Alexandre; Sonego, Paolo; Giongo, Lara."
+      "url": "https://doi.org/10.1093/gigascience/giy010"
     }
   ],
   "skills": [
     {
-      "name": "Technical Skills",
+      "name": "Google Cloud & Cloud Engineering",
       "level": "Advanced",
       "keywords": [
-        "Skill 1",
-        "Skill 2",
-        "Skill 3",
-        "Skill 4",
-        "Skill 5"
+        "Cloud Run",
+        "Cloud Functions",
+        "Compute Engine",
+        "Cloud Storage",
+        "BigQuery",
+        "Pub/Sub",
+        "Workflows",
+        "Cloud Scheduler",
+        "Vertex AI",
+        "Service Orchestration",
+        "Serverless Architecture",
+        "CI/CD",
+        "Cloud-native Design"
       ]
     },
     {
-      "name": "Programming Languages",
+      "name": "Data Engineering & Analytics",
       "level": "Advanced",
       "keywords": [
         "Python",
-        "Language 2"
+        "Pandas",
+        "Polars",
+        "PySpark",
+        "SQL",
+        "NoSQL",
+        "Schema Design",
+        "ETL Pipelines",
+        "Data Modeling",
+        "Data Transformation",
+        "Scalable Platform Design"
       ]
     },
     {
-      "name": "Tools & Technologies",
-      "level": "Intermediate",
+      "name": "Software Engineering & Architecture",
+      "level": "Advanced",
       "keywords": [
-        "Tool 1",
-        "Tool 2",
-        "Tool 3"
+        "Object-Oriented Programming",
+        "Domain-Driven Design",
+        "Test-Driven Development",
+        "Dependency Inversion",
+        "Service-Oriented Architecture",
+        "Event-Driven Architecture",
+        "API Development",
+        "Context Management"
+      ]
+    },
+    {
+      "name": "Genomics & Computational Biology",
+      "level": "Advanced",
+      "keywords": [
+        "Genome Assembly",
+        "Pan-genomics",
+        "Structural Variation",
+        "Gene Annotation",
+        "Repeat Annotation",
+        "RNA-seq",
+        "ChIP-seq",
+        "Hi-C",
+        "Variant Discovery",
+        "Gene Editing",
+        "Molecular Biology",
+        "Plant Biology",
+        "Genetics",
+        "Epigenetics",
+        "Somatic Mutations"
+      ]
+    },
+    {
+      "name": "Leadership & Technical Communication",
+      "level": "Advanced",
+      "keywords": [
+        "Mentorship",
+        "Professional Development",
+        "Technical Documentation",
+        "Notion",
+        "Miro",
+        "Jira",
+        "Adobe Illustrator"
       ]
     }
   ],
@@ -261,36 +299,52 @@
     },
     {
       "language": "Spanish",
-      "fluency": "Fluent"
+      "fluency": "Basic"
     }
   ],
   "interests": [
     {
+      "name": "Personal Interests",
+      "keywords": [
+        "Baseball",
+        "Digital electronics",
+        "Bass guitar",
+        "Guitar",
+        "South Indian cooking",
+        "Southeast Asian history (Vietnamese & Cambodian)"
+      ]
+    },
+    {
       "name": "Professional Interests",
       "keywords": [
-        "Interest 1",
-        "Interest 2",
-        "Interest 3"
+        "Computer networking",
+        "Cloud genomics applications"
       ]
     }
-  ],
+  ]
+  ,
   "references": [
     {
-      "name": "Reference Name",
-      "reference": "Reference description and contact information."
+      "name": "Professor Michael Schatz",
+      "reference": "PhD Advisor, Bloomberg Distinguished Professor of Computer Science and Biology, JHU. mschatz@jhu.edu"
     }
   ],
   "projects": [
     {
-      "name": "Project Name",
-      "startDate": "2023-01-01",
-      "endDate": "2023-06-01",
-      "description": "Brief description of the project",
+      "name": "Arkadia — IoT Home Environment Monitoring System",
+      "startDate": null,
+      "endDate": null,
+      "description": "Designed a containerized, microservices-based home environment monitoring system featuring real-time sensor readings, Redis caching, FastAPI endpoints, and a React frontend for visualization. Includes a custom BME280 client and demonstrates continuous data processing via a polling-based pipeline.",
       "highlights": [
-        "Project achievement 1",
-        "Project achievement 2"
+        "Microservices architecture",
+        "Containerization with Docker",
+        "BME280 sensor integration",
+        "Redis caching",
+        "FastAPI API development",
+        "React frontend",
+        "Real-time data processing"
       ],
-      "url": "https://project-url.com"
+      "url": "https://michaelalonge.com/projects/arkadia"
     }
   ]
 }

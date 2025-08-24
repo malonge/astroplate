@@ -1,0 +1,31 @@
+---
+import CVSection from "./CVSection.astro";
+
+interface SkillGroup {
+  name: string;
+  level: string;
+  keywords: string[];
+}
+
+interface Props {
+  skills?: SkillGroup[];
+}
+
+const { skills } = Astro.props;
+---
+
+<CVSection title="Technical Skills">
+  <div class="skills-grid">
+    {skills?.map((skillGroup) => (
+      <div class="skill-category">
+        <h4>
+          {skillGroup.name} 
+          <span class="skill-level">({skillGroup.level})</span>
+        </h4>
+        <div class="skill-keywords">
+          {skillGroup.keywords.join(', ')}
+        </div>
+      </div>
+    ))}
+  </div>
+</CVSection>

@@ -1,0 +1,53 @@
+---
+import CVSection from "./CVSection.astro";
+
+interface Job {
+  position: string;
+  name: string;
+  startDate: string;
+  endDate: string;
+  summary: string;
+  highlights?: string[];
+}
+
+interface Props {
+  jobs?: Job[];
+}
+
+const { jobs } = Astro.props;
+
+// Format date for display
+function formatDate(dateString: string): string {
+  if (dateString === "Present") return "Present";
+  
+  // Handle year-only strings (like "2025", "2022")
+  if (/^\d{4}$/.test(dateString)) {
+    return dateString;
+  }
+  
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+}
+---
+
+<CVSection title="Professional Experience">
+  {jobs?.map((job) => (
+    <div class="job-entry">
+      <div class="job-header">
+        <h3 class="job-title">{job.position}</h3>
+        <span class="job-dates">
+          {formatDate(job.startDate)} - {formatDate(job.endDate)}
+        </span>
+      </div>
+      <div class="job-company">{job.name}</div>
+      <div class="job-summary">{job.summary}</div>
+      {job.highlights && job.highlights.length > 0 && (
+        <ul>
+          {job.highlights.map((highlight) => (
+            <li>{highlight}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  ))}
+</CVSection>

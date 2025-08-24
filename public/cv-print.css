@@ -1,0 +1,78 @@
+/* CV Print-specific styles */
+
+@media print {
+  /* Hide site navigation and footer */
+  header, nav, footer, .web-only {
+    display: none !important;
+  }
+  
+  /* Hide web header, show print header */
+  .cv-web-header {
+    display: none !important;
+  }
+  
+  .cv-print-header {
+    display: block !important;
+  }
+  
+  .contact-grid {
+    display: none !important;
+  }
+  
+  /* Optimize layout for print */
+  .cv-container {
+    padding: 0.5in !important;
+    margin: 0 !important;
+    max-width: none !important;
+    font-size: 10pt !important;
+  }
+  
+  .cv-section {
+    margin-bottom: 12pt !important;
+  }
+  
+  .cv-section h2 {
+    font-size: 12pt !important;
+    margin-top: 16pt !important;
+    margin-bottom: 8pt !important;
+  }
+  
+  .cv-section h3 {
+    font-size: 11pt !important;
+  }
+  
+  .job-entry {
+    margin-bottom: 10pt !important;
+  }
+  
+  .job-summary, .cv-container li {
+    font-size: 10pt !important;
+  }
+  
+  .skills-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .publication-entry {
+    margin-bottom: 6pt !important;
+    font-size: 10pt !important;
+  }
+  
+  /* Ensure proper page breaks */
+  .cv-section, .job-entry {
+    page-break-inside: avoid;
+  }
+  
+  /* Print colors */
+  .cv-print-header h1, .cv-section h2, .cv-section h3, .job-title {
+    color: #000 !important;
+  }
+  
+  .cv-print-header .contact-info a {
+    color: #000 !important;
+  }
+  
+  .cv-print-header .fa, .contact-item .fa {
+    color: #333 !important;
+  }
+}

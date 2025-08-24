@@ -8,7 +8,6 @@ import remarkCollapse from "remark-collapse";
 import remarkToc from "remark-toc";
 import sharp from "sharp";
 import config from "./src/config/config.json";
-import { generateCV } from "./scripts/generateCV.js";
 
 // https://astro.build/config
 export default defineConfig({
@@ -38,17 +37,4 @@ export default defineConfig({
     shikiConfig: { theme: "one-dark-pro", wrap: true },
     extendDefaultPlugins: true,
   },
-  build: {
-    hooks: {
-      'astro:build:done': async () => {
-        console.log('🔄 Generating CV PDF...');
-        try {
-          await generateCV();
-          console.log('✅ CV PDF generated successfully!');
-        } catch (error) {
-          console.error('❌ Error generating CV PDF:', error);
-        }
-      }
-    }
-  }
 });

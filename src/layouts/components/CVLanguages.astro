@@ -1,0 +1,25 @@
+---
+import CVSection from "./CVSection.astro";
+
+interface Language {
+  language: string;
+  fluency: string;
+}
+
+interface Props {
+  languages: Language[];
+}
+
+const { languages } = Astro.props;
+---
+
+<CVSection title="Languages">
+  <div>
+    {languages.map((lang, index) => (
+      <>
+        <strong>{lang.language}</strong>: {lang.fluency}
+        {index < languages.length - 1 ? ' • ' : ''}
+      </>
+    ))}
+  </div>
+</CVSection>

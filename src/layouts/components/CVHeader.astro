@@ -1,0 +1,19 @@
+---
+interface Props {
+  name: string;
+  label: string;
+  class?: string;
+}
+
+const { name, label, class: className } = Astro.props;
+---
+
+<div class={`cv-web-header ${className || ''}`}>
+  <h1>{name}</h1>
+  <div class="subtitle">{label}</div>
+  
+  <button class="print-button" onclick="window.print()">
+    <i class="fas fa-print"></i>
+    Print / Save as PDF
+  </button>
+</div>
