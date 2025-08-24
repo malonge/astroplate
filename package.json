@@ -7,7 +7,7 @@
   "type": "module",
   "packageManager": "yarn@1.22.22",
   "scripts": {
-    "dev": "npm run generate-json && astro dev",
+    "dev": "yarn generate-json && astro dev",
     "build": "yarn generate-json && astro build",
     "preview": "astro preview",
     "check": "astro check",
