@@ -423,6 +423,17 @@
     clear: both;
   }
 
+  /* Reduce spacing between education header and thesis */
+  .main-block.concise .details header + div {
+    margin-top: 0.02in !important;
+    padding-top: 0 !important;
+  }
+
+  /* Reduce padding-bottom on institution name in education section */
+  .main-block.concise .details .place {
+    padding-bottom: 3px !important;
+  }
+
   
   /***** fine-tunes on the lists... *****/
   
