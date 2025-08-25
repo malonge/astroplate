@@ -95,7 +95,7 @@
 #main{
   width: 75%;
   padding: 2rem 1rem 0 2rem;
-  font-size: 14px;
+  font-size: 7pt;
 }
 
 #sidebar{
@@ -411,6 +411,7 @@
   
   .details .place{
     float: left;
+    padding-bottom: 10px;
     font-size: 7.5pt;
   }
   
@@ -421,15 +422,7 @@
   .details div{
     clear: both;
   }
-  
-  .details .location::before{
-    display: inline-block;
-    position: relative;
-    right: 3pt;
-    top: 0.25pt;
-    content: "📍";
-    font-size: 8pt;
-  }
+
   
   /***** fine-tunes on the lists... *****/
   

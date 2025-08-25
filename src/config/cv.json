@@ -36,12 +36,13 @@
       {
         "name": "Ohalo Genetics",
         "position": "Lead Software Engineer, Computational Biology",
+        "location": "Remote",
         "url": "https://ohalo.com",
         "startDate": "2025-03-16",
         "endDate": "Present",
         "summary": "Leading the design and development of Ohalo’s genomics data platform, enabling automated and scalable management of genomics data to support breeding, gene editing, and IP strategy. Serving as the company’s lead subject matter expert in genomics and bioinformatics, with an emphasis on scalable and accurate genotyping methods.",
         "highlights": [
-          "Architect and lead development of Ohalo’s genomics data platform for large-scale breeding and gene editing programs",
+          "Lead design and development of Ohalo’s genomics data platform for breeding and gene editing programs",
           "Manage and mentor a cross-functional team of software engineers and bioinformaticians",
           "Set strategic direction for genomics and bioinformatics in support of IP and product development"
         ]
@@ -49,6 +50,7 @@
       {
         "name": "Ohalo Genetics",
         "position": "Lead Computational Biologist",
+        "location": "Remote",
         "url": "https://ohalo.com",
         "startDate": "2021-12-06",
         "endDate": "2025-03-16",
@@ -62,6 +64,7 @@
       {
         "name": "Johns Hopkins University",
         "position": "Ph.D. Student, Computer Science",
+        "location": "Baltimore, MD",
         "url": "https://cs.jhu.edu",
         "startDate": "2017-08-31",
         "endDate": "2021-12-03",
@@ -74,6 +77,7 @@
       {
         "name": "Driscoll's",
         "position": "Research Associate I and II: Computational Biology",
+        "location": "Watsonville, CA",
         "url": "https://www.driscolls.com/",
         "startDate": "2014-11-01",
         "endDate": "2017-08-01",

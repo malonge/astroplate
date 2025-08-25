@@ -1,81 +1,49 @@
 ---
 import Base from "@/layouts/Base.astro";
 import "@/styles/cv.css";
-import { FiBriefcase, FiFolder, FiBook, FiGlobe, FiLinkedin, FiMail, FiPhone } from "react-icons/fi";
+import { FiBriefcase, FiFolder, FiBook, FiGlobe, FiLinkedin, FiMail, FiPhone, FiMapPin } from "react-icons/fi";
+import cvData from "@/config/cv.json";
 ---
 
 <Base title="CV">
   <div class="cv-container">
       <section id="main">
         <header id="title">
-          <h1>John Doe</h1>
-          <span class="subtitle">Plaintiff, defendant &amp; witness</span>
+          <h1>{cvData.basics.name}</h1>
+          <span class="subtitle">{cvData.basics.label}</span>
         </header>
         <section class="main-block">
           <h2>
-            <FiBriefcase className="cv-icon" /> Experiences
+            <FiBriefcase className="cv-icon" /> Professional Experience
           </h2>
-          <section class="blocks">
-            <div class="date">
-              <span>2015</span><span>present</span>
-            </div>
-            <div class="decorator">
-            </div>
-            <div class="details">
-              <header>
-                <h3>Some Position</h3>
-                <span class="place">Some Workplace</span>
-                <span class="location">(remote)</span>
-              </header>
-              <div>
-                <ul>
-                  <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
-                  <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec mi ante. Etiam odio eros, placerat eu metus id, gravida eleifend odio. Vestibulum dapibus pharetra odio, egestas ullamcorper ipsum congue ac. Maecenas viverra tortor eget convallis vestibulum. Donec pulvinar venenatis est, non sollicitudin metus laoreet sed. Fusce tincidunt felis nec neque aliquet porttitor</li>
-                </ul>
+          {cvData.work.map((job) => {
+            const startYear = new Date(job.startDate).getFullYear();
+            const endYear = job.endDate === "Present" ? "present" : new Date(job.endDate).getFullYear();
+            
+            return (
+              <section class="blocks">
+                <div class="date">
+                  <span>{startYear}</span><span>{endYear}</span>
                 </div>
-            </div>
-          </section>
-          <section class="blocks">
-            <div class="date">
-              <span>2014</span><span>2015</span>
-            </div>
-            <div class="decorator">
-            </div>
-            <div class="details">
-              <header>
-                <h3>Another Position</h3>
-                <span class="place">Some Workplace</span>
-                <span class="location">Some City, Some Country</span>
-              </header>
-              <div>
-                <ul>
-                  <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
-                  <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
-                  <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
-                </ul>
-              </div>
-            </div>
-          </section>
-          <section class="blocks">
-            <div class="date">
-              <span>2013</span><span>2014</span>
-            </div>
-            <div class="decorator">
-            </div>
-            <div class="details">
-              <header>
-                <h3>Yet Another Job Position</h3>
-                <span class="place">Some Workplace</span>
-                <span class="location">Some City, Some Country</span>
-              </header>
-              <div>
-                <ul>
-                  <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec mi ante. Etiam odio eros, placerat eu metus id, gravida eleifend odio</li>
-                  <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
-                </ul>
+                <div class="decorator">
                 </div>
-            </div>
-          </section>
+                <div class="details">
+                  <header>
+                    <h3>{job.position}</h3>
+                    <span class="place">{job.name}</span>
+                    <span class="location" style="display: flex; align-items: center; gap: 4px;"><FiMapPin className="cv-icon" />{job.location}</span>
+                  </header>
+                  <div>
+                    <ul>
+                      {job.highlights.map((highlight) => (
+                        <li>{highlight}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </section>
+            );
+          })}
         </section>
         <section class="main-block">
           <h2>
@@ -215,10 +183,10 @@ import { FiBriefcase, FiFolder, FiBook, FiGlobe, FiLinkedin, FiMail, FiPhone } f
             Contact Info
           </h1>
           <ul>
-            <li><FiGlobe className="cv-icon" client:load /> johndoe.gtld</li>
-            <li><FiLinkedin className="cv-icon" client:load /> linkedin.com/in/john</li>
-            <li><FiMail className="cv-icon" client:load /> me@johndoe.gtld</li>
-            <li><FiPhone className="cv-icon" client:load /> 800.000.0000</li>
+            <li style="display: flex; align-items: center; gap: 4px;"><FiGlobe className="cv-icon" client:load /> {cvData.basics.url.replace('https://', '')}</li>
+            <li style="display: flex; align-items: center; gap: 4px;"><FiLinkedin className="cv-icon" client:load /> {cvData.basics.profiles.find(p => p.network === "LinkedIn")?.username}</li>
+            <li style="display: flex; align-items: center; gap: 4px;"><FiMail className="cv-icon" client:load /> {cvData.basics.email}</li>
+            <li style="display: flex; align-items: center; gap: 4px;"><FiPhone className="cv-icon" client:load /> {cvData.basics.phone}</li>
           </ul>
         </div>
         <div class="side-block" id="skills">
