@@ -336,17 +336,18 @@
     "projects": [
       {
         "name": "Arkadia — IoT Home Environment Monitoring System",
-        "startDate": null,
-        "endDate": null,
+        "startDate": "2024-06-01",
+        "endDate": "2025-02-01",
         "description": "Designed a containerized, microservices-based home environment monitoring system featuring real-time sensor readings, Redis caching, FastAPI endpoints, and a React frontend for visualization. Includes a custom BME280 client and demonstrates continuous data processing via a polling-based pipeline.",
         "highlights": [
-          "Microservices architecture",
-          "Containerization with Docker",
-          "BME280 sensor integration",
-          "Redis caching",
-          "FastAPI API development",
-          "React frontend",
-          "Real-time data processing"
+          "microservices",
+          "Docker",
+          "BME280",
+          "Redis",
+          "FastAPI",
+          "React",
+          "real-time data",
+          "IoT"
         ],
         "url": "https://michaelalonge.com/projects/arkadia"
       }

@@ -50,62 +50,38 @@ import cvData from "@/config/cv.json";
           <h2>
             <FiFolder className="cv-icon" /> Selected Projects
           </h2>
-          <section class="blocks">
-            <div class="date">
-              <span>2015</span><span>2016</span>
-            </div>
-            <div class="decorator">
-            </div>
-            <div class="details">
-              <header>
-                <h3>Some Project 1</h3>
-                <span class="place">Some workplace</span>
-              </header>
-              <div>
-                <ul>
-                  <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
-                  <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec mi ante. Etiam odio eros, placerat eu metus id, gravida eleifend odio. Vestibulum dapibus pharetra odio, egestas ullamcorper ipsum congue ac</li>
-                  <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec mi ante. Etiam odio eros, placerat eu metus id, gravida eleifend odio</li>
-                </ul>
-              </div>
-            </div>
-          </section>
-          <section class="blocks">
-            <div class="date">
-              <span>2014</span><span>2015</span>
-            </div>
-            <div class="decorator">
-            </div>
-            <div class="details">
-              <header>
-                <h3>Some Project 2</h3>
-                <span class="place">Some workplace</span>
-              </header>
-              <div>
-                <ul>
-                  <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec mi ante. Etiam odio eros, placerat eu metus id, gravida eleifend odio. Vestibulum dapibus pharetra odio, egestas ullamcorper ipsum congue ac. Maecenas viverra tortor eget convallis vestibulum. Donec pulvinar venenatis est, non sollicitudin metus laoreet sed. Fusce tincidunt felis nec neque aliquet porttitor</li>
-                </ul>
-              </div>
-            </div>
-          </section>
-          <section class="blocks">
-            <div class="date">
-              <span>2014</span>
-            </div>
-            <div class="decorator">
-            </div>
-            <div class="details">
-              <header>
-                <h3>Some Project 3</h3>
-                <span class="place">Some workplace</span>
-              </header>
-              <div>
-                <ul>
-                  <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec mi ante. Etiam odio eros, placerat eu metus id, gravida eleifend odio</li>
-                </ul>
-              </div>
-            </div>
-          </section>
+          {cvData.projects.map((project) => {
+            const startYear = project.startDate ? new Date(project.startDate).getFullYear() : null;
+            const endYear = project.endDate ? new Date(project.endDate).getFullYear() : null;
+            
+            return (
+              <section class="blocks">
+                <div class="date">
+                  {startYear && <span>{startYear}</span>}
+                  {endYear && <span>{endYear}</span>}
+                </div>
+                <div class="decorator">
+                </div>
+                <div class="details">
+                  <header>
+                    <h3>{project.name}</h3>
+                  </header>
+                  <div>
+                    <p>{project.description}</p>
+                    {project.highlights && project.highlights.length > 0 && (
+                      <div class="highlights-inline">
+                        {project.highlights.map((highlight, index) => (
+                          <span class="highlight-item">
+                            {highlight}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </section>
+            );
+          })}
         </section>
         <section class="main-block concise">
           <h2>
