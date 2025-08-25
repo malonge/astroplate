@@ -128,12 +128,10 @@
   
   #title {
     left: 0 !important;
-    text-align: center;
   }
   
   #main h2 {
     left: 0 !important;
-    text-align: center;
   }
 }
 
@@ -233,12 +231,14 @@
   
   .subtitle{
     font-size: 1rem;
+    font-weight: 400;
   }
   
   /* Print adjustment for subtitle */
   @media print {
     .subtitle{
       font-size: 8pt !important;
+      font-weight: 600 !important;
     }
   }
   
@@ -510,4 +510,14 @@
     font-family: "Source Code Pro";
     font-weight: 400;
     font-style: normal;
+  }
+
+  #summary{
+    font-size: 9pt;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    text-transform: none;
+    width: 75%;
+    line-height: 1.2;
+
   }
