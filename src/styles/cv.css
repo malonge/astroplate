@@ -434,6 +434,19 @@
     padding-bottom: 3px !important;
   }
 
+  /* First author notation styling */
+  .first-author-note {
+    font-style: italic;
+    font-weight: normal;
+    color: #666;
+    font-size: 8pt;
+  }
+
+  /* Reduce padding-bottom on publisher name in publications section */
+  .main-block:not(.concise) .details .place {
+    padding-bottom: 3px !important;
+  }
+
   
   /***** fine-tunes on the lists... *****/
   

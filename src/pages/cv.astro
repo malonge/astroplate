@@ -111,6 +111,44 @@ import cvData from "@/config/cv.json";
             );
           })}
         </section>
+        <section class="main-block">
+          <h2>
+            <FiBook className="cv-icon" /> Selected Publications
+          </h2>
+          {cvData.publications.filter(pub => pub.selected).map((publication) => {
+            const releaseYear = publication.releaseDate;
+            
+            return (
+              <section class="blocks">
+                <div class="date">
+                  <span>{releaseYear}</span>
+                </div>
+                <div class="decorator">
+                </div>
+                <div class="details">
+                  <header>
+                    <h3>
+                      {publication.name}
+                      {publication.firstAuthor && <span class="first-author-note"> (first author)</span>}
+                    </h3>
+                    <span class="place">{publication.publisher}</span>
+                  </header>
+                  <div>
+                    {publication.summary && publication.url && (
+                      <p>{publication.summary} — <a href={publication.url} target="_blank" rel="noopener noreferrer">{publication.url}</a></p>
+                    )}
+                    {publication.summary && !publication.url && (
+                      <p>{publication.summary}</p>
+                    )}
+                    {!publication.summary && publication.url && (
+                      <p><a href={publication.url} target="_blank" rel="noopener noreferrer">{publication.url}</a></p>
+                    )}
+                  </div>
+                </div>
+              </section>
+            );
+          })}
+        </section>
       </section>
       <aside id="sidebar">
         <div class="side-block" id="contact">

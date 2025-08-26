@@ -117,97 +117,144 @@
         "name": "Solanum pan-genetics reveals paralogues as contingencies in crop engineering",
         "publisher": "Nature",
         "releaseDate": "2025",
-        "url": "https://doi.org/10.1038/s41586-025-08619-6"
+        "url": "https://doi.org/10.1038/s41586-025-08619-6",
+        "selected": null,
+        "firstAuthor": false
       },
       {
         "name": "Establishing Physalis as a new Solanaceae model system enables genetic reevaluation of the inflated calyx syndrome",
-        "publisher": "The Plant Cell",
+        "publisher": "The Plant Cell", 
         "releaseDate": "2023",
-        "url": "https://doi.org/10.1093/plcell/koac305"
+        "url": "https://doi.org/10.1093/plcell/koac305",
+        "selected": false,
+        "summary": null,
+        "firstAuthor": false
       },
       {
         "name": "The complete sequence of a human genome",
         "publisher": "Science",
         "releaseDate": "2022",
-        "url": "https://doi.org/10.1126/science.abj6987"
+        "url": "https://doi.org/10.1126/science.abj6987",
+        "selected": true,
+        "summary": "As a member of the Telomere-to-Telomere Consortium, I helped polish the initial CHM13 draft assembly to correct small and structural misassemblies. For example, I finished the telomere on the p-arm of chromosome 18.",
+        "firstAuthor": false
       },
       {
-        "name": "Chasing perfection: validation and polishing strategies for telomere-to-telomere genome assemblies (first author)",
+        "name": "Chasing perfection: validation and polishing strategies for telomere-to-telomere genome assemblies",
         "publisher": "Nature Methods",
         "releaseDate": "2022",
-        "url": "https://doi.org/10.1038/s41592-022-01440-3"
+        "url": "https://doi.org/10.1038/s41592-022-01440-3",
+        "selected": true,
+        "summary": "A companion paper to the CHM13 assembly paper, my colleagues and I describe our methods for polishing the initial draft assembly.",
+        "firstAuthor": true
       },
       {
-        "name": "Automated assembly scaffolding using RagTag elevates a new tomato system for high-throughput genome editing (first author)",
+        "name": "Automated assembly scaffolding using RagTag elevates a new tomato system for high-throughput genome editing",
         "publisher": "Genome Biology",
         "releaseDate": "2022",
-        "url": "https://doi.org/10.1186/s13059-022-02823-7"
+        "url": "https://doi.org/10.1186/s13059-022-02823-7",
+        "selected": true,
+        "summary": "I introduced RagTag, a general-purpose genome assembly scaffolding and improvement tool.",
+        "firstAuthor": true
       },
       {
         "name": "Natural genetic diversity in tomato flavor genes",
         "publisher": "Frontiers in Plant Science",
         "releaseDate": "2021",
-        "url": "https://doi.org/10.3389/fpls.2021.642828"
+        "url": "https://doi.org/10.3389/fpls.2021.642828",
+        "selected": false,
+        "summary": null,
+        "firstAuthor": false
       },
       {
-        "name": "The genetic and epigenetic landscape of the Arabidopsis centromeres (first author)",
+        "name": "The genetic and epigenetic landscape of the Arabidopsis centromeres",
         "publisher": "Science",
         "releaseDate": "2021",
-        "url": "https://doi.org/10.1126/science.abi7489"
+        "url": "https://doi.org/10.1126/science.abi7489",
+        "selected": true,
+        "summary": "I led the assembly of all five Columbia Arabidopsis thaliana centromeres—the first time ever for a plant species, to our knowledge.",
+        "firstAuthor": true
       },
       {
-        "name": "Pan-genomics and the structural diversity of plant genomes (first author)",
+        "name": "Pan-genomics and the structural diversity of plant genomes",
         "publisher": "Ph.D. Dissertation, Johns Hopkins University",
         "releaseDate": "2021",
-        "url": "http://jhir.library.jhu.edu/handle/1774.2/66801"
+        "url": "http://jhir.library.jhu.edu/handle/1774.2/66801",
+        "selected": false,
+        "summary": null,
+        "firstAuthor": true
       },
       {
-        "name": "Major Impacts of Widespread Structural Variation on Gene Expression and Crop Improvement in Tomato (first author)",
+        "name": "Major Impacts of Widespread Structural Variation on Gene Expression and Crop Improvement in Tomato",
         "publisher": "Cell",
         "releaseDate": "2020",
-        "url": "https://doi.org/10.1016/j.cell.2020.05.021"
+        "url": "https://doi.org/10.1016/j.cell.2020.05.021",
+        "selected": true,
+        "summary": "I led an effort to catalog and characterize structural variation in 100 tomato varieties using Oxford Nanopore sequencing. I led an analysis that found that breeding introgressions from wild material substantially altered the genome structure of modern varieties.",
+        "firstAuthor": true
       },
       {
-        "name": "Chromosome-Scale Assembly of the Bread Wheat Genome Reveals Thousands of Additional Gene Copies (first author)",
+        "name": "Chromosome-Scale Assembly of the Bread Wheat Genome Reveals Thousands of Additional Gene Copies",
         "publisher": "Genetics",
         "releaseDate": "2020",
-        "url": "https://doi.org/10.1534/genetics.120.303501"
+        "url": "https://doi.org/10.1534/genetics.120.303501",
+        "selected": false,
+        "summary": null,
+        "firstAuthor": true
       },
       {
-        "name": "A master regulator of regeneration (first author)",
+        "name": "A master regulator of regeneration",
         "publisher": "Science",
         "releaseDate": "2019",
-        "url": "https://doi.org/10.1126/science.aaw6258"
+        "url": "https://doi.org/10.1126/science.aaw6258",
+        "selected": false,
+        "summary": null,
+        "firstAuthor": true
       },
       {
         "name": "Duplication of a domestication locus neutralized a cryptic variant that caused a breeding barrier in tomato",
         "publisher": "Nature Plants",
         "releaseDate": "2019",
-        "url": "https://doi.org/10.1038/s41477-019-0422-z"
+        "url": "https://doi.org/10.1038/s41477-019-0422-z",
+        "selected": false,
+        "summary": null,
+        "firstAuthor": false
       },
       {
         "name": "Accurate circular consensus long-read sequencing improves variant detection and assembly of a human genome",
         "publisher": "Nature Biotechnology",
         "releaseDate": "2019",
-        "url": "https://doi.org/10.1038/s41587-019-0217-9"
+        "url": "https://doi.org/10.1038/s41587-019-0217-9",
+        "selected": true,
+        "summary": "I helped benchmark the accuracy of structural variant calls generated from PacBio HiFi sequencing.",
+        "firstAuthor": false
       },
       {
         "name": "The bracteatus pineapple genome and domestication of clonally propagated crops",
         "publisher": "Nature Genetics",
         "releaseDate": "2019",
-        "url": "https://doi.org/10.1038/s41588-019-0506-8"
+        "url": "https://doi.org/10.1038/s41588-019-0506-8",
+        "selected": false,
+        "summary": null,
+        "firstAuthor": false
       },
       {
-        "name": "RaGOO: fast and accurate reference-guided scaffolding of draft genomes (first author)",
+        "name": "RaGOO: fast and accurate reference-guided scaffolding of draft genomes",
         "publisher": "Genome Biology",
         "releaseDate": "2019",
-        "url": "https://doi.org/10.1186/s13059-019-1829-6"
+        "url": "https://doi.org/10.1186/s13059-019-1829-6",
+        "selected": false,
+        "summary": null,
+        "firstAuthor": true
       },
       {
         "name": "The genome sequence and transcriptome of Potentilla micrantha and their comparison to Fragaria vesca (the woodland strawberry)",
         "publisher": "GigaScience",
         "releaseDate": "2018",
-        "url": "https://doi.org/10.1093/gigascience/giy010"
+        "url": "https://doi.org/10.1093/gigascience/giy010",
+        "selected": false,
+        "summary": null,
+        "firstAuthor": false
       }
     ],
     "skills": [
