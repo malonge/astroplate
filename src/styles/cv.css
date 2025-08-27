@@ -1,15 +1,21 @@
 /* Print-specific styles */
 @page{
     size: letter portrait;
-    margin: 0;
+    margin: 0.75in 0.5in;
   }
 
 /* CV-specific CSS variables */
 :root{
   --page-width: 8.5in;
   --page-height: 11in;
-  --main-width: 6.4in;
-  --sidebar-width: calc(var(--page-width) - var(--main-width));
+  --page-margin-top: 0.75in;
+  --page-margin-bottom: 0.75in;
+  --page-margin-left: 0.5in;
+  --page-margin-right: 0.5in;
+  --content-width: calc(var(--page-width) - var(--page-margin-left) - var(--page-margin-right));
+  --content-height: calc(var(--page-height) - var(--page-margin-top) - var(--page-margin-bottom));
+  --main-width: calc(var(--content-width) * 0.75);
+  --sidebar-width: calc(var(--content-width) * 0.25);
   --decorator-horizontal-margin: 0.2in;
 
   --sidebar-horizontal-padding: 0.2in;
@@ -150,19 +156,26 @@
     print-color-adjust: exact !important;
   }
 
+  /* Ensure sidebar background continues on multiple pages */
+  body {
+    background: linear-gradient(to right, white 0%, white var(--main-width), #f2f2f2 var(--main-width), #f2f2f2 100%) !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
   #main{
     float: left !important;
     width: var(--main-width) !important;
-    padding: 0.25in 0.25in 0 0.25in !important;
+    padding: 0 0.25in 0 0 !important;
     font-size: 7pt !important;
   }
   
   #sidebar{
     float: right !important;
-    position: relative !important; /* for disclaimer */
+    position: relative !important;
     width: var(--sidebar-width) !important;
-    height: var(--page-height) !important;
-    padding: 0.6in var(--sidebar-horizontal-padding) !important;
+    min-height: var(--content-height) !important;
+    padding: 0 var(--sidebar-horizontal-padding) !important;
     background-color: #f2f2f2 !important;
     font-size: 8.5pt !important;
     -webkit-print-color-adjust: exact !important;
@@ -239,6 +252,10 @@
     .subtitle{
       font-size: 8pt !important;
       font-weight: 600 !important;
+    }
+    
+    #summary{
+      width: 100% !important;
     }
   }
   
@@ -447,6 +464,19 @@
     padding-bottom: 3px !important;
   }
 
+  /* Skills section styling */
+  .skill-category {
+    margin-bottom: 0.15in;
+  }
+
+  .skill-name {
+    font-weight: 600;
+    font-size: 9pt;
+    margin-bottom: 0.05in;
+    color: #333;
+    text-transform: none;
+  }
+
   
   /***** fine-tunes on the lists... *****/
   
@@ -516,16 +546,15 @@
   #skills ul{
     margin: 0.05in 0 0.15in;
     padding: 0;
+    font-size: 7.5pt;
   }
   
   #disclaimer{
-    position: absolute;
-    bottom: var(--sidebar-horizontal-padding);
-    right: var(--sidebar-horizontal-padding);
+    margin-top: 0.3in;
     font-size: 7.5pt;
     font-style: italic;
     line-height: 1.1;
-    text-align: right;
+    text-align: center;
     color: #777;
   }
   

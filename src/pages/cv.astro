@@ -165,17 +165,22 @@ import cvData from "@/config/cv.json";
           <h1>
             Skills
           </h1>
-          <ul>
-            <li>Omnipresence</li>
-            <li>Anonymity</li>
-          </ul>
-          <ul>
-            <li>Ordinarity</li>
-            <li>No name rights</li>
-          </ul>
+          {cvData.skills.map((skill) => (
+            <div class="skill-category">
+              <h2 class="skill-name">{skill.name}</h2>
+              <ul>
+                {skill.keywords.map((keyword) => (
+                  <li>{keyword}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
         <div class="side-block" id="disclaimer">
-          This r&eacute;sum&eacute; was wholly typeset with HTML/CSS &mdash; see <code>git.io/vVSYL</code>
+          <p>This r&eacute;sum&eacute; was typeset with HTML/CSS</p>
+          <p>Based on a project by <a href="git.io/vVSYL">MIN–ZHONG JOHN LU</a></p>
+          <p>Extended by Michael Alonge with help</p>
+          <p>from claude-4-sonnet
         </div>
       </aside>
       <div style="clear: both;"></div>
