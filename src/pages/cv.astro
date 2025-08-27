@@ -6,6 +6,9 @@ import cvData from "@/config/cv.json";
 ---
 
 <Base title="CV">
+  <div class="flex justify-center mb-4 print:hidden">
+    <button class="btn btn-outline-primary" onclick="window.print()">Print/Download Formatted CV</button>
+  </div>
   <div class="cv-container">
       <section id="main">
         <header id="title">
@@ -178,11 +181,13 @@ import cvData from "@/config/cv.json";
         </div>
         <div class="side-block" id="disclaimer">
           <p>This r&eacute;sum&eacute; was typeset with HTML/CSS</p>
-          <p>Based on a project by <a href="git.io/vVSYL">MIN–ZHONG JOHN LU</a></p>
+          <p>Based on a project by <a href="https://git.io/vVSYL">MIN–ZHONG JOHN LU</a></p>
           <p>Extended by Michael Alonge with help</p>
           <p>from claude-4-sonnet
         </div>
       </aside>
       <div style="clear: both;"></div>
   </div>
+  <div class="flex justify-center mb-4 print:hidden">
+    <button class="btn btn-outline-primary" onclick="window.print()">Print/Download Formatted CV</button>
 </Base>
