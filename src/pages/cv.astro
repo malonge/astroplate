@@ -1,7 +1,7 @@
 ---
 import Base from "@/layouts/Base.astro";
 import "@/styles/cv.css";
-import { FiBriefcase, FiFolder, FiBook, FiGlobe, FiLinkedin, FiMail, FiPhone, FiMapPin } from "react-icons/fi";
+import { FiBriefcase, FiFolder, FiBook, FiGlobe, FiLinkedin, FiMail, FiMapPin, FiGithub, FiBookOpen } from "react-icons/fi";
 import cvData from "@/config/cv.json";
 ---
 
@@ -155,12 +155,11 @@ import cvData from "@/config/cv.json";
       </section>
       <aside id="sidebar">
         <div class="side-block" id="contact">
-          <h1>
-            Contact Info
-          </h1>
           <ul>
             <li style="display: flex; align-items: center; gap: 4px;"><FiGlobe className="cv-icon" client:load /><a href={cvData.basics.url} target="_blank" rel="noopener noreferrer">{cvData.basics.url.replace('https://', '')}</a></li>
-            <li style="display: flex; align-items: center; gap: 4px;"><FiLinkedin className="cv-icon" client:load /><a href={cvData.basics.profiles.find(p => p.network === "LinkedIn")?.url} target="_blank" rel="noopener noreferrer">{cvData.basics.profiles.find(p => p.network === "LinkedIn")?.url.replace('https://www.', '')}</a></li>
+            <li style="display: flex; align-items: center; gap: 4px;"><FiLinkedin className="cv-icon" client:load /><a href={cvData.basics.profiles.find(p => p.network === "LinkedIn")?.url} target="_blank" rel="noopener noreferrer">{cvData.basics.profiles.find(p => p.network === "LinkedIn")?.username}</a></li>
+            <li style="display: flex; align-items: center; gap: 4px;"><FiGithub className="cv-icon" client:load /><a href={cvData.basics.profiles.find(p => p.network === "GitHub")?.url} target="_blank" rel="noopener noreferrer">{cvData.basics.profiles.find(p => p.network === "GitHub")?.username}</a></li>
+            <li style="display: flex; align-items: center; gap: 4px;"><FiBookOpen className="cv-icon" client:load /><a href={cvData.basics.profiles.find(p => p.network === "Google Scholar")?.url} target="_blank" rel="noopener noreferrer">Google Scholar</a></li>
             <li style="display: flex; align-items: center; gap: 4px;"><FiMail className="cv-icon" client:load /><a href={`mailto:${cvData.basics.email}`}>{cvData.basics.email}</a></li>
           </ul>
         </div>
