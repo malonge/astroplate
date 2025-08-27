@@ -156,9 +156,9 @@ import cvData from "@/config/cv.json";
             Contact Info
           </h1>
           <ul>
-            <li style="display: flex; align-items: center; gap: 4px;"><FiGlobe className="cv-icon" client:load /> {cvData.basics.url.replace('https://', '')}</li>
+            <li style="display: flex; align-items: center; gap: 4px;"><FiGlobe className="cv-icon" client:load /><a href={cvData.basics.url} target="_blank" rel="noopener noreferrer">{cvData.basics.url.replace('https://', '')}</a></li>
             <li style="display: flex; align-items: center; gap: 4px;"><FiLinkedin className="cv-icon" client:load /><a href={cvData.basics.profiles.find(p => p.network === "LinkedIn")?.url} target="_blank" rel="noopener noreferrer">{cvData.basics.profiles.find(p => p.network === "LinkedIn")?.url.replace('https://www.', '')}</a></li>
-            <li style="display: flex; align-items: center; gap: 4px;"><FiMail className="cv-icon" client:load /> {cvData.basics.email}</li>
+            <li style="display: flex; align-items: center; gap: 4px;"><FiMail className="cv-icon" client:load /><a href={`mailto:${cvData.basics.email}`}>{cvData.basics.email}</a></li>
           </ul>
         </div>
         <div class="side-block" id="skills">
