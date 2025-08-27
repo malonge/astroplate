@@ -4,11 +4,11 @@
       "label": "Software Engineer | Computational Biologist | Team Lead",
       "image": "/images/profile.png",
       "email": "malonge11@gmail.com",
-      "phone": "+1 (831) 201-2788",
+      "phone": null,
       "url": "https://michaelalonge.com",
       "summary": "Software engineer and computational biologist with 10+ years of experience designing and leading scalable data platforms. Ph.D. in Computer Science from Johns Hopkins with a strong publication record in top journals including Nature, Science, and Cell. Skilled in cloud-native architecture, data engineering, and bioinformatics, with a proven ability to bridge genomics and software engineering to build reliable, production-ready systems for biotech.",
       "location": {
-        "address": "",
+        "address": null,
         "postalCode": "90036",
         "city": "Los Angeles",
         "countryCode": "US",
@@ -18,7 +18,7 @@
         {
           "network": "LinkedIn",
           "username": "michael-alonge",
-          "url": "https://www.linkedin.com/in/michael-alonge-1348a973/"
+          "url": "https://www.linkedin.com/in/michael-alonge"
         },
         {
           "network": "GitHub",
