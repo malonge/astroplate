@@ -110,13 +110,6 @@ To access the shell within the container:
 docker run -it --rm astroplate ash
 ```
 
-<!-- reporting issue -->
-
-## 🐞 Reporting Issues
-
-We use GitHub Issues as the official bug tracker for this Template. Please Search [existing issues](https://github.com/zeon-studio/astroplate/issues). It’s possible someone has already reported the same problem.
-If your problem or idea has not been addressed yet, feel free to [open a new issue](https://github.com/zeon-studio/astroplate/issues).
-
 <!-- licence -->
 
 ## 📝 License
@@ -127,6 +120,16 @@ Copyright (c) 2023 - Present, Designed & Developed by [Zeon Studio](https://zeon
 
 **Image license:** The images are only for demonstration purposes. They have their license, we don't have permission to share those images.
 
-## 💻 Need Custom Development Services?
+# Customization Notes
 
-If you need a custom theme, theme customization, or complete website development services from scratch you can [Hire Us](https://zeon.studio/).
+Here I will document how I (Michael Alonge) customized the Astroplate template to my personal website.
+
+## CV
+
+The CV page combines a few key components:
+
+- A JSON file that contains my professional information following the [JSON Resume standard](https://jsonresume.org/)
+- A HTML/CSS typeset resume template by [Min–Zhong John Lu](https://github.com/mnjul/html-resume?tab=readme-ov-file)
+- The astroplate template
+
+The resume data is stored in `src/config/cv.json` and is treated as a configuration. This decouples the resume data from the resume template. Then I extended and customized the HTML/CSS template provided by Min–Zhong John Lu in `src/styles/cv.css` and `src/pages/cv.astro` to create a modern, print-optimized resume. By default, the `cv` page behaves like a normal website page and all of my resume content is embedded directly in the page. However, I added a print button to the page that allows the user to print the resume to a formatted PDF.

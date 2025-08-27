@@ -1,0 +1,615 @@
+/* Print-specific styles */
+@page{
+    size: letter portrait;
+    margin: 0.75in 0.5in;
+  }
+
+/* CV-specific CSS variables */
+:root{
+  --page-width: 8.5in;
+  --page-height: 11in;
+  --page-margin-top: 0.75in;
+  --page-margin-bottom: 0.75in;
+  --page-margin-left: 0.5in;
+  --page-margin-right: 0.5in;
+  --content-width: calc(var(--page-width) - var(--page-margin-left) - var(--page-margin-right));
+  --content-height: calc(var(--page-height) - var(--page-margin-top) - var(--page-margin-bottom));
+  --main-width: calc(var(--content-width) * 0.75);
+  --sidebar-width: calc(var(--content-width) * 0.25);
+  --decorator-horizontal-margin: 0.2in;
+
+  --sidebar-horizontal-padding: 0.2in;
+
+  /* XXX: using px for very good precision control */
+  --decorator-outer-offset-top: 10px;
+  --decorator-outer-offset-left: -5.5px;
+  --decorator-border-width: 1px;
+  --decorator-outer-dim: 9px;
+  --decorator-border: 1px solid #ccc;
+
+  --row-blocks-padding-top: 5pt;
+  --date-block-width: 0.6in;
+
+  --main-blocks-title-icon-offset-left: -19pt;
+}
+
+/* Print styles - hide website header/footer and apply CV layout */
+@media print {
+  /* Hide website navigation elements but keep CV header */
+  body > header,
+  header[class],
+  .header,
+  nav,
+  footer,
+  .footer {
+    display: none !important;
+  }
+  
+  /* Ensure CV header (title section) remains visible */
+  #title,
+  #title h1,
+  .subtitle {
+    display: block !important;
+    visibility: visible !important;
+  }
+  
+  /* Reset body for print */
+  body {
+    width: var(--page-width) !important;
+    height: var(--page-height) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-family: "Open Sans", sans-serif !important; 
+    font-weight: 300 !important;
+    line-height: 1.3 !important;
+    color: #444 !important;
+    hyphens: auto !important;
+    background: white !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  /* Reset main content wrapper for print */
+  #main-content {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: none !important;
+  }
+}
+  
+  h1, h2, h3{
+    margin: 0;
+    color: #000;
+  }
+  
+  li{
+    list-style-type: none;
+  }
+  
+/* Web layout styles */
+.cv-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0;
+  background: white;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  display: flex;
+  min-height: 100vh;
+}
+
+#main{
+  width: 75%;
+  padding: 2rem 1rem 0 2rem;
+  font-size: 7pt;
+}
+
+#sidebar{
+  position: relative; /* for disclaimer */
+  width: 25%;
+  padding: 1.5rem 1rem;
+  background-color: #f2f2f2;
+  font-size: 16px;
+}
+
+/* Mobile responsive design */
+@media (max-width: 768px) {
+  .cv-container {
+    margin: 1rem;
+    padding: 1rem;
+    flex-direction: column;
+    min-height: auto;
+  }
+  
+  #main {
+    width: 100%;
+    padding: 1rem 0;
+  }
+  
+  #sidebar {
+    width: 100%;
+    margin-top: 2rem;
+    padding: 1rem;
+  }
+  
+  #title {
+    left: 0 !important;
+  }
+  
+  #main h2 {
+    left: 0 !important;
+  }
+}
+
+/* Print layout styles */
+@media print {
+  .cv-container {
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    display: block !important;
+    min-height: auto !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Ensure sidebar background continues on multiple pages */
+  body {
+    background: linear-gradient(to right, white 0%, white var(--main-width), #f2f2f2 var(--main-width), #f2f2f2 100%) !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  #main{
+    float: left !important;
+    width: var(--main-width) !important;
+    padding: 0 0.25in 0 0 !important;
+    font-size: 7pt !important;
+  }
+  
+  #sidebar{
+    float: right !important;
+    position: relative !important;
+    width: var(--sidebar-width) !important;
+    min-height: var(--content-height) !important;
+    padding: 0 var(--sidebar-horizontal-padding) !important;
+    background-color: #f2f2f2 !important;
+    font-size: 8.5pt !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+  
+  /* main */
+  
+  /** big title **/
+  #title, h1, h2{
+    text-transform: uppercase;
+  }
+  
+  #title{
+    position: relative;
+    left: 1rem;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+  
+  #title h1{
+    font-weight: 300;
+    font-size: 2.5rem;
+    line-height: 1.5;
+  }
+
+  /* Print adjustments for title */
+  @media print {
+    #title{
+      position: relative !important;
+      left: 0.55in !important;
+      margin-bottom: 0.3in !important;
+      line-height: 1.2 !important;
+    }
+    
+    #title h1{
+      font-weight: 300 !important;
+      font-size: 18pt !important;
+      line-height: 1.5 !important;
+    }
+    
+    /* Print adjustments for icons */
+    #main h2 > .cv-icon{
+      width: 12pt !important;
+      height: 12pt !important;
+      position: absolute !important;
+      left: var(--main-blocks-title-icon-offset-left) !important;
+      z-index: 1 !important;
+      color: #444 !important;
+      top: 1pt !important;
+    }
+    
+    #contact li > .cv-icon{
+      width: 9pt !important;
+      height: 9pt !important;
+      display: inline-block !important;
+      margin-right: 6pt !important;
+    }
+  }
+  
+  #title h1 strong{
+    margin: auto 2pt auto 4pt;
+    font-weight: 600;
+  }
+  
+  .subtitle{
+    font-size: 1rem;
+    font-weight: 400;
+  }
+  
+  /* Print adjustment for subtitle */
+  @media print {
+    .subtitle{
+      font-size: 8pt !important;
+      font-weight: 600 !important;
+    }
+    
+    #summary{
+      width: 100% !important;
+    }
+  }
+  
+  /*** categorial blocks ***/
+  
+  .main-block{
+    margin-top: 0.1in;
+  }
+  
+  #main h2{
+    position: relative;
+    top: 8px;
+    left: 4rem;
+    font-weight: 400;
+    font-size: 1.5rem;
+    color: #555;
+  }
+
+  /* Print adjustments for section headings */
+  @media print {
+    #main h2{
+      position: relative !important;
+      top: var(--row-blocks-padding-top) !important;
+      /* XXX: 0.5px for aligning fx printing */
+      left: calc((var(--date-block-width) + var(--decorator-horizontal-margin))) !important;
+      font-weight: 400 !important;
+      font-size: 11pt !important;
+      color: #555 !important;
+    }
+  }
+  
+  #main h2 > .cv-icon{
+    /* use absolute position to prevent icon's width from misaligning title */
+    /* assigning a fixed width here is no better due to needing to align decorator
+       line too */
+    position: absolute;
+    left: var(--main-blocks-title-icon-offset-left);
+    z-index: 1; /* over decorator line */
+    color: #444;
+    width: 12pt;
+    height: 12pt;
+  }
+  
+  #main h2::after{ /* extends the decorator line */
+    height: calc(var(--row-blocks-padding-top) * 2);
+    position: relative;
+    top: calc(-1 * var(--row-blocks-padding-top));
+    /* XXX: 0.5px for aligning fx printing */
+    left: calc(-1 * var(--decorator-horizontal-margin));
+    display: block;
+    border-left: var(--decorator-border);
+    z-index: 0;
+    line-height: 0;
+    font-size: 0;
+    content: ' ';
+  }
+  
+  /**** minor tweaks on the emoji icons ****/
+  #main h2 > .cv-icon{
+    top: 1pt;
+  }
+  
+  /**** individual row blocks (date - decorator - details) ****/
+  
+  .blocks{
+    display: flex;
+    flex-flow: row nowrap;
+  }
+  
+  .blocks > div{
+    padding-top: var(--row-blocks-padding-top);
+  }
+  
+  .date{
+    flex: 0 0 var(--date-block-width);
+    padding-top: calc(var(--row-blocks-padding-top) + 2.5pt) !important;
+    padding-right: var(--decorator-horizontal-margin);
+    font-size: 7pt;
+    text-align: right;
+    line-height: 1;
+  }
+  
+  .date span{
+    display: block;
+  }
+  
+  .date span:nth-child(2)::before{
+    position: relative;
+    top: 1pt;
+    right: 5.5pt;
+    display: block;
+    height: 10pt;
+    content: '|';
+  }
+  
+  .decorator{
+    flex: 0 0 0;
+    position: relative;
+    width: 2pt;
+    min-height: 100%;
+    border-left: var(--decorator-border);
+  }
+  
+  /*
+   * XXX: Use two filled circles to achieve the circle-with-white-border effect.
+   * The normal technique of only using one pseudo element and
+   * border: 1px solid white; style makes firefox erroneously either:
+   * 1) overflows the grayshade background (if no background-clip is set), or
+   * 2) shows decorator line which should've been masked by the white border
+   *
+   */
+  
+  .decorator::before{
+    position: absolute;
+    top: var(--decorator-outer-offset-top);
+    left: var(--decorator-outer-offset-left);
+    content: ' ';
+    display: block;
+    width: var(--decorator-outer-dim);
+    height: var(--decorator-outer-dim);
+    border-radius: calc(var(--decorator-outer-dim) / 2);
+    background-color: #fff;
+  }
+  
+  .decorator::after{
+    position: absolute;
+    top: calc(var(--decorator-outer-offset-top) + var(--decorator-border-width));
+    left: calc(var(--decorator-outer-offset-left) + var(--decorator-border-width));
+    content: ' ';
+    display: block;
+    width: calc(var(--decorator-outer-dim) - (var(--decorator-border-width) * 2));
+    height: calc(var(--decorator-outer-dim) - (var(--decorator-border-width) * 2));
+    border-radius: calc((var(--decorator-outer-dim) - (var(--decorator-border-width) * 2)) / 2);
+    background-color: #555;
+  }
+  
+  .blocks:last-child .decorator{ /* slightly shortens it */
+    margin-bottom: 0.25in;
+  }
+  
+  /***** fine-tunes on the details block where the real juice is *****/
+  
+  .details{
+    flex: 1 0 0;
+    padding-left: var(--decorator-horizontal-margin);
+    padding-top: calc(var(--row-blocks-padding-top) - 0.5pt) !important; /* not sure why but this is needed for better alignment */
+  }
+  
+  .details header{
+    color: #000;
+  }
+  
+  .details h3{
+    font-size: 9pt;
+  }
+  
+  .main-block:not(.concise) .details div{
+    margin: 0.06in 0 0.1in 0; 
+  }
+  
+  .main-block:not(.concise) .blocks:last-child .details div{
+    margin-bottom: 0;
+  }
+  
+  .main-block.concise .details div:not(.concise){
+    /* use padding to work around the fact that margin doesn't affect floated
+       neighboring elements */
+    padding: 0.05in 0 0.07in 0;
+  }
+  
+  .details .place{
+    float: left;
+    padding-bottom: 10px;
+    font-size: 7.5pt;
+  }
+  
+  .details .location{
+    float: right;
+  }
+  
+  .details div{
+    clear: both;
+  }
+
+  /* Reduce spacing between education header and thesis */
+  .main-block.concise .details header + div {
+    margin-top: 0.02in !important;
+    padding-top: 0 !important;
+  }
+
+  /* Reduce padding-bottom on institution name in education section */
+  .main-block.concise .details .place {
+    padding-bottom: 3px !important;
+  }
+
+  /* First author notation styling */
+  .first-author-note {
+    font-style: italic;
+    font-weight: normal;
+    color: #666;
+    font-size: 8pt;
+  }
+
+  /* Reduce padding-bottom on publisher name in publications section */
+  .main-block:not(.concise) .details .place {
+    padding-bottom: 3px !important;
+  }
+
+  /* Skills section styling */
+  .skill-category {
+    margin-bottom: 0.15in;
+  }
+
+  .skill-name {
+    font-weight: 600;
+    font-size: 9pt;
+    margin-bottom: 0.05in;
+    color: #333;
+    text-transform: none;
+  }
+
+  
+  /***** fine-tunes on the lists... *****/
+  
+  #main ul{
+    padding-left: 0.07in;
+    margin: 0.08in 0;
+  }
+  
+  #main li{
+    margin: 0 0 0.025in 0;
+  }
+  
+  /****** customize list symbol style ******/
+  #main li::before{
+    position: relative;
+    margin-left: -4.25pt;
+    content: '• ';
+  }
+  
+  .details .concise ul{
+    margin: 0 !important;
+    -webkit-columns: 2;
+    -moz-columns: 2;
+    columns: 2;
+  }
+  
+  .details .concise li{
+    margin: 0 !important;
+  }
+  
+  .details .concise li{
+    margin-left: 0 !important;
+  }
+  
+  
+  
+  /* sidebar */
+  
+  #sidebar h1{
+    font-weight: 400;
+    font-size: 11pt;
+  }
+  
+  .side-block{
+    margin-top: 0.5in; 
+  }
+  
+  #contact ul{
+    margin-top: 0.05in;
+    padding-left: 0;
+    font-family: "Source Code Pro";
+    font-weight: 400;
+    line-height: 1.75;
+  }
+  
+  #contact li > .cv-icon{
+    width: 9pt; /* for text alignment */
+    height: 9pt;
+    display: inline-block;
+    margin-right: 6pt;
+  }
+  
+  #skills{
+    line-height: 1.5;
+  }
+  
+  #skills ul{
+    margin: 0.05in 0 0.15in;
+    padding: 0;
+    font-size: 7.5pt;
+  }
+  
+  #disclaimer{
+    margin-top: 0.3in;
+    font-size: 7.5pt;
+    font-style: italic;
+    line-height: 1.1;
+    text-align: center;
+    color: #777;
+  }
+  
+  #disclaimer code{
+    color: #666;
+    font-family: "Source Code Pro";
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  #summary{
+    font-size: 9pt;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    text-transform: none;
+    width: 75%;
+    line-height: 1.2;
+
+  }
+
+  /* Inline highlights for projects */
+  .highlights-inline {
+    margin-top: 0.08in;
+    line-height: 1.6;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .highlight-item {
+    display: inline-block;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 6.5pt;
+    color: #495057;
+    white-space: nowrap;
+    line-height: 1.2;
+  }
+
+  /* Print-specific adjustments for tags */
+  @media print {
+    .highlights-inline {
+      margin-top: 0.06in !important;
+      line-height: 1.4 !important;
+      gap: 3px !important;
+    }
+    
+    .highlight-item {
+      background-color: #f8f9fa !important;
+      border: 1px solid #dee2e6 !important;
+      padding: 1.5px 4px !important;
+      font-size: 6pt !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+  }

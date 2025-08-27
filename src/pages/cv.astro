@@ -1,0 +1,192 @@
+---
+import Base from "@/layouts/Base.astro";
+import "@/styles/cv.css";
+import { FiBriefcase, FiFolder, FiBook, FiGlobe, FiLinkedin, FiMail, FiMapPin, FiGithub, FiBookOpen } from "react-icons/fi";
+import cvData from "@/config/cv.json";
+---
+
+<Base title="CV">
+  <div class="flex justify-center mb-4 print:hidden">
+    <button class="btn btn-outline-primary" onclick="window.print()">Print/Download Formatted CV</button>
+  </div>
+  <div class="cv-container">
+      <section id="main">
+        <header id="title">
+          <h1>{cvData.basics.name}</h1>
+          <span class="subtitle">{cvData.basics.label}</span>
+          <p id="summary">{cvData.basics.summary}</p>
+        </header>
+        <section class="main-block">
+          <h2>
+            <FiBriefcase className="cv-icon" /> Professional Experience
+          </h2>
+          {cvData.work.map((job) => {
+            const startYear = new Date(job.startDate).getFullYear();
+            const endYear = job.endDate === "Present" ? "present" : new Date(job.endDate).getFullYear();
+            
+            return (
+              <section class="blocks">
+                <div class="date">
+                  <span>{startYear}</span><span>{endYear}</span>
+                </div>
+                <div class="decorator">
+                </div>
+                <div class="details">
+                  <header>
+                    <h3>{job.position}</h3>
+                    <span class="place">{job.name}</span>
+                    <span class="location" style="display: flex; align-items: center; gap: 4px;"><FiMapPin className="cv-icon" />{job.location}</span>
+                  </header>
+                  <div>
+                    <ul>
+                      {job.highlights.map((highlight) => (
+                        <li>{highlight}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </section>
+            );
+          })}
+        </section>
+        <section class="main-block">
+          <h2>
+            <FiFolder className="cv-icon" /> Selected Projects
+          </h2>
+          {cvData.projects.map((project) => {
+            const startYear = project.startDate ? new Date(project.startDate).getFullYear() : null;
+            const endYear = project.endDate ? new Date(project.endDate).getFullYear() : null;
+            
+            return (
+              <section class="blocks">
+                <div class="date">
+                  {startYear && <span>{startYear}</span>}
+                  {endYear && <span>{endYear}</span>}
+                </div>
+                <div class="decorator">
+                </div>
+                <div class="details">
+                  <header>
+                    <h3>{project.name}</h3>
+                  </header>
+                  <div>
+                    <p>{project.description}</p>
+                    {project.highlights && project.highlights.length > 0 && (
+                      <div class="highlights-inline">
+                        {project.highlights.map((highlight, index) => (
+                          <span class="highlight-item">
+                            {highlight}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </section>
+            );
+          })}
+        </section>
+        <section class="main-block concise">
+          <h2>
+            <FiBook className="cv-icon" /> Education
+          </h2>
+          {cvData.education.map((edu) => {
+            const startYear = new Date(edu.startDate).getFullYear();
+            const endYear = new Date(edu.endDate).getFullYear();
+            
+            return (
+              <section class="blocks">
+                <div class="date">
+                  <span>{startYear}</span><span>{endYear}</span>
+                </div>
+                <div class="decorator">
+                </div>
+                <div class="details">
+                  <header>
+                    <h3>{edu.studyType} in {edu.area}</h3>
+                    <span class="place">{edu.institution}</span>
+                  </header>
+                  {edu.thesis && (
+                    <div>Thesis: {edu.thesis}</div>
+                  )}
+                </div>
+              </section>
+            );
+          })}
+        </section>
+        <section class="main-block">
+          <h2>
+            <FiBook className="cv-icon" /> Selected Publications
+          </h2>
+          {cvData.publications.filter(pub => pub.selected).map((publication) => {
+            const releaseYear = publication.releaseDate;
+            
+            return (
+              <section class="blocks">
+                <div class="date">
+                  <span>{releaseYear}</span>
+                </div>
+                <div class="decorator">
+                </div>
+                <div class="details">
+                  <header>
+                    <h3>
+                      {publication.name}
+                      {publication.firstAuthor && <span class="first-author-note"> (first author)</span>}
+                    </h3>
+                    <span class="place">{publication.publisher}</span>
+                  </header>
+                  <div>
+                    {publication.summary && publication.url && (
+                      <p>{publication.summary} — <a href={publication.url} target="_blank" rel="noopener noreferrer">{publication.url}</a></p>
+                    )}
+                    {publication.summary && !publication.url && (
+                      <p>{publication.summary}</p>
+                    )}
+                    {!publication.summary && publication.url && (
+                      <p><a href={publication.url} target="_blank" rel="noopener noreferrer">{publication.url}</a></p>
+                    )}
+                  </div>
+                </div>
+              </section>
+            );
+          })}
+        </section>
+      </section>
+      <aside id="sidebar">
+        <div class="side-block" id="contact">
+          <ul>
+            <li style="display: flex; align-items: center; gap: 4px;"><FiGlobe className="cv-icon" client:load /><a href={cvData.basics.url} target="_blank" rel="noopener noreferrer">{cvData.basics.url.replace('https://', '')}</a></li>
+            <li style="display: flex; align-items: center; gap: 4px;"><FiLinkedin className="cv-icon" client:load /><a href={cvData.basics.profiles.find(p => p.network === "LinkedIn")?.url} target="_blank" rel="noopener noreferrer">{cvData.basics.profiles.find(p => p.network === "LinkedIn")?.username}</a></li>
+            <li style="display: flex; align-items: center; gap: 4px;"><FiGithub className="cv-icon" client:load /><a href={cvData.basics.profiles.find(p => p.network === "GitHub")?.url} target="_blank" rel="noopener noreferrer">{cvData.basics.profiles.find(p => p.network === "GitHub")?.username}</a></li>
+            <li style="display: flex; align-items: center; gap: 4px;"><FiBookOpen className="cv-icon" client:load /><a href={cvData.basics.profiles.find(p => p.network === "Google Scholar")?.url} target="_blank" rel="noopener noreferrer">Google Scholar</a></li>
+            <li style="display: flex; align-items: center; gap: 4px;"><FiMail className="cv-icon" client:load /><a href={`mailto:${cvData.basics.email}`}>{cvData.basics.email}</a></li>
+          </ul>
+        </div>
+        <div class="side-block" id="skills">
+          <h1>
+            Skills
+          </h1>
+          {cvData.skills.map((skill) => (
+            <div class="skill-category">
+              <h2 class="skill-name">{skill.name}</h2>
+              <ul>
+                {skill.keywords.map((keyword) => (
+                  <li>{keyword}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <div class="side-block" id="disclaimer">
+          <p>This r&eacute;sum&eacute; was typeset with HTML/CSS</p>
+          <p>Based on a project by <a href="https://git.io/vVSYL">MIN–ZHONG JOHN LU</a></p>
+          <p>Extended by Michael Alonge with help</p>
+          <p>from claude-4-sonnet
+        </div>
+      </aside>
+      <div style="clear: both;"></div>
+  </div>
+  <div class="flex justify-center mb-4 print:hidden">
+    <button class="btn btn-outline-primary" onclick="window.print()">Print/Download Formatted CV</button>
+</Base>
