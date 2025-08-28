@@ -13,7 +13,7 @@ import cvData from "@/config/cv.json";
         <div class="lg:col-10">
           <div class="content">
             <Notice type="note" client:load>
-              For a complete and up-to-date list of my publications, including citation metrics, please visit my <a href={cvData.basics.profiles.find(p => p.network === "Google Scholar")?.url} target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primary-dark underline">Google Scholar profile</a>.
+              For a complete and up-to-date list of my publications, including citation metrics, please visit my <a href={cvData.basics.profiles.find(p => p.network === "Google Scholar")?.url} target="_blank" rel="noopener noreferrer" class="text-primary dark:text-darkmode-primary hover:text-primary dark:hover:text-darkmode-primary underline">Google Scholar profile</a>.
             </Notice>
             <div class="space-y-8">
               {cvData.publications.map((publication, index) => (
@@ -46,7 +46,7 @@ import cvData from "@/config/cv.json";
                         href={publication.url} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        class="text-primary hover:text-primary-dark underline text-sm inline-block mt-2"
+                        class="text-primary dark:text-darkmode-primary hover:text-primary dark:hover:text-darkmode-primary underline text-sm inline-block mt-2"
                       >
                         View Publication →
                       </a>
