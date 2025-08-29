@@ -22,16 +22,8 @@
       "hasChildren": true,
       "children": [
         {
-          "name": "Arkadia - IoT Home Environment Monitoring System",
-          "url": "/projects/arkadia"
-        },
-        {
-          "name": "Using BigQuery to analyze genetic variants at scale",
-          "url": "/projects/bq-variants"
-        },
-        {
-          "name": "Batch-Based Contig Alignment: Speeding Up Comparative Genomics",
-          "url": "/projects/batch-alignment"
+          "name": "Integrating a print-friendly and web-friendly resume into an Astro website",
+          "url": "/projects/astro-resume-integration"
         }
       ]
     }
