@@ -1,0 +1,35 @@
+name: Validate Routes
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+          
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+        
+      - name: Validate routes
+        run: ./scripts/validate-routes.sh
+        
+      - name: Verify build artifacts
+        run: |
+          echo "Generated HTML files:"
+          find dist -name "*.html" | sort
+          echo ""
+          echo "Sitemap content:"
+          cat dist/sitemap-0.xml

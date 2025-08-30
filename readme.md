@@ -133,3 +133,15 @@ The CV page combines a few key components:
 - The astroplate template
 
 The resume data is stored in `src/config/cv.json` and is treated as a configuration. This decouples the resume data from the resume template. Then I extended and customized the HTML/CSS template provided by Min–Zhong John Lu in `src/styles/cv.css` and `src/pages/cv.astro` to create a modern, print-optimized resume. By default, the `cv` page behaves like a normal website page and all of my resume content is embedded directly in the page. However, I added a print button to the page that allows the user to print the resume to a formatted PDF.
+
+## Route Validation
+
+I added a route validation script to the project to ensure that the routes are generated correctly. This is done by checking the `dist` directory for the generated HTML files and comparing them to the expected routes.
+
+To run the script, use the following command:
+
+```bash
+./scripts/validate-routes.sh
+```
+
+This script is also run as a GitHub Actions workflow to ensure that the routes are generated correctly before deployment. The GHA workflow is located in the `.github/workflows/validate-routes.yml` file.

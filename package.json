@@ -12,7 +12,9 @@
     "preview": "astro preview",
     "check": "astro check",
     "format": "prettier -w ./src",
-    "remove-darkmode": "node scripts/removeDarkmode.js && yarn format"
+    "remove-darkmode": "node scripts/removeDarkmode.js && yarn format",
+    "validate": "./scripts/validate-routes.sh",
+    "build:validate": "yarn build && yarn validate"
   },
   "dependencies": {
     "@astrojs/check": "0.9.4",
