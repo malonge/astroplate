@@ -15,12 +15,10 @@
     "default_theme": "system",
     "pagination": 2,
     "summary_length": 200,
-    "blog_folder": "blog",
     "projects_folder": "projects"
   },
 
   "params": {
-    "contact_form_action": "#",
     "copyright": "Designed And Developed by [Zeon Studio](https://zeon.studio)"
   },
 

@@ -9,6 +9,10 @@
       "url": "/about"
     },
     {
+      "name": "Contact",
+      "url": "/contact"
+    },
+    {
       "name": "CV",
       "url": "/cv"
     },
@@ -36,6 +40,10 @@
     {
       "name": "About",
       "url": "/about"
+    },
+    {
+      "name": "Contact",
+      "url": "/contact"
     },
     {
       "name": "CV",
