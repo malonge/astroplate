@@ -4,12 +4,12 @@ import Base from "@/layouts/Base.astro";
 import PageHeader from "@/partials/PageHeader.astro";
 import { getEntry } from "astro:content";
 import type { CollectionEntry } from "astro:content";
+import { FiMail, FiLinkedin, FiGithub, FiBookOpen } from "react-icons/fi";
 
 const contact = (await getEntry(
   "contact",
   "-index"
 )) as CollectionEntry<"contact">;
-const { contact_form_action }: { contact_form_action: string } = config.params;
 const { title, description, meta_title, image } = contact.data;
 ---
 
@@ -22,46 +22,91 @@ const { title, description, meta_title, image } = contact.data;
   <PageHeader title={title} />
   <section class="section-sm">
     <div class="container">
-      <div class="row">
-        <div class="mx-auto md:col-10 lg:col-6">
-          <form action={contact_form_action} method="POST">
-            <div class="mb-6">
-              <label for="name" class="form-label">
-                Full Name <span class="text-red-500">*</span>
-              </label>
-              <input
-                id="name"
-                name="name"
-                class="form-input"
-                placeholder="John Doe"
-                type="text"
-              />
+      <div class="row justify-center">
+        <div class="lg:col-8 md:col-10">
+          <div class="text-center mb-12">
+            <p class="text-lg text-muted mb-8">
+              I'd love to meet you!
+              Feel free to reach out through any of the channels below.
+            </p>
+          </div>
+          
+          <!-- Primary Contact Method -->
+          <div class="row justify-center mb-12">
+            <div class="md:col-6">
+              <div class="text-center p-8 rounded-lg bg-light dark:bg-darkmode-light">
+                <div class="mb-4">
+                  <FiMail className="mx-auto text-4xl text-primary dark:text-darkmode-primary" />
+                </div>
+                <h3 class="mb-3">Email</h3>
+                <p class="mb-4 text-muted">For direct inquiries and collaborations</p>
+                <a 
+                  href="mailto:malonge11@gmail.com" 
+                  class="btn btn-primary"
+                  style="text-transform: lowercase;"
+                >
+                  malonge11@gmail.com
+                </a>
+              </div>
             </div>
-            <div class="mb-6">
-              <label for="email" class="form-label">
-                Working Mail <span class="text-red-500">*</span>
-              </label>
-              <input
-                id="email"
-                name="email"
-                class="form-input"
-                placeholder="john.doe@email.com"
-                type="email"
-              />
+          </div>
+
+          <!-- Social Profiles -->
+          <div class="row justify-center">
+            <div class="md:col-4 mb-6">
+              <div class="text-center p-6 rounded-lg bg-light dark:bg-darkmode-light">
+                <div class="mb-3">
+                  <FiLinkedin className="mx-auto text-3xl text-primary dark:text-darkmode-primary" />
+                </div>
+                <h4 class="mb-2">LinkedIn</h4>
+                <p class="mb-3 text-sm text-muted">Professional networking & opportunities</p>
+                <a 
+                  href="https://linkedin.com/in/michael-alonge" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="btn btn-outline-primary btn-sm"
+                >
+                  Connect on LinkedIn
+                </a>
+              </div>
             </div>
-            <div class="mb-6">
-              <label for="message" class="form-label">
-                Anything else? <span class="text-red-500">*</span>
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                class="form-input"
-                placeholder="Message goes here..."
-                rows="8"></textarea>
+
+            <div class="md:col-4 mb-6">
+              <div class="text-center p-6 rounded-lg bg-light dark:bg-darkmode-light">
+                <div class="mb-3">
+                  <FiGithub className="mx-auto text-3xl text-primary dark:text-darkmode-primary" />
+                </div>
+                <h4 class="mb-2">GitHub</h4>
+                <p class="mb-3 text-sm text-muted">Code & technical discussions</p>
+                <a 
+                  href="https://github.com/malonge" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="btn btn-outline-primary btn-sm"
+                >
+                  View on GitHub
+                </a>
+              </div>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
+
+            <div class="md:col-4 mb-6">
+              <div class="text-center p-6 rounded-lg bg-light dark:bg-darkmode-light">
+                <div class="mb-3">
+                  <FiBookOpen className="mx-auto text-3xl text-primary dark:text-darkmode-primary" />
+                </div>
+                <h4 class="mb-2">Google Scholar</h4>
+                <p class="mb-3 text-sm text-muted">Academic & research inquiries</p>
+                <a 
+                  href="https://scholar.google.com/citations?user=5zUWawIAAAAJ&hl=en" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="btn btn-outline-primary btn-sm"
+                >
+                  View Profile
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
