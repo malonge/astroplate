@@ -14,24 +14,12 @@ banner:
 projects:
   title: "Featured Projects"
   items:
-    - title: "Using BigQuery to analyze genetic variants at scale (coming soon)"
-      description: "This pipeline fetches or generates VCF files, converts them into Avro batches, and efficiently ingests them into BigQuery using custom schemas. Partitioning and clustering optimize storage and query performance for large-scale genomic datasets."
-      icon: "database"
-      links:
-        - label: "Learn More"
-          url: "/projects/bq-variants"
-    - title: "Arkadia - IoT Home Environment Monitoring System"
-      description: "A microservices architecture with containerized services, a custom BME280 client, and a React frontend. The system demonstrates continuous data processing through a polling-based pipeline including real-time sensor readings, Redis caching, FastAPI endpoints, and data visualizations."
-      icon: "chart"
-      links:
-        - label: "Learn More"
-          url: "/projects/arkadia"
-    - title: "Building a Modern Resume with Astro: JSON Data, Print-Optimized CSS, and SEO Benefits"
+    - title: "Integrating a print-friendly and web-friendly resume into an Astro website"
       description: "I built a modern resume system that combines Astro's static site generation with the JSON Resume standard and print-optimized CSS to create both an SEO-friendly web presence and recruiter-ready PDF downloads."
       icon: "briefcase"
       links:
         - label: "Learn More"
-          url: "/projects/cv-design"
+          url: "/projects/astro-resume-integration"
 
 # Publications Section
 publications:
