@@ -16,7 +16,7 @@ My personal website needed a makeover. In 2021, while I was a Ph.D. student, I b
 
 ***Option 1: Provide a download link for a PDF***
 
-This approach means precompiling a PDF and hosting it on my site with a download link. But how would I generate the PDF? I have too much pride as an engineer to tinker around with invisible tables in Microsoft Word, so I knew I had to use proper typesetting. But would I use LaTeX (eek!) or HTML? Could I organize my source code and resume data to facilitate either option, or some new approach in the future? The bigger issue: if I just host a link to a downloadable PDF, none of my resume content gets embedded in the page, making it completely un-SEO-friendly.
+This approach means precompiling a PDF and hosting it on my site with a download link. But how would I generate the PDF? I knew I had to use typesetting for a professional look and for complete programatic control of the formatting. But would I use LaTeX (eek!) or HTML? Could I organize my source code and resume data to facilitate either option, or some new approach in the future? The bigger issue: if I just host a link to a downloadable PDF, none of my resume content gets embedded in the page, making it completely un-SEO-friendly.
 
 ***Option 2: A full typeset resume web page***
 
@@ -209,6 +209,28 @@ The real magic happens in the CSS. I implemented dual styling systems: one for w
 ```
 
 I minimized code duplication by extracting common styles into shared stylesheets, making the system easier to maintain and extend.
+
+## Technical decisions and architectural insights
+
+### Data schema design
+
+While I could have designed a custom schema, the JSON resume standard provides several advantages. It's battle-tested, well-documented, and has a growing ecosystem of tools. More importantly, it enforces a clean separation between content and presentation. The schema's hierarchical structure (basics, work, education, publications, skills) maps naturally to how humans think about professional information, making it intuitive for content editors while maintaining programmatic flexibility. I can easily extend it with custom fields like `selected` and `firstAuthor` for publications or `level` for skills without breaking the core structure.
+
+### Rendering architecture
+
+I chose `window.print()` over client-side PDF libraries like `jsPDF` for several reasons. First, it leverages the browser's built-in PDF engine, which is very mature and produces consistent, high-quality output across different devices. Second, it eliminates dependency on heavy PDF generation libraries that would increase my site's load time. Third, it's future-proof. As browsers improve their PDF engines, my solution automatically benefits without code changes. Server-side rendering was never an option since my entire site is static. This constraint actually led to a better solution because by keeping everything client-side, the PDF generation is instant and doesn't require any server resources or API calls.
+
+### Performance considerations
+
+Since the resume data is embedded in the page at build time (Astro pre-renders everything), there's zero runtime overhead for visitors. The JSON parsing and DOM manipulation happens during the build process, not when users view the page. The CSS media query approach for print styling is also performant because there is no JavaScript execution needed during PDF generation. The browser's CSS engine handles the style switching efficiently, and the `!important` declarations ensure print styles take precedence without complex specificity calculations.
+
+### Scalability and extensibility
+
+This architecture scales well beyond just resumes. The same pattern could handle any structured content that needs both web and print representations: research papers, technical documentation, or even complex reports. The JSON schema is easily extensible or you could make a custom schema, and the CSS print system can be adapted for different document types. The component-based approach also makes it easy to add new resume sections or modify existing ones. Want to add a "Certifications" section? Just extend the JSON schema and add the corresponding HTML template. The styling automatically adapts thanks to the shared CSS classes.
+
+### Browser compatibility and edge cases
+
+I tested the print functionality across Chrome, Firefox, and Safari. Each browser handles `window.print()` slightly differently, but the CSS media queries ensure consistent output. The `-webkit-print-color-adjust: exact` and `print-color-adjust: exact` properties are crucial for maintaining color fidelity in the generated PDFs. One interesting challenge was ensuring the print layout works across different paper sizes and orientations. The CSS custom properties (`--page-width`, `--page-height`) make it easy to adapt to different formats, and the margin calculations ensure content fits properly regardless of the target paper size.
 
 ## The result: a professional, maintainable resume system
 
