@@ -16,11 +16,11 @@ My personal website needed a makeover. In 2021, while I was a Ph.D. student, I b
 
 ***Option 1: Provide a download link for a PDF***
 
-This approach means precompiling a PDF and hosting it on my site with a download link. But how would I generate the PDF? I knew I had to use typesetting for a professional look and for complete programatic control of the formatting. But would I use LaTeX (eek!) or HTML? Could I organize my source code and resume data to facilitate either option, or some new approach in the future? The bigger issue: if I just host a link to a downloadable PDF, none of my resume content gets embedded in the page, making it completely un-SEO-friendly.
+This involves precompiling a PDF and hosting it on my site with a download link. But with this approach none of my resume content gets embedded in the page HTML, which is bad for search engine optimization (SEO). Further, I want users to see my resume ASAP with as few clicks as possible.
 
 ***Option 2: A full typeset resume web page***
 
-I could typeset my resume in HTML and CSS and serve it as a standalone page. But this approach breaks the site's navigation flow. Visitors would lose the menu and footer, making them feel lost. I didn't want the resume page to feel like a completely separate experience from the rest of my site.
+I could typeset my resume in HTML and CSS and serve it as a standalone page. But this approach breaks the site's navigation flow. Visitors would lose the menu and footer and all the other bells and whistles of my astro site layout. I didn't want the resume page to feel like a completely separate experience from the rest of my site.
 
 ***Option 3: Just another Astro page***
 
@@ -28,15 +28,11 @@ I could treat my resume as just another content page within the Astro project. B
 
 ## The solution: a dual-purpose resume system
 
-I wanted a resume page that seamlessly integrates with my site's design while embedding the resume data directly in the HTML for SEO. But I also needed it to generate professional, print-ready PDFs that recruiters would love. The solution was a dedicated page that maintains the site's base layout while dynamically injecting a web-friendly resume into the content area. A print button enables users to generate optimized PDFs, with the page dynamically switching between web and print styles.
-
-Here's how I built it:
+I wanted a resume page that seamlessly integrates with my site's design while embedding the resume data directly in the HTML for SEO. But I also needed it to generate professional, print-ready PDFs that recruiters would love. The solution was a dedicated page that maintains the site's base layout while dynamically injecting a web-friendly resume into the content area. A print button enables users to generate optimized PDFs, with the page dynamically switching between web and print styles. Here's how I built it!
 
 ### Step 1: Decoupling data from presentation
 
-A core insight was that my resume content — the actual data — should be independent from how it's styled and formatted. This follows fundamental software engineering principles: separation of concerns, single sources of truth, and configuration-driven design.
-
-I chose the [JSON Resume standard](https://jsonresume.org/) for my data structure. It's a widely adopted, well-documented format that's easy to parse and extend. Here's a snippet showing how I structured my resume data:
+To start, I knew that my resume content — the data — should be independent from how it's styled and formatted. This follows fundamental software engineering principles: separation of concerns, single sources of truth, and configuration-driven design. I chose the [JSON Resume standard](https://jsonresume.org/) for my data schema. It's a widely adopted, well-documented format that's easy to parse and extend. Here's a snippet showing how I structured my resume data:
 
 ```json
 {
@@ -91,9 +87,7 @@ With this decoupled structure, I can add new experience entries and the format u
 
 ### Step 2: Typesetting with HTML and CSS
 
-HTML and CSS were the obvious choice over LaTeX for typesetting. They're more powerful, flexible, and integrate seamlessly with my existing Astro site. I found inspiration in [Min–Zhong John Lu's excellent HTML/CSS resume template](https://git.io/vVSYL), which has clean, professional styling and well-organized code.
-
-I adapted the template by replacing hard-coded data with dynamic content from my JSON file using Astro's component syntax. The resume content slots directly into my site's base layout. Here's how the publications section works:
+HTML and CSS were the obvious choice over LaTeX for typesetting. They're more powerful, flexible, and integrate seamlessly with my existing Astro site. I found inspiration in [Min–Zhong John Lu's excellent HTML/CSS resume template](https://git.io/vVSYL), which has clean, professional styling and well-organized code. I adapted the template by replacing hard-coded data with dynamic content from my JSON file using Astro's component syntax. The resume content slots directly into my site's base layout. Here's how the publications section works:
 
 ```astro
 ---
@@ -156,11 +150,9 @@ The beauty of this approach is that adding a new publication to `config/cv.json`
 
 ### Step 3: Print-optimized PDF generation
 
-The web-friendly resume is great for SEO and user experience, but recruiters often need downloadable PDFs. While browsers can save pages as PDFs, the results are usually suboptimal — content gets cut off, margins are wrong, and unnecessary elements like navigation menus get included.
+The web-friendly resume is great for SEO and user experience, but recruiters often need downloadable PDFs. While browsers can save web pages as PDFs, our web page is not configured for printing. If one were to print the resume web page as is, the content would be cut off, margins would be wrong, and unnecessary elements like navigation menus would get included.
 
-I solved this with a prominent "Print/Download Formatted CV" button that triggers `window.print()`. This browser function is universally supported and gives users a one-click way to generate PDFs without navigating menus.
-
-The real magic happens in the CSS. I implemented dual styling systems: one for web viewing and another for print. When users click the print button, CSS media queries kick in to hide navigation elements and apply print-optimized layouts. Here's the key CSS that makes this work:
+My solution was to trigger custom CSS when the user prints the web page. First I added a prominent "Print/Download Formatted CV" button at the top of the resume page that triggers `window.print()`. This browser function is universally supported and gives users a one-click way to generate PDFs without navigating menus. Then I implemented dual styling systems: one for web viewing and another for print. When users click the print button, CSS media queries kick in to hide navigation elements and apply print-optimized layouts. Here's the key CSS that makes this work:
 
 ```css
 /* Print styles - hide website header/footer and apply CV layout */
@@ -236,6 +228,6 @@ I tested the print functionality across Chrome, Firefox, and Safari. Each browse
 
 This project demonstrates how applying solid software engineering principles to everyday problems can yield elegant solutions. While there's upfront effort in designing and implementing the system, it pays dividends in maintainability and user experience.
 
-The dual-purpose approach gives me the best of both worlds: an SEO-friendly web page that integrates seamlessly with my site, and a professional PDF generator that produces recruiter-ready documents. The JSON-based data structure makes updates trivial—I can add new experience, publications, or skills without touching any formatting code.
+The dual-purpose approach gives me the best of both worlds: an SEO-friendly web page that integrates seamlessly with my site, and a professional PDF generator that produces recruiter-ready documents. The JSON-based data structure makes updates trivial as I can add new experience, publications, or skills without touching any formatting code.
 
 Check out the source code on GitHub [here](https://github.com/malonge/astroplate) and the live resume page [here](https://michaelalonge.com/cv). The system is open source, so feel free to adapt it for your own projects!
