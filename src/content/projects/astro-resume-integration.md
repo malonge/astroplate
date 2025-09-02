@@ -3,7 +3,7 @@ title: "Integrating a print-friendly and web-friendly resume into an Astro websi
 meta_title: "Astro Resume Integration - CV System"
 description: "Building a dual-purpose CV system that works both for web viewing and professional printing"
 date: 2025-01-15T05:00:00Z
-image: "/images/image-placeholder.png"
+image: "/images/resume-diagram.png"
 categories: ["Web Development", "Software Engineering", "Career"]
 author: "Michael Alonge"
 tags: ["astro", "resume", "cv", "html", "css", "seo"]
@@ -214,15 +214,11 @@ I chose `window.print()` over client-side PDF libraries like `jsPDF` for several
 
 ### Performance considerations
 
-Since the resume data is embedded in the page at build time (Astro pre-renders everything), there's zero runtime overhead for visitors. The JSON parsing and DOM manipulation happens during the build process, not when users view the page. The CSS media query approach for print styling is also performant because there is no JavaScript execution needed during PDF generation. The browser's CSS engine handles the style switching efficiently, and the `!important` declarations ensure print styles take precedence without complex specificity calculations.
+Since the resume data is embedded in the page HTML at build time (Astro pre-renders everything), there's zero runtime overhead for visitors. The CSS media query approach for print styling is also performant because there is no JavaScript execution needed during PDF generation. The browser's CSS engine handles the style switching efficiently, and the `!important` declarations ensure print styles take precedence without complex specificity calculations.
 
 ### Scalability and extensibility
 
 This architecture scales well beyond just resumes. The same pattern could handle any structured content that needs both web and print representations: research papers, technical documentation, or even complex reports. The JSON schema is easily extensible or you could make a custom schema, and the CSS print system can be adapted for different document types. The component-based approach also makes it easy to add new resume sections or modify existing ones. Want to add a "Certifications" section? Just extend the JSON schema and add the corresponding HTML template. The styling automatically adapts thanks to the shared CSS classes.
-
-### Browser compatibility and edge cases
-
-I tested the print functionality across Chrome, Firefox, and Safari. Each browser handles `window.print()` slightly differently, but the CSS media queries ensure consistent output. The `-webkit-print-color-adjust: exact` and `print-color-adjust: exact` properties are crucial for maintaining color fidelity in the generated PDFs. One interesting challenge was ensuring the print layout works across different paper sizes and orientations. The CSS custom properties (`--page-width`, `--page-height`) make it easy to adapt to different formats, and the margin calculations ensure content fits properly regardless of the target paper size.
 
 ## The result: a professional, maintainable resume system
 
