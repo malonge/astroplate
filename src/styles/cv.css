@@ -312,10 +312,27 @@
     font-size: 0;
     content: ' ';
   }
+
+  /* Fix section header decorator line alignment in web view */
+  @media screen {
+    #main h2::after {
+      left: calc(-4rem + var(--date-block-width));
+      top: calc(-1 * var(--row-blocks-padding-top) + 3pt + 9pt);
+    }
+  }
   
   /**** minor tweaks on the emoji icons ****/
   #main h2 > .cv-icon{
     top: 1pt;
+  }
+
+  /* Web-specific icon adjustments for better alignment and size */
+  @media screen {
+    #main h2 > .cv-icon{
+      width: 13pt !important;
+      height: 13pt !important;
+      top: 3pt !important;
+    }
   }
   
   /**** individual row blocks (date - decorator - details) ****/
@@ -357,6 +374,13 @@
     width: 2pt;
     min-height: 100%;
     border-left: var(--decorator-border);
+  }
+
+  /* Align individual block decorators with icon center in web view */
+  @media screen {
+    .decorator {
+      left: 0;
+    }
   }
   
   /*

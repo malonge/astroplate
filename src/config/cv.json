@@ -172,7 +172,7 @@
         "releaseDate": "2021",
         "url": "https://doi.org/10.1126/science.abi7489",
         "selected": true,
-        "summary": "I led the assembly of all five Columbia Arabidopsis thaliana centromeres—the first time ever for a plant species, to our knowledge.",
+        "summary": "I led the assembly of all five Columbia Arabidopsis thaliana centromeres—the first time this had ever been accomplished for a plant species, to our knowledge.",
         "firstAuthor": true
       },
       {
@@ -382,21 +382,17 @@
     ],
     "projects": [
       {
-        "name": "Arkadia — IoT Home Environment Monitoring System",
-        "startDate": "2024-06-01",
-        "endDate": "2025-02-01",
-        "description": "Designed a containerized, microservices-based home environment monitoring system featuring real-time sensor readings, Redis caching, FastAPI endpoints, and a React frontend for visualization. Includes a custom BME280 client and demonstrates continuous data processing via a polling-based pipeline.",
+        "name": "Integrating a print-friendly and web-friendly resume into an Astro website",
+        "startDate": "2025-08-01",
+        "endDate": "2025-09-07",
+        "description": "I built a modern resume system that combines Astro's static site generation with the JSON Resume standard and print-optimized CSS to create both an SEO-friendly web presence and recruiter-ready PDF downloads.",
         "highlights": [
-          "microservices",
-          "Docker",
-          "BME280",
-          "Redis",
-          "FastAPI",
-          "React",
-          "real-time data",
-          "IoT"
+          "Astro",
+          "HTML",
+          "CSS",
+          "SEO"
         ],
-        "url": "https://michaelalonge.com/projects/arkadia"
+        "url": "https://michaelalonge.com/projects/astro-resume-integration"
       }
     ]
   }
