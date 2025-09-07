@@ -1,7 +1,18 @@
 ---
 import Base from "@/layouts/Base.astro";
 import "@/styles/cv.css";
-import { FiBriefcase, FiFolder, FiBook, FiGlobe, FiLinkedin, FiMail, FiMapPin, FiGithub, FiBookOpen } from "react-icons/fi";
+import { FiGlobe, FiMail } from "react-icons/fi";
+import { FaLinkedin } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
+import { FaGoogleScholar } from "react-icons/fa6";
+import { FaBriefcase } from "react-icons/fa";
+import { FaFolderOpen } from "react-icons/fa6";
+import { FaGraduationCap } from "react-icons/fa6";
+import { FaBookOpen } from "react-icons/fa";
+import { PiMapPinFill } from "react-icons/pi";
+
+
+
 import cvData from "@/config/cv.json";
 ---
 
@@ -18,7 +29,7 @@ import cvData from "@/config/cv.json";
         </header>
         <section class="main-block">
           <h2>
-            <FiBriefcase className="cv-icon" /> Professional Experience
+            <FaBriefcase className="cv-icon" /> Professional Experience
           </h2>
           {cvData.work.map((job) => {
             const startYear = new Date(job.startDate).getFullYear();
@@ -35,7 +46,7 @@ import cvData from "@/config/cv.json";
                   <header>
                     <h3>{job.position}</h3>
                     <span class="place">{job.name}</span>
-                    <span class="location" style="display: flex; align-items: center; gap: 4px;"><FiMapPin className="cv-icon" />{job.location}</span>
+                    <span class="location" style="display: flex; align-items: center; gap: 4px;"><PiMapPinFill className="cv-icon" />{job.location}</span>
                   </header>
                   <div>
                     <ul>
@@ -51,7 +62,7 @@ import cvData from "@/config/cv.json";
         </section>
         <section class="main-block">
           <h2>
-            <FiFolder className="cv-icon" /> Selected Projects
+            <FaFolderOpen className="cv-icon" /> Selected Projects
           </h2>
           {cvData.projects.map((project) => {
             const startYear = project.startDate ? new Date(project.startDate).getFullYear() : null;
@@ -88,7 +99,7 @@ import cvData from "@/config/cv.json";
         </section>
         <section class="main-block concise">
           <h2>
-            <FiBook className="cv-icon" /> Education
+            <FaGraduationCap className="cv-icon" /> Education
           </h2>
           {cvData.education.map((edu) => {
             const startYear = new Date(edu.startDate).getFullYear();
@@ -116,7 +127,7 @@ import cvData from "@/config/cv.json";
         </section>
         <section class="main-block">
           <h2>
-            <FiBook className="cv-icon" /> Selected Publications
+            <FaBookOpen className="cv-icon" /> Selected Publications
           </h2>
           {cvData.publications.filter(pub => pub.selected).map((publication) => {
             const releaseYear = publication.releaseDate;
@@ -157,9 +168,9 @@ import cvData from "@/config/cv.json";
         <div class="side-block" id="contact">
           <ul>
             <li style="display: flex; align-items: center; gap: 4px;"><FiGlobe className="cv-icon" client:load /><a href={cvData.basics.url} target="_blank" rel="noopener noreferrer">{cvData.basics.url.replace('https://', '')}</a></li>
-            <li style="display: flex; align-items: center; gap: 4px;"><FiLinkedin className="cv-icon" client:load /><a href={cvData.basics.profiles.find(p => p.network === "LinkedIn")?.url} target="_blank" rel="noopener noreferrer">{cvData.basics.profiles.find(p => p.network === "LinkedIn")?.username}</a></li>
-            <li style="display: flex; align-items: center; gap: 4px;"><FiGithub className="cv-icon" client:load /><a href={cvData.basics.profiles.find(p => p.network === "GitHub")?.url} target="_blank" rel="noopener noreferrer">{cvData.basics.profiles.find(p => p.network === "GitHub")?.username}</a></li>
-            <li style="display: flex; align-items: center; gap: 4px;"><FiBookOpen className="cv-icon" client:load /><a href={cvData.basics.profiles.find(p => p.network === "Google Scholar")?.url} target="_blank" rel="noopener noreferrer">Google Scholar</a></li>
+            <li style="display: flex; align-items: center; gap: 4px;"><FaLinkedin className="cv-icon" client:load /><a href={cvData.basics.profiles.find(p => p.network === "LinkedIn")?.url} target="_blank" rel="noopener noreferrer">{cvData.basics.profiles.find(p => p.network === "LinkedIn")?.username}</a></li>
+            <li style="display: flex; align-items: center; gap: 4px;"><FaGithub className="cv-icon" client:load /><a href={cvData.basics.profiles.find(p => p.network === "GitHub")?.url} target="_blank" rel="noopener noreferrer">{cvData.basics.profiles.find(p => p.network === "GitHub")?.username}</a></li>
+            <li style="display: flex; align-items: center; gap: 4px;"><FaGoogleScholar className="cv-icon" client:load /><a href={cvData.basics.profiles.find(p => p.network === "Google Scholar")?.url} target="_blank" rel="noopener noreferrer">Google Scholar</a></li>
             <li style="display: flex; align-items: center; gap: 4px;"><FiMail className="cv-icon" client:load /><a href={`mailto:${cvData.basics.email}`}>{cvData.basics.email}</a></li>
           </ul>
         </div>

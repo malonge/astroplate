@@ -5,6 +5,10 @@ import { markdownify } from "@/lib/utils/textConverter";
 import type { CollectionEntry } from "astro:content";
 import { getEntry } from "astro:content";
 import { FiDatabase, FiGlobe, FiBookOpen, FiBriefcase } from "react-icons/fi";
+import { GiTomato } from "react-icons/gi";
+import { PiPlant } from "react-icons/pi";
+import { FaPersonWalking } from "react-icons/fa6";
+import { CgWebsite } from "react-icons/cg";
 
 
 interface Homepage {
@@ -128,6 +132,7 @@ const { banner, projects, publications, cta } = homepage.data as Homepage;
                     {project.icon === "database" && <FiDatabase className="h-7 w-7" />}
                     {project.icon === "chart" && <FiGlobe className="h-7 w-7" />}
                     {project.icon === "briefcase" && <FiBriefcase className="h-7 w-7" />}
+                    {project.icon === "website" && <CgWebsite className="h-7 w-7" />}
                   </span>
                 </div>
               </div>
@@ -170,9 +175,9 @@ const { banner, projects, publications, cta } = homepage.data as Homepage;
               <div class="mb-6">
                 <div class="flex h-16 w-16 items-center justify-center rounded-full bg-light text-text">
                   <span class="text-2xl">
-                    {publication.icon === "dna" && <FiBookOpen className="h-7 w-7" />}
-                    {publication.icon === "microscope" && <FiBookOpen className="h-7 w-7" />}
-                    {publication.icon === "cloud" && <FiBookOpen className="h-7 w-7" />}
+                    {publication.icon === "tomato" && <GiTomato className="h-7 w-7" />}
+                    {publication.icon === "plant" && <PiPlant className="h-7 w-7" />}
+                    {publication.icon === "person" && <FaPersonWalking className="h-7 w-7" />}
                   </span>
                 </div>
               </div>
