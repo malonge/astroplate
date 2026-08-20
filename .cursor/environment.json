@@ -1,0 +1,10 @@
+{
+  "name": "astroplate",
+  "install": "yarn install --frozen-lockfile",
+  "terminals": [
+    {
+      "name": "astro-dev",
+      "command": "yarn dev --host"
+    }
+  ]
+}
