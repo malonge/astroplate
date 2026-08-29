@@ -3,14 +3,12 @@ title: "Arkadia: an event-driven home environment monitor"
 meta_title: "Arkadia - Event-Driven IoT Home Environment Monitoring"
 description: "Building a home climate, air quality, and live audio monitor on a Raspberry Pi with MQTT, FastAPI, and WebSockets."
 date: 2026-08-26T05:00:00Z
-image: "/images/image-placeholder.png"
+image: "/images/arkadia-architecture.png"
 categories: ["IoT", "Hardware", "Software Engineering"]
 author: "Michael Alonge"
 tags: ["python", "raspberry-pi", "mqtt", "mosquitto", "fastapi", "websockets", "svelte", "numpy", "fft", "systemd", "i2c", "i2s"]
 draft: true
 ---
-
-<!-- TODO(image): replace frontmatter `image` with /images/arkadia-architecture.png once the diagram is drawn -->
 
 Arkadia is a home environment monitoring system I built for a mix of personal and professional reasons. I wanted a system of my own for monitoring indoor climate and air quality in Los Angeles, which is prone to heat waves and wildfires. I also wanted experience with edge and IoT software engineering. Most of my professional work is in the cloud, and this was a way to work closer to the hardware. That included I2C and I2S interfacing, sensor integration, and FFT-based signal processing for the microphone.
 
