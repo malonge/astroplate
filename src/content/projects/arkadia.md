@@ -26,8 +26,6 @@ At the top of the stack is a simple web dashboard as a single place to monitor a
 
 ![The Arkadia dashboard](/images/arkadia-dashboard.png)
 
-<!-- TODO(image): screenshot of the running dashboard -> /images/arkadia-dashboard.png -->
-
 The UI is still pretty crude, but it gives a good idea of the direction I would go as I add more sensors and clean up the system. Long term, I would like to drive an LED matrix from the same data.
 
 The API is a systemd service that starts when the Raspberry Pi boots. It serves the dashboard on port 8000, which can be reached from any device on the local network, and exposes the data under `/api`. REST endpoints return the latest reading for each sensor, and the dashboard polls those. The EQ and waveform need a continuous stream, so those come over a WebSocket. The API does not talk to the sensors directly. It reads from a local Mosquitto broker that the rest of the system publishes to.
@@ -41,9 +39,10 @@ At the bottom of the stack is the circuit with four sensors so far:
 - SGP40 — volatile organic compounds as a single VOC Index on Sensirion's 1–500 scale. I2C, address `0x59`.
 - INMP441 — an I2S MEMS microphone. The service publishes a short-term sound level and a live stream that drives the EQ and waveform.
 
-![The Arkadia breadboard](/images/arkadia-breadboard.jpg)
-
-<!-- TODO(image): photo of the breadboard and Pi -> /images/arkadia-breadboard.jpg -->
+<figure>
+  <img src="/images/arkadia-breadboard.jpg" alt="The Raspberry Pi connected to a breadboard with the BME280, SCD40, and INMP441" />
+  <figcaption>The Pi and breadboard, photographed before I added the SGP40.</figcaption>
+</figure>
 
 Power and ground feed the breadboard rails from the Pi. The BME280, SCD40, and SGP40 all use I2C, so they share SDA and SCL, the physical pins 3 and 5 on the header (GPIO 2 and 3). The INMP441 uses I2S: bit clock on GPIO 18, word select on GPIO 19, and data out on GPIO 20.
 
