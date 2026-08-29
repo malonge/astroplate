@@ -93,7 +93,7 @@ fi
 
 # Count URLs in sitemap (excluding 404)
 SITEMAP_URLS=$(grep -o "<loc>" dist/sitemap-0.xml | wc -l || echo "0")
-EXPECTED_SITEMAP_URLS=7  # 7 public routes (excluding 404)
+EXPECTED_SITEMAP_URLS=8  # 8 public routes (excluding 404)
 
 if [ "$SITEMAP_URLS" -ne "$EXPECTED_SITEMAP_URLS" ]; then
     echo "❌ Sitemap URL count mismatch!"

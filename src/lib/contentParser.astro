@@ -20,11 +20,14 @@ export const getSinglePage = async <C extends CollectionKey>(
 
   const removeIndex = allPages.filter((data) => data.id.match(/^(?!-)/));
 
-  const removeDrafts = removeIndex.filter((data) => {
+  // Production hides drafts; `astro dev` includes them so unpublished posts can be previewed.
+  if (import.meta.env.DEV) {
+    return removeIndex;
+  }
+
+  return removeIndex.filter((data) => {
     const pageData = data.data as PageData;
     return pageData.draft !== true;
   });
-
-  return removeDrafts;
 };
 ---

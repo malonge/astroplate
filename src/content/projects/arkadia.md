@@ -7,7 +7,7 @@ image: "/images/arkadia-architecture.png"
 categories: ["IoT", "Hardware", "Software Engineering"]
 author: "Michael Alonge"
 tags: ["python", "raspberry-pi", "mqtt", "mosquitto", "fastapi", "websockets", "svelte", "numpy", "fft", "systemd", "i2c", "i2s"]
-draft: true
+draft: false
 ---
 
 Arkadia is a home environment monitoring system I built for a mix of personal and professional reasons. I wanted a system of my own for monitoring indoor climate and air quality in Los Angeles, which is prone to heat waves and wildfires. I also wanted experience with edge and IoT software engineering. Most of my professional work is in the cloud, and this was a way to work closer to the hardware. That included I2C and I2S interfacing, sensor integration, and FFT-based signal processing for the microphone.
@@ -39,9 +39,9 @@ At the bottom of the stack is the circuit with four sensors so far:
 - SGP40 — volatile organic compounds as a single VOC Index on Sensirion's 1–500 scale. I2C, address `0x59`.
 - INMP441 — an I2S MEMS microphone. The service publishes a short-term sound level and a live stream that drives the EQ and waveform.
 
-<figure>
-  <img src="/images/arkadia-breadboard.jpg" alt="The Raspberry Pi connected to a breadboard with the BME280, SCD40, and INMP441" />
-  <figcaption>The Pi and breadboard, photographed before I added the SGP40.</figcaption>
+<figure class="flex flex-col items-center">
+  <img class="!mx-auto !w-[360px]" src="/images/arkadia-breadboard.jpg" alt="The Raspberry Pi connected to a breadboard with the BME280, SCD40, and INMP441" />
+  <figcaption>The Pi and breadboard, photographed before I added the SGP40. The BME280 and SCD40 are connected to the same I2C bus on the bottom left. The INMP441 is connected to the I2S bus in the center.</figcaption>
 </figure>
 
 Power and ground feed the breadboard rails from the Pi. The BME280, SCD40, and SGP40 all use I2C, so they share SDA and SCL, the physical pins 3 and 5 on the header (GPIO 2 and 3). The INMP441 uses I2S: bit clock on GPIO 18, word select on GPIO 19, and data out on GPIO 20.
