@@ -50,11 +50,11 @@ Now that you have a high-level overview of the project, let's dive into some of 
 
 ### Event-driven architecture with MQTT
 
-The core of the software is a Mosquitto MQTT broker on the Pi. Sensor services publish readings to the broker on dedicated topics and other services subscribe.
+The core of the software is a Mosquitto MQTT broker on the Pi. Sensor services publish readings to the broker on dedicated topics and other services (like the API) subscribe.
 
-The main benefit is separation of concerns. Each sensor has its own process and its own place on the bus. That process has one job: read the sensor, do a minimal amount of processing, and publish. It does not need to know how the other sensors work, or whether they are up, or how the data will be used. When I get around to adding a particulate sensor, I will not have to touch the existing sensor services. I have a hardware problem with the SGP40 right now, and while I debug it the rest of Arkadia keeps running and the dashboard marks that one panel as offline. Changing the dashboard, or adding another display such as an LED matrix, does not change how the readings are produced.
+The main benefit is separation of concerns. Each sensor has its own process and its own place on the bus. That process has one job: read the sensor, do a minimal amount of processing, and publish. It does not need to know how the other sensors work, or whether they are up, or how the data will be used. This separation of concerns has already proven useful. I have a hardware problem with the SGP40 right now, and while I debug it the rest of Arkadia keeps running and the dashboard marks that one panel as offline. Aside from helping to mitigate existing bugs, this separation of concerns makes it easier to add new sensors or displays in the future.
 
-The bus carries two kinds of data. Temperature, CO₂, VOC, and the periodic decibel reading are telemetry: sampled every few seconds or every minute, where only the most recent value matters. The live audio signal for the equalizer is real-time and has to be processed as it arrives. The same broker handles both, but not in the same way.
+The bus carries two kinds of data: telemetry and live streaming. Temperature, CO₂, VOC, and the periodic decibel reading are telemetry: sampled every few seconds or every minute, where only the most recent value matters. The live audio signal for the equalizer is real-time and has to be processed as it arrives. The same broker handles both, but not in the same way.
 
 Telemetry data is published with `retain=true`, so the broker holds the most recent reading for each sensor. When the API restarts, the broker replays those retained messages and the API rebuilds its state immediately. The audio stream on the other hand is published at QoS 0 with no retain.
 
@@ -70,7 +70,7 @@ I used hierarchical topics and wildcard subscriptions for easy extensibility. To
 
 I used a Last Will and Testament to let the broker report a failures. Each service registers a will when it connects, so if it disconnects ungracefully the broker publishes `{"status": "offline"}` to `home/status/{sensor_id}` on its behalf. The sensor health indicators on the dashboard use this feature directly.
 
-Comparing other options, Redis pub/sub is fire-and-forget with no per-topic retention and no will. ZeroMQ is brokerless, so there is no last-value cache and no liveness signal unless you build them. There is one place the fit is imperfect, and I will come back to it: MQTT was designed to move small messages over constrained, unreliable links, and the audio stream is neither.
+Comparing Mosquito/MQTT to other options, Redis pub/sub is fire-and-forget with no per-topic retention and no will. ZeroMQ is brokerless, so there is no last-value cache and no liveness signal unless you build them.
 
 ### Schemas and contracts
 
