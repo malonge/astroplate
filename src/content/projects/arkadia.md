@@ -111,9 +111,16 @@ Second, it is the security boundary. Mosquitto listens only on `127.0.0.1`, so n
 
 ### Real-time audio
 
-Most of the above is telemetry, which is familiar from my usual work. The live audio path was newer for me, and it speaks to my musical side. By integrating live audio into the monitor I can visualize the sound in the room as it happens. It is mostly just cool, but it could be useful for noticing persistent background noise and seeing what frequency range it sits in.
+Most of the above is telemetry, which is familiar from my usual work. The live audio path was newer for me, and it speaks to my musical side. By integrating live audio into the monitor I can visualize the sound in the room as it happens. This feature is more about hobbies than health monitoring. For ear health, telemetry oriented data from the microphone is sufficient (e.g. decibel levels over time). But I figured since I needed to hook up a microphone to the Pi anyways, I might as well cover real-time audio as well and have some fun.
 
-A few background notes before the software. You cannot get more "real time" than a fully analog path. I would like to build an analog waveform and graphic EQ someday that I can plug a guitar or a record player into. But Arkadia is digital and this writeup is about software.
+<div class="notice note">
+  <div class="notice-head">
+    <p class="my-0"></p>
+  </div>
+  <div class="notice-body">
+    <p>You cannot get more "real time" than a fully analog path. I would like to build an analog waveform and graphic EQ someday that I can plug a guitar or a record player into. But Arkadia is digital and this writeup is about software.</p>
+  </div>
+</div>
 
 The INMP441 turns incoming sound into a digital sample stream. The service captures that stream in fixed windows, and each window is one self-contained frame of work. The waveform panel draws the window directly as amplitude over time. The same window, run through a Fast Fourier Transform, becomes a set of frequency components, which are grouped into eight octave bands and drawn as a graphic equalizer — essentially a histogram over frequency. Here is the core of it:
 
