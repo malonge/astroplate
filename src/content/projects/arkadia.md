@@ -99,7 +99,7 @@ The bus decouples producers from consumers, and while this underpins the extensi
 
 The envelope and every sensor's readings are defined as Pydantic models in a shared `common` package that all the services import, so the contract is enforced at both ends.
 
-That aggregation is nearly the only transformation the producers do, and it exists because readings can be wrong. The climate and CO₂ services take several samples and publish the median, so a single bad read is less likely to go out as the current value. The audio service publishes a computed sound level rather than raw samples. Both follow the same rule: putting bad or oversized data on the bus makes every consumer deal with it. Display choices — unit labels, color thresholds, an approximate conversion from dBFS to dB SPL — are the responsibility of the consumer.
+The `meta` section of the schema facilitates any aggregation or transformation that the producer does. The sensors are fallible and this raises an interesting and common software design question: who is responsible for data processing steps? To answer this question we can use a simple heuristic: if a data processing step is genereally applicable, it should be done by the producer. For example, probably no consuming service will ever care about implausibly low or high temperature readings. Therefore, its cleaner for the prodcuer to take several readings and publish the median, rather than having every consumer deal with implausible values in repetitive and heterogenous ways. On the other hand, if a data processing step is specific to a consumer, it should be done by that consumer. For example, converting units or displaying trends in the data is likely to be specific to a given consumer so they should own it.  
 
 ### The REST API
 
