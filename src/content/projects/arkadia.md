@@ -1,28 +1,26 @@
 ---
 title: "Arkadia: an event-driven home environment monitor"
-meta_title: "Arkadia - Event-Driven IoT Home Environment Monitoring"
+meta_title: "Arkadia - Event-Driven Home Environment Monitoring"
 description: "Building a home climate, air quality, and live audio monitor on a Raspberry Pi with MQTT, FastAPI, and WebSockets."
 date: 2026-08-26T05:00:00Z
 image: "/images/arkadia-architecture.png"
 categories: ["IoT", "Hardware", "Software Engineering"]
 author: "Michael Alonge"
-tags: ["python", "raspberry-pi", "mqtt", "mosquitto", "fastapi", "websockets", "svelte", "numpy", "fft", "systemd", "i2c", "i2s"]
+tags: ["python", "raspberry-pi", "mqtt", "mosquitto", "fastapi", "websockets", "svelte", "numpy", "fft", "systemd", "i2c", "i2s", "pydantic"]
 draft: false
 ---
 
-Arkadia is a home environment monitoring system I built for a mix of personal and professional reasons. I wanted a system of my own for monitoring indoor climate and air quality in Los Angeles, which is prone to heat waves and wildfires. I also wanted experience with edge and IoT software engineering. Most of my professional work is in the cloud, and this was an opportunity to work closer to the hardware. That included I2C and I2S interfacing, sensor integration, and FFT-based signal processing for the microphone.
-
-Also, I play electric bass and guitar, and I am interested in guitar effects. Visualizing the audio signal lets me try different ambient sounds in the room and see what happens, which helps me learn more about audio processing.
+Arkadia is a home environment monitoring system I built for a mix of personal and professional reasons. Firstly, I wanted a system of my own for monitoring indoor climate and air quality in Los Angeles, which is prone to heat waves and wildfires. I also wanted experience with edge and IoT software engineering. Most of my professional work is in the cloud, and this was an opportunity to work closer to the hardware. Finally, I am a musician and I am interested in guitar audio signal processing. Integrating a microphone into the system lets me monitor noise levels to protect my ears and visualizing the sound in the room as it happens helps me learn more about audio processing.
 
 A typical hobby environment monitor connects everything directly: one Python script reads the sensors in sequence, bundles the readings, and writes them to a display. But that approach is brittle. If one sensor is down, or you want to add a new one, or you want to show or analyze the data differently, even a small change impacts the whole program. Once I decided to build this, I wanted to build it the way I would build something at work, so that I could keep extending it and so that I would get real practice with the concepts I use professionally.
 
 The project is named after the Skaikru base camp in book and TV series *The 100*.
 
-## What I built
+## What I built, from the top down
 
 All the code for the project is on GitHub at [malonge/Arkadia](https://github.com/malonge/Arkadia).
 
-At the top of the stack is a simple web dashboard as a single place to monitor all of the sensors. I went with a lo-fi analog look because, for whatever reason, I wanted to feel like I was sitting in the control room of an old nuclear plant. There are three panels. Climate shows temperature as a block gauge, along with humidity and pressure. Air quality shows a CO₂ bar, a VOC indicator that changes color along the scale, and a second temperature and humidity reading from the CO₂ sensor. Audio is my favorite part of the dashboard, and the one that is truly live: an eight-band EQ, a waveform, and a rolling average of the room's sound level. The dashboard also provides indicators for sensor health so you know that the readings are live.
+At the top of the stack is a simple web dashboard as a single place to monitor all of the sensors and the current state of my home environment. I went with a lo-fi analog look because, for whatever reason, I wanted to feel like I was sitting in the control room of an old nuclear plant. There are three panels. Climate shows temperature as a block gauge, along with humidity and pressure. Air quality shows a CO₂ bar, a VOC indicator that changes color along the scale, and a second temperature and humidity reading from the CO₂ sensor. Audio is my favorite part of the dashboard, and the one that is truly live: an eight-band EQ, a waveform, and a rolling average of the room's sound level. The dashboard also provides indicators for sensor health so you know that the readings are live.
 
 ![The Arkadia dashboard](/images/arkadia-dashboard.png)
 
@@ -46,7 +44,9 @@ At the bottom of the stack is the circuit with four sensors so far:
 
 Power and ground feed the breadboard rails from the Pi. The BME280, SCD40, and SGP40 all use I2C, so they share SDA and SCL, the physical pins 3 and 5 on the header (GPIO 2 and 3). The INMP441 uses I2S: bit clock on GPIO 18, word select on GPIO 19, and data out on GPIO 20.
 
-## Event-driven architecture with MQTT
+## Technical Deeper Dive
+
+### Event-driven architecture with MQTT
 
 The core of the software is a Mosquitto MQTT broker on the Pi. Sensor services publish readings to the broker on dedicated topics and other services subscribe.
 
@@ -70,7 +70,7 @@ I used a Last Will and Testament to let the broker report a failures. Each servi
 
 Comparing other options, Redis pub/sub is fire-and-forget with no per-topic retention and no will. ZeroMQ is brokerless, so there is no last-value cache and no liveness signal unless you build them. There is one place the fit is imperfect, and I will come back to it: MQTT was designed to move small messages over constrained, unreliable links, and the audio stream is neither.
 
-## Schemas and contracts
+### Schemas and contracts
 
 The bus decouples producers from consumers, and while this underpins the extensibility and resilieancy of the system, it also means the various system components need to be strict about data schemas and contracts. Every reading goes out in the same envelope: a schema version, the sensor's identity, a UTC timestamp, the values, metadata about how those values were produced, and optional service diagnostics.
 
@@ -99,7 +99,7 @@ The envelope and every sensor's readings are defined as Pydantic models in a sha
 
 That aggregation is nearly the only transformation the producers do, and it exists because readings can be wrong. The climate and CO₂ services take several samples and publish the median, so a single bad read is less likely to go out as the current value. The audio service publishes a computed sound level rather than raw samples. Both follow the same rule: putting bad or oversized data on the bus makes every consumer deal with it. Display choices — unit labels, color thresholds, an approximate conversion from dBFS to dB SPL — are the responsibility of the consumer.
 
-## The REST API
+### The REST API
 
 It would be inconvenient, and usually brittle, to have every consumer read from the broker directly. So there is a FastAPI service between the bus and the outside, and it is the only interface a dashboard, a script, or a future display is meant to use.
 
@@ -107,7 +107,7 @@ Beyond a normal HTTP interface, it does two things. First, it owns the business 
 
 Second, it is the security boundary. Mosquitto listens only on `127.0.0.1`, so nothing on the network can reach MQTT at all. Outside consumers go through the API, which requires a key, and the same key is required for the audio socket. This is a local, single-device deployment on a trusted network, so there is no TLS. If I ever exposed the API beyond the LAN that would have to change, but it would only have to change in one place.
 
-## Real-time audio
+### Real-time audio
 
 Most of the above is telemetry, which is familiar from my usual work. The live audio path was newer for me, and it speaks to my musical side. By integrating live audio into the monitor I can visualize the sound in the room as it happens. It is mostly just cool, but it could be useful for noticing persistent background noise and seeing what frequency range it sits in.
 
@@ -139,7 +139,7 @@ for centre in bands_hz:
         levels_db.append(_DB_FLOOR)
 ```
 
-### The latency budget
+#### The latency budget
 
 The two parameters that matter are the sample rate and the window size: 48 kHz and 2,400 samples. They set everything else. A 2,400-sample window is exactly 50 ms of sound, which means frames come out at 20 Hz, and the FFT produces 1,201 bins spanning 0 Hz to Nyquist at 24 kHz, spaced 20 Hz apart.
 
@@ -147,7 +147,7 @@ It also means the window is the floor on latency. You have to collect 50 ms of s
 
 Everything after that is cheap by comparison. A 2,400-point real FFT is on the order of *N* log₂ *N* ≈ 27,000 operations, which NumPy does in microseconds against a 50 ms budget. So the window size is really a resolution tradeoff and not a compute one. A longer window would buy finer frequency resolution and a slower, laggier display, and a shorter one the reverse.
 
-### What I would change
+#### What I would change
 
 I had to decide whether the live path should use the same broker as the telemetry, or whether consumers should read it some other way. I kept it on the bus. It is simpler, and it preserves the pattern. I still think that was right, but it is the weakest part of the design, and the reason is payload size.
 
@@ -155,7 +155,7 @@ Every frame carries the full waveform, the full spectrum, and the eight computed
 
 This is also where MQTT's fit gets loose. It was built to move small messages over unreliable links, and I am pushing 85 KB frames across loopback. It works, and nobody notices on a wired local system, but the protocol is not earning much here. Dropping the spectrum from the frame, or moving the stream to a binary encoding, is the first thing I would change.
 
-### Streams and snapshots
+#### Streams and snapshots
 
 The live frames also go through FastAPI, but not as REST. REST is a request for the latest value. This is a stream, so the API holds a WebSocket open and pushes frames as they arrive. That is async, and it can keep more than one client connected. Getting the frames there took some care, because MQTT callbacks fire on the paho client's background thread while WebSocket sends have to happen on the asyncio event loop:
 
@@ -186,7 +186,7 @@ The frontend has to respect that same split. If I polled the live frames, I woul
 
 I also did not want the browser to become a second signal processor. The FFT already ran on the Pi. If each client redid it, every consumer could disagree about the bands, and a cheap display would pay for work it does not need. The page only draws.
 
-### Two display problems
+#### Two display problems
 
 Two problems showed up that are not data problems. Room level is low, so a faithful plot of the waveform sits on the baseline. I amplify it in the drawing, not in the numbers. The bands also move faster than you can read, so the EQ keeps a short peak hold that decays at 18 dB per second.
 
@@ -203,7 +203,7 @@ In both cases the payload stays in dBFS and the adjustment happens in the drawin
 
 The last issue is what to show when the socket dies. A retained last frame would look live when it is not. The drawings go idle instead, and the client reconnects. That is the same reason the live topic on the broker does not keep a last value.
 
-## Coding with AI
+### Coding with AI
 
 Just as in my current setup at work, I built everything via Cursor Cloud using Claude Opus. To test and deploy the code, I pulled from the relevant GitHub branch directly on the Raspberry Pi. No code was actually written on the Pi.
 
