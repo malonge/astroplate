@@ -103,11 +103,11 @@ The `meta` section of the schema documents any aggregation or transformation tha
 
 ### The REST API
 
-It would be inconvenient, and usually brittle, to have every consumer read from the broker directly. So there is a FastAPI service between the bus and the outside, and it is the only interface a dashboard, a script, or a future display is meant to use.
+It would be inconvenient, and usually brittle, to have every consumer read from the broker directly. So there is a FastAPI service between the bus and outside clients.
 
-Beyond a normal HTTP interface, it does two things. First, it owns the business logic that every consumer should share. Producers should not decide how their data is interpreted, so the API is where a sensor is treated as missing when nothing has ever arrived, and where a reading is marked stale when the newest one is too old. A sensor that is quiet because it crashed and a sensor that is quiet because it only publishes once a minute look the same on the wire, and one component should be responsible for telling them apart.
+Beyond a normal HTTP interface, it does two things. First, it owns the business logic that every consumer should share but that is too high level to be done by the producers. For example, the API is where a sensor is treated as missing when nothing has ever arrived, and where a reading is marked stale when the newest one is too old.
 
-Second, it is the security boundary. Mosquitto listens only on `127.0.0.1`, so nothing on the network can reach MQTT at all. Outside consumers go through the API, which requires a key, and the same key is required for the audio socket. This is a local, single-device deployment on a trusted network, so there is no TLS. If I ever exposed the API beyond the LAN that would have to change, but it would only have to change in one place.
+Second, it is the security boundary. Mosquitto listens only on `127.0.0.1`, so nothing on the network can reach MQTT at all. Outside consumers go through the API, which requires a key, as does the audio socket. This is a local, single-device deployment on a trusted network, so there is no TLS. If I ever exposed the API beyond the LAN, that would have to change, but only in one place.
 
 ### Real-time audio
 
