@@ -10,13 +10,13 @@ tags: ["python", "raspberry-pi", "mqtt", "mosquitto", "fastapi", "websockets", "
 draft: false
 ---
 
-Arkadia is a home environment monitoring system I built for a mix of personal and professional reasons. I wanted a system of my own for monitoring indoor climate and air quality in Los Angeles, which is prone to heat waves and wildfires. I also wanted experience with edge and IoT software engineering. Most of my professional work is in the cloud, and this was a way to work closer to the hardware. That included I2C and I2S interfacing, sensor integration, and FFT-based signal processing for the microphone.
+Arkadia is a home environment monitoring system I built for a mix of personal and professional reasons. I wanted a system of my own for monitoring indoor climate and air quality in Los Angeles, which is prone to heat waves and wildfires. I also wanted experience with edge and IoT software engineering. Most of my professional work is in the cloud, and this was an opportunity to work closer to the hardware. That included I2C and I2S interfacing, sensor integration, and FFT-based signal processing for the microphone.
 
-A typical hobby environment monitor connects everything directly: one Python script reads the sensors in sequence, bundles the readings, and writes them to a display. But that approach is brittle. If one sensor is down, or you want to add a new one, or you want to show or analyze the data differently, even a small change touches the whole program. Once I decided to build this, I wanted to build it the way I would build something at work, so that I could keep extending it and so that I would get real practice with the concepts I use professionally.
+Also, I play electric bass and guitar, and I am interested in guitar effects. Visualizing the audio signal lets me try different ambient sounds in the room and see what happens, which helps me learn more about audio processing.
 
-Also, I play electric bass and guitar, and I am interested in guitar pedals. Visualizing the audio signal lets me try different ambient sounds in the room and see what happens, which helps me learn more about audio processing.
+A typical hobby environment monitor connects everything directly: one Python script reads the sensors in sequence, bundles the readings, and writes them to a display. But that approach is brittle. If one sensor is down, or you want to add a new one, or you want to show or analyze the data differently, even a small change impacts the whole program. Once I decided to build this, I wanted to build it the way I would build something at work, so that I could keep extending it and so that I would get real practice with the concepts I use professionally.
 
-The project is named after the Skaikru base camp in *The 100*.
+The project is named after the Skaikru base camp in book and TV series *The 100*.
 
 ## What I built
 
@@ -26,18 +26,18 @@ At the top of the stack is a simple web dashboard as a single place to monitor a
 
 ![The Arkadia dashboard](/images/arkadia-dashboard.png)
 
-The UI is still pretty crude, but it gives a good idea of the direction I would go as I add more sensors and clean up the system. Long term, I would like to drive an LED matrix from the same data.
+The UI is still pretty crude, but it gives a good idea of the direction I would go as I add more sensors and clean up the system. Long term, I would rather display the information on an LED matrix than a web page.
 
 The API is a systemd service that starts when the Raspberry Pi boots. It serves the dashboard on port 8000, which can be reached from any device on the local network, and exposes the data under `/api`. REST endpoints return the latest reading for each sensor, and the dashboard polls those. The EQ and waveform need a continuous stream, so those come over a WebSocket. The API does not talk to the sensors directly. It reads from a local Mosquitto broker that the rest of the system publishes to.
 
-Each sensor has its own process. That process reads from the hardware, does any quality checks or aggregation the sensor needs, and publishes to the broker. If one service fails, the others keep running.
+Each sensor has its own process. That process reads from the hardware, does any quality checks or aggregation the sensor needs, and publishes to the broker.
 
 At the bottom of the stack is the circuit with four sensors so far:
 
 - BME280 — temperature, humidity, and barometric pressure. I2C, address `0x76`.
 - SCD40 — CO₂, plus its own temperature and humidity. I2C, address `0x62`.
-- SGP40 — volatile organic compounds as a single VOC Index on Sensirion's 1–500 scale. I2C, address `0x59`.
-- INMP441 — an I2S MEMS microphone. The service publishes a short-term sound level and a live stream that drives the EQ and waveform.
+- SGP40 — volatile organic compounds as a single VOC Index. I2C, address `0x59`.
+- INMP441 — an I2S MEMS microphone.
 
 <figure class="flex flex-col items-center">
   <img class="!mx-auto !w-[360px]" src="/images/arkadia-breadboard.jpg" alt="The Raspberry Pi connected to a breadboard with the BME280, SCD40, and INMP441" />
@@ -46,21 +46,15 @@ At the bottom of the stack is the circuit with four sensors so far:
 
 Power and ground feed the breadboard rails from the Pi. The BME280, SCD40, and SGP40 all use I2C, so they share SDA and SCL, the physical pins 3 and 5 on the header (GPIO 2 and 3). The INMP441 uses I2S: bit clock on GPIO 18, word select on GPIO 19, and data out on GPIO 20.
 
-That is the tour from the top down. The rest of this post goes in the other direction, starting with the event bus, then the API, and then the live audio path, which was the least familiar part for me.
-
 ## Event-driven architecture with MQTT
 
-The core of the software is a Mosquitto MQTT broker on the Pi. Sensor services publish readings to the broker on dedicated topics. Other services subscribe. Producers do not call consumers, and consumers do not call producers.
+The core of the software is a Mosquitto MQTT broker on the Pi. Sensor services publish readings to the broker on dedicated topics and other services subscribe.
 
 The main benefit is separation of concerns. Each sensor has its own process and its own place on the bus. That process has one job: read the sensor, do a minimal amount of processing, and publish. It does not need to know how the other sensors work, or whether they are up, or how the data will be used. When I get around to adding a particulate sensor, I will not have to touch the existing sensor services. I have a hardware problem with the SGP40 right now, and while I debug it the rest of Arkadia keeps running and the dashboard marks that one panel as offline. Changing the dashboard, or adding another display such as an LED matrix, does not change how the readings are produced.
 
 The bus carries two kinds of data. Temperature, CO₂, VOC, and the periodic decibel reading are telemetry: sampled every few seconds or every minute, where only the most recent value matters. The live audio signal for the equalizer is real-time and has to be processed as it arrives. The same broker handles both, but not in the same way.
 
-I should be honest about how I picked MQTT. I chose it because it is what people seem to prefer for IoT projects. That is not a real reason. What makes it the right call is a set of features I only came to appreciate as the design settled, and the system now leans on all four.
-
-**Retained messages are the entire persistence story.** Telemetry is published with `retain=true`, so the broker holds the most recent reading for each sensor. When the API restarts, the broker replays those retained messages and the API rebuilds its state immediately, instead of showing an empty dashboard for up to a minute while it waits for the next SCD40 sample.
-
-**Quality of service is set per message, on one bus.** Telemetry goes out at QoS 1 with retain. The audio stream goes out at QoS 0 with no retain. Same broker, same wrapper, opposite delivery guarantees:
+Telemetry data is published with `retain=true`, so the broker holds the most recent reading for each sensor. When the API restarts, the broker replays those retained messages and the API rebuilds its state immediately. The audio stream on the other hand is published at QoS 0 with no retain.
 
 ```python
 # Telemetry: guaranteed delivery, broker holds the latest value.
@@ -70,15 +64,15 @@ client.publish(summary_topic, summary_payload.model_dump_json(), qos=1, retain=T
 client.publish(stream_topic, stream_payload.model_dump_json(), qos=0, retain=False)
 ```
 
-**Hierarchical topics and wildcard subscriptions** are what make the extensibility claim true rather than aspirational. Topics are namespaced as `home/sensors/{category}/{sensor_id}`, and the API subscribes once to `home/sensors/#`. A new sensor shows up on the bus and the API picks it up without a configuration change.
+I used hierarchical topics and wildcard subscriptions for easy extensibility. Topics are namespaced as `home/sensors/{category}/{sensor_id}`, and the API subscribes once to `home/sensors/#`. A new sensor shows up on the bus and the API picks it up without a configuration change.
 
-**Last Will and Testament** lets the broker report a failure for me. Each service registers a will when it connects, so if it disconnects ungracefully the broker publishes `{"status": "offline"}` to `home/status/{sensor_id}` on its behalf. The sensor health indicators on the dashboard are partly powered by a protocol feature rather than by code I wrote.
+I used a Last Will and Testament to let the broker report a failures. Each service registers a will when it connects, so if it disconnects ungracefully the broker publishes `{"status": "offline"}` to `home/status/{sensor_id}` on its behalf. The sensor health indicators on the dashboard use this feature directly.
 
-The alternatives make the point clearer. Redis pub/sub is fire-and-forget with no per-topic retention and no will. ZeroMQ is brokerless, so there is no last-value cache and no liveness signal unless you build them. Either way I would have ended up reimplementing three of those four features, worse. There is one place the fit is imperfect, and I will come back to it: MQTT was designed to move small messages over constrained, unreliable links, and the audio stream is neither.
+Comparing other options, Redis pub/sub is fire-and-forget with no per-topic retention and no will. ZeroMQ is brokerless, so there is no last-value cache and no liveness signal unless you build them. There is one place the fit is imperfect, and I will come back to it: MQTT was designed to move small messages over constrained, unreliable links, and the audio stream is neither.
 
 ## Schemas and contracts
 
-The bus decouples producers from consumers, but that only helps if everyone agrees on the shape of what crosses it. Every reading goes out in the same envelope: a schema version, the sensor's identity, a UTC timestamp, the values, metadata about how those values were produced, and optional service diagnostics.
+The bus decouples producers from consumers, and while this underpins the extensibility and resilieancy of the system, it also means the various system components need to be strict about data schemas and contracts. Every reading goes out in the same envelope: a schema version, the sensor's identity, a UTC timestamp, the values, metadata about how those values were produced, and optional service diagnostics.
 
 ```json
 {
@@ -101,7 +95,7 @@ The bus decouples producers from consumers, but that only helps if everyone agre
 }
 ```
 
-The envelope and every sensor's readings are defined as Pydantic models in a shared `common` package that all the services import, so the contract is enforced at both ends rather than documented and hoped for. The `meta` block is more useful than it looks. `sample_count` and `aggregation` tell a consumer that this temperature is the median of five reads rather than a single sample.
+The envelope and every sensor's readings are defined as Pydantic models in a shared `common` package that all the services import, so the contract is enforced at both ends.
 
 That aggregation is nearly the only transformation the producers do, and it exists because readings can be wrong. The climate and CO₂ services take several samples and publish the median, so a single bad read is less likely to go out as the current value. The audio service publishes a computed sound level rather than raw samples. Both follow the same rule: putting bad or oversized data on the bus makes every consumer deal with it. Display choices — unit labels, color thresholds, an approximate conversion from dBFS to dB SPL — are the responsibility of the consumer.
 
@@ -257,6 +251,7 @@ Beyond getting reps with familiar concepts, I am most pleased with the new skill
 
 Next on my list of enhancements is something like a PMS5003 to measure particulates. That would probably be the most helpful sensor for air quality during a wildfire, which was my original motivation for building Arkadia. After that, more in the spirit of the real-time audio and as an attempt to cover more of the human senses, it would be fun to incorporate optical sensors such as a VEML7700 and an AS7341 to report the intensity and composition of ambient light. I also want to extend the consumer side — an LED matrix as a physical monitor, rather than relying only on the web app.
 
-![The audio panel running live](/images/arkadia-audio.gif)
-
-<!-- TODO(image): short screen capture of the live EQ + waveform -> /images/arkadia-audio.gif (a .mp4 also works; both serve fine from /public on Netlify) -->
+<video controls preload="metadata" width="1280" height="720" class="w-full rounded">
+  <source src="/videos/arkadia-audio.mp4" type="video/mp4" />
+  A screen capture of the Arkadia audio panel responding to sound in the room.
+</video>
