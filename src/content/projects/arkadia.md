@@ -20,7 +20,7 @@ The project is named after the Skaikru base camp in book and TV series *The 100*
 
 All the code for the project is on GitHub at [malonge/Arkadia](https://github.com/malonge/Arkadia).
 
-At the top of the stack is a simple web dashboard as a single place to monitor all of the sensors and the current state of my home environment. I went with a lo-fi analog look because, for whatever reason, I wanted to feel like I was sitting in the control room of an old nuclear plant. There are three panels. Climate shows temperature as a block gauge, along with humidity and pressure. Air quality shows a CO₂ bar, a VOC indicator that changes color along the scale, and a second temperature and humidity reading from the CO₂ sensor. Audio is my favorite part of the dashboard, and the one that is truly live: an eight-band EQ, a waveform, and a rolling average of the room's sound level. The dashboard also provides indicators for sensor health so you know that the readings are live.
+At the top of the stack is a web dashboard as a single place to monitor all of the sensors and the current state of my home environment. I went with a lo-fi analog look because, for whatever reason, I wanted to feel like I was sitting in the control room of an old nuclear plant. There are three panels. Climate shows temperature as a block gauge, along with humidity and pressure. Air quality shows a CO₂ bar, a VOC indicator that changes color along the scale, and a second temperature and humidity reading from the CO₂ sensor. Audio is my favorite part of the dashboard, and the one that is truly live: an eight-band EQ, a waveform, and a rolling average of the room's sound level. The dashboard also provides indicators for sensor health and timing.
 
 ![The Arkadia dashboard](/images/arkadia-dashboard.png)
 
@@ -33,7 +33,7 @@ Each sensor has its own process. That process reads from the hardware, does any 
 At the bottom of the stack is the circuit with four sensors so far:
 
 - BME280 — temperature, humidity, and barometric pressure. I2C, address `0x76`.
-- SCD40 — CO₂, plus its own temperature and humidity. I2C, address `0x62`.
+- SCD40 — CO₂, temperature, and humidity. I2C, address `0x62`.
 - SGP40 — volatile organic compounds as a single VOC Index. I2C, address `0x59`.
 - INMP441 — an I2S MEMS microphone.
 
@@ -44,7 +44,9 @@ At the bottom of the stack is the circuit with four sensors so far:
 
 Power and ground feed the breadboard rails from the Pi. The BME280, SCD40, and SGP40 all use I2C, so they share SDA and SCL, the physical pins 3 and 5 on the header (GPIO 2 and 3). The INMP441 uses I2S: bit clock on GPIO 18, word select on GPIO 19, and data out on GPIO 20.
 
-## Technical Deeper Dive
+## Technical Deep Dive
+
+Now that you have a high-level overview of the project, let's dive into some of the technical details.
 
 ### Event-driven architecture with MQTT
 
