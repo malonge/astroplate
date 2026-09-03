@@ -382,6 +382,19 @@
     ],
     "projects": [
       {
+        "name": "Arkadia: an event-driven home environment monitor",
+        "startDate": "2026-05-01",
+        "endDate": "2026-08-26",
+        "description": "I built a home climate, air quality, and live audio monitor on a Raspberry Pi, with independent sensor services publishing over MQTT to a FastAPI backend and a real-time dashboard.",
+        "highlights": [
+          "Python",
+          "MQTT",
+          "FastAPI",
+          "Raspberry Pi"
+        ],
+        "url": "https://michaelalonge.com/projects/arkadia"
+      },
+      {
         "name": "Integrating a print-friendly and web-friendly resume into an Astro website",
         "startDate": "2025-08-01",
         "endDate": "2025-09-07",

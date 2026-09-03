@@ -4,7 +4,7 @@ import Base from "@/layouts/Base.astro";
 import { markdownify } from "@/lib/utils/textConverter";
 import type { CollectionEntry } from "astro:content";
 import { getEntry } from "astro:content";
-import { FiDatabase, FiGlobe, FiBriefcase } from "react-icons/fi";
+import { FiCpu, FiDatabase, FiGlobe, FiBriefcase } from "react-icons/fi";
 import { GiTomato } from "react-icons/gi";
 import { PiPlant } from "react-icons/pi";
 import { FaPersonWalking } from "react-icons/fa6";
@@ -129,6 +129,7 @@ const { banner, projects, publications, cta } = homepage.data as Homepage;
               <div class="mb-6">
                 <div class="flex h-16 w-16 items-center justify-center rounded-full bg-light text-text">
                   <span class="text-2xl">
+                    {project.icon === "cpu" && <FiCpu className="h-7 w-7" />}
                     {project.icon === "database" && <FiDatabase className="h-7 w-7" />}
                     {project.icon === "chart" && <FiGlobe className="h-7 w-7" />}
                     {project.icon === "briefcase" && <FiBriefcase className="h-7 w-7" />}

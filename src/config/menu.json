@@ -26,6 +26,10 @@
       "hasChildren": true,
       "children": [
         {
+          "name": "Arkadia: an event-driven home environment monitor",
+          "url": "/projects/arkadia"
+        },
+        {
           "name": "Integrating a print-friendly and web-friendly resume into an Astro website",
           "url": "/projects/astro-resume-integration"
         }

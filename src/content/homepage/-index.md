@@ -14,6 +14,12 @@ banner:
 projects:
   title: "Featured Projects"
   items:
+    - title: "Arkadia: an event-driven home environment monitor"
+      description: "I built a home climate, air quality, and live audio monitor on a Raspberry Pi, with independent sensor services publishing over MQTT to a FastAPI backend and a real-time dashboard."
+      icon: "cpu"
+      links:
+        - label: "Learn More"
+          url: "/projects/arkadia"
     - title: "Integrating a print-friendly and web-friendly resume into an Astro website"
       description: "I built a modern resume system that combines Astro's static site generation with the JSON Resume standard and print-optimized CSS to create both an SEO-friendly web presence and recruiter-ready PDF downloads."
       icon: "website"
