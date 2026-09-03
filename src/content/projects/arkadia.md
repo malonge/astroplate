@@ -111,33 +111,30 @@ Second, it is the security boundary. Mosquitto listens only on `127.0.0.1`, so n
 
 ### Real-time audio
 
-Most of the above is telemetry, which is familiar from my usual work. The live audio path was newer for me, and it speaks to my musical side. By integrating live audio into the monitor I can visualize the sound in the room as it happens. This feature is more about hobbies than health monitoring. For ear health, telemetry oriented data from the microphone is sufficient (e.g. decibel levels over time). But I figured since I needed to hook up a microphone to the Pi anyways, I might as well cover real-time audio as well and have some fun.
+Most of the above is telemetry, which is familiar from my usual work. The live audio path was newer for me, and it speaks to my musical side. By integrating live audio into the monitor I can visualize the sound in the room as it happens. This feature is more about hobbies than health monitoring. For ear health, telemetry-oriented data from the microphone is sufficient (e.g. decibel levels over time). But I figured since I needed to hook up a microphone to the Pi anyway, I might as well cover real-time audio as well and have some fun.
 
 <div class="notice note">
-  <div class="notice-head">
-    <p class="my-0"></p>
-  </div>
   <div class="notice-body">
     <p>You cannot get more "real time" than a fully analog path. I would like to build an analog waveform and graphic EQ someday that I can plug a guitar or a record player into. But Arkadia is digital and this writeup is about software.</p>
   </div>
 </div>
 
-The INMP441 turns incoming sound into a digital sample stream. The service captures that stream in fixed windows, and each window is one self-contained frame of work. The waveform panel draws the window directly as amplitude over time. The same window, run through a Fast Fourier Transform, becomes a set of frequency components, which are grouped into eight octave bands and drawn as a graphic equalizer — essentially a histogram over frequency. Here is the core of it:
+The INMP441 turns incoming sound into a digital sample stream. The service captures that stream in fixed windows, and each window is one self-contained frame of work. The waveform panel draws the window directly as amplitude over time. The same window, run through a Fast Fourier Transform, becomes a set of frequency components, which are grouped into eight octave bands and drawn as a graphic equalizer. Here is the core of the FFT:
 
 ```python
 windowed = waveform * window          # Hann window, reduces spectral leakage
 spectrum = np.fft.rfft(windowed)
 
-# Normalise so a full-scale sine wave lands at 0 dBFS.
+# Normalize so a full-scale sine wave lands at 0 dBFS.
 mags = np.abs(spectrum) / (window_size / 2.0)
 mags_db = 20.0 * np.log10(np.clip(mags, 1e-10, None))
 ```
 
-Aggregating those bins into bands took more care than I expected. Each ISO 266 octave band spans from its centre frequency divided by √2 to its centre times √2. The subtlety is that you cannot average decibels directly. They are logarithmic, so the arithmetic mean of a set of dB values is not the level of their combined energy. The bins have to be converted back to linear power, averaged there, and converted again:
+Those bins are then aggregated into ISO 266 octave bands. Each band spans from its center frequency divided by √2 to its center times √2. Decibels are logarithmic, so the arithmetic mean of a set of dB values is not the level of their combined energy. The bins have to be converted back to linear power, averaged there, and converted again:
 
 ```python
-for centre in bands_hz:
-    low, high = centre / sqrt2, centre * sqrt2
+for center in bands_hz:
+    low, high = center / sqrt2, center * sqrt2
     mask = (freqs >= low) & (freqs < high)
 
     if mask.any():
@@ -148,69 +145,14 @@ for centre in bands_hz:
         levels_db.append(_DB_FLOOR)
 ```
 
-#### The latency budget
+#### Latency and sample rate
 
-The two parameters that matter are the sample rate and the window size: 48 kHz and 2,400 samples. They set everything else. A 2,400-sample window is exactly 50 ms of sound, which means frames come out at 20 Hz, and the FFT produces 1,201 bins spanning 0 Hz to Nyquist at 24 kHz, spaced 20 Hz apart.
+The sample rate is 48 kHz and the window size is 2,400 samples, yielding exactly 50 ms of sound. That means frames come out at 20 Hz, and the FFT produces 1,201 bins spanning 0 Hz to Nyquist at 24 kHz, spaced 20 Hz apart. A 2,400-point real FFT is on the order of *N* log₂ *N* ≈ 27,000 operations, which NumPy does in microseconds. Up until this point, the latency is dominated by the sampling time of 50 ms. I have not yet measured the rest of the path from finished frame to canvas draw, but it feels fairly responsive to the sound in the room.
 
-It also means the window is the floor on latency. You have to collect 50 ms of sound before you can transform any of it, so every frame the browser draws describes a slice of time that ended at least 50 ms ago. That is a property of the design rather than a performance problem, and it is the number worth knowing.
-
-Everything after that is cheap by comparison. A 2,400-point real FFT is on the order of *N* log₂ *N* ≈ 27,000 operations, which NumPy does in microseconds against a 50 ms budget. So the window size is really a resolution tradeoff and not a compute one. A longer window would buy finer frequency resolution and a slower, laggier display, and a shorter one the reverse.
-
-#### What I would change
-
-I had to decide whether the live path should use the same broker as the telemetry, or whether consumers should read it some other way. I kept it on the bus. It is simpler, and it preserves the pattern. I still think that was right, but it is the weakest part of the design, and the reason is payload size.
-
-Every frame carries the full waveform, the full spectrum, and the eight computed bands. Serialized as JSON that is about 85 KB per frame, or roughly 1.7 MB/s if you leave it running. Two things stand out in the breakdown. The bin frequency array is a fixed function of sample rate and window size, so it is identical in every frame, and I retransmit it twenty times a second. And the equalizer, which is what the panel actually renders, needs 231 bytes of that 85 KB. The full spectrum is on the frame in case I want it later, but nothing consumes it today.
-
-This is also where MQTT's fit gets loose. It was built to move small messages over unreliable links, and I am pushing 85 KB frames across loopback. It works, and nobody notices on a wired local system, but the protocol is not earning much here. Dropping the spectrum from the frame, or moving the stream to a binary encoding, is the first thing I would change.
-
-#### Streams and snapshots
-
-The live frames also go through FastAPI, but not as REST. REST is a request for the latest value. This is a stream, so the API holds a WebSocket open and pushes frames as they arrive. That is async, and it can keep more than one client connected. Getting the frames there took some care, because MQTT callbacks fire on the paho client's background thread while WebSocket sends have to happen on the asyncio event loop:
-
-```python
-def broadcast(self, data: str) -> None:
-    """Send *data* to all connected clients from any thread."""
-    if self._loop is None or not self._connections:
-        return
-
-    with self._lock:
-        connections = set(self._connections)
-
-    async def _send_all() -> None:
-        dead: set[WebSocket] = set()
-        for ws in connections:
-            try:
-                await ws.send_text(data)
-            except Exception:
-                dead.add(ws)
-        if dead:
-            with self._lock:
-                self._connections -= dead
-
-    asyncio.run_coroutine_threadsafe(_send_all(), self._loop)
-```
-
-The frontend has to respect that same split. If I polled the live frames, I would turn a stream back into a snapshot and add another delay. If I pushed temperature over a socket, I would be building a live path for data that only changes every minute. So the page uses both. The audio panel makes the distinction obvious: the waveform and the equalizer come from the socket; the rolling decibel number does not. That number is a short-window summary. It has the same meaning as the other telemetry, so it uses the same poll.
-
-I also did not want the browser to become a second signal processor. The FFT already ran on the Pi. If each client redid it, every consumer could disagree about the bands, and a cheap display would pay for work it does not need. The page only draws.
-
-#### Two display problems
-
-Two problems showed up that are not data problems. Room level is low, so a faithful plot of the waveform sits on the baseline. I amplify it in the drawing, not in the numbers. The bands also move faster than you can read, so the EQ keeps a short peak hold that decays at 18 dB per second.
-
-```js
-function levelToBlocks(db) {
-  // Apply gain (dB boost) for display height only.
-  const boosted = Math.min(0, db + gain);
-  const ratio   = Math.max(0, Math.min(1, (boosted - FLOOR_DB) / -FLOOR_DB));
-  return Math.round(ratio * BLOCKS);
-}
-```
-
-In both cases the payload stays in dBFS and the adjustment happens in the drawing code, past every interface. The canvas is allowed to lie a little so you can see what is happening.
-
-The last issue is what to show when the socket dies. A retained last frame would look live when it is not. The drawings go idle instead, and the client reconnects. That is the same reason the live topic on the broker does not keep a last value.
+<video controls preload="metadata" width="1280" height="720" class="w-full rounded">
+  <source src="/videos/arkadia-audio.mp4" type="video/mp4" />
+  A screen capture of the Arkadia audio panel responding to sound in the room.
+</video>
 
 ### Coding with AI
 
@@ -259,8 +201,3 @@ I was able to make a hobby system this flexible because of software concepts fro
 Beyond getting reps with familiar concepts, I am most pleased with the new skills Arkadia provided, primarily using WebSockets for real-time data streaming. That framing between old and new skills has implications for coding with AI. In my experience, the role of an engineer is less and less about writing the actual code and more and more about design. The first thing I committed to the repo was a technical design and a development plan drawing on those foundational principles, and that enabled the agent to code mostly on autopilot. But the agent still had to contribute to the design around live streaming. Since that was new for me and came more from the agent than from me, I found it important to review and internalize that code more than other parts of the codebase, so I would actually acquire the skill rather than hand-waving and deferring. The next time I encounter a similar live streaming application at work or in a personal project, I should be able to provide more of a vision from the start.
 
 Next on my list of enhancements is something like a PMS5003 to measure particulates. That would probably be the most helpful sensor for air quality during a wildfire, which was my original motivation for building Arkadia. After that, more in the spirit of the real-time audio and as an attempt to cover more of the human senses, it would be fun to incorporate optical sensors such as a VEML7700 and an AS7341 to report the intensity and composition of ambient light. I also want to extend the consumer side — an LED matrix as a physical monitor, rather than relying only on the web app.
-
-<video controls preload="metadata" width="1280" height="720" class="w-full rounded">
-  <source src="/videos/arkadia-audio.mp4" type="video/mp4" />
-  A screen capture of the Arkadia audio panel responding to sound in the room.
-</video>
