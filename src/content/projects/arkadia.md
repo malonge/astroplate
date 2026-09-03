@@ -10,11 +10,11 @@ tags: ["python", "raspberry-pi", "mqtt", "mosquitto", "fastapi", "websockets", "
 draft: false
 ---
 
-Arkadia is a home environment monitoring system I built for a mix of personal and professional reasons. Firstly, I wanted a system of my own for monitoring indoor climate and air quality in Los Angeles, which is prone to heat waves and wildfires. I also wanted experience with edge and IoT software engineering. Most of my professional work is in the cloud, and this was an opportunity to work closer to the hardware. Finally, I am a musician and I am interested in guitar audio signal processing. Integrating a microphone into the system lets me monitor noise levels to protect my ears and visualizing the sound in the room as it happens helps me learn more about audio processing.
+Arkadia is a home environment monitoring system I built for a mix of personal and professional reasons. Firstly, I wanted a system of my own for monitoring indoor climate and air quality in Los Angeles, which is prone to heat waves and wildfires. I also wanted experience with edge and IoT software engineering. Most of my professional work is in the cloud, and this was an opportunity to work closer to the hardware. Finally, I am a musician and I am interested in guitar audio signal processing. Integrating a microphone into the system lets me monitor noise levels to protect my ears, and visualizing the sound in the room as it happens helps me learn more about audio processing.
 
 A typical hobby environment monitor connects everything directly: one Python script reads the sensors in sequence, bundles the readings, and writes them to a display. But that approach is brittle. If one sensor is down, or you want to add a new one, or you want to show or analyze the data differently, even a small change impacts the whole program. Once I decided to build this, I wanted to build it the way I would build something at work, so that I could keep extending it and so that I would get real practice with the concepts I use professionally.
 
-The project is named after the Skaikru base camp in book and TV series *The 100*.
+The project is named after the Skaikru base camp in the book and TV series *The 100*.
 
 ## What I built, from the top down
 
@@ -48,6 +48,8 @@ Power and ground feed the breadboard rails from the Pi. The BME280, SCD40, and S
 
 Now that you have a high-level overview of the project, let's dive into some of the technical details.
 
+![Arkadia architecture: sensors publish to Mosquitto, the API reads from the broker, and the dashboard consumes REST and WebSocket data](/images/arkadia-architecture.png)
+
 ### Event-driven architecture with MQTT
 
 The core of the software is a Mosquitto MQTT broker on the Pi. Sensor services publish readings to the broker on dedicated topics and other services (like the API) subscribe.
@@ -56,7 +58,7 @@ The main benefit is separation of concerns. Each sensor has its own process and 
 
 The bus carries two kinds of data: telemetry and live streaming. Temperature, CO₂, VOC, and the periodic decibel reading are telemetry: sampled every few seconds or every minute, where only the most recent value matters. The live audio signal for the equalizer is real-time and has to be processed as it arrives. The same broker handles both, but not in the same way.
 
-Telemetry data is published with `retain=true`, so the broker holds the most recent reading for each sensor. When the API restarts, the broker replays those retained messages and the API rebuilds its state immediately. The audio stream on the other hand is published at QoS 0 with no retain.
+Telemetry data is published with `retain=true`, so the broker holds the most recent reading for each sensor. When the API restarts, the broker replays those retained messages and the API rebuilds its state immediately. The audio stream, on the other hand, is published at QoS 0 with no retain.
 
 ```python
 # Telemetry: guaranteed delivery, broker holds the latest value.
@@ -68,9 +70,9 @@ client.publish(stream_topic, stream_payload.model_dump_json(), qos=0, retain=Fal
 
 I used hierarchical topics and wildcard subscriptions for easy extensibility. Topics are namespaced as `home/sensors/{category}/{sensor_id}`, and the API subscribes once to `home/sensors/#`. A new sensor shows up on the bus and the API picks it up without a configuration change.
 
-I used a Last Will and Testament to let the broker report a failures. Each service registers a will when it connects, so if it disconnects ungracefully the broker publishes `{"status": "offline"}` to `home/status/{sensor_id}` on its behalf. The sensor health indicators on the dashboard use this feature directly.
+I used a Last Will and Testament to let the broker report failures. Each service registers a will when it connects, so if it disconnects ungracefully the broker publishes `{"status": "offline"}` to `home/status/{sensor_id}` on its behalf. The sensor health indicators on the dashboard use this feature directly.
 
-Comparing Mosquito/MQTT to other options, Redis pub/sub is fire-and-forget with no per-topic retention and no will. ZeroMQ is brokerless, so there is no last-value cache and no liveness signal unless you build them.
+Comparing Mosquitto/MQTT to other options, Redis pub/sub is fire-and-forget with no per-topic retention and no will. ZeroMQ is brokerless, so there is no last-value cache and no liveness signal unless you build them.
 
 ### Schemas and contracts
 
@@ -149,7 +151,7 @@ for center in bands_hz:
 
 The sample rate is 48 kHz and the window size is 2,400 samples, yielding exactly 50 ms of sound. That means frames come out at 20 Hz, and the FFT produces 1,201 bins spanning 0 Hz to Nyquist at 24 kHz, spaced 20 Hz apart. A 2,400-point real FFT is on the order of *N* log₂ *N* ≈ 27,000 operations, which NumPy does in microseconds. Up until this point, the latency is dominated by the sampling time of 50 ms. I have not yet measured the rest of the path from finished frame to canvas draw, but it feels fairly responsive to the sound in the room.
 
-<video controls preload="metadata" width="1280" height="720" class="w-full rounded">
+<video controls preload="metadata" width="854" height="480" class="mx-auto w-full max-w-xl rounded">
   <source src="/videos/arkadia-audio.mp4" type="video/mp4" />
   A screen capture of the Arkadia audio panel responding to sound in the room.
 </video>
