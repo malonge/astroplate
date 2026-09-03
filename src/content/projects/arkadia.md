@@ -158,46 +158,20 @@ The sample rate is 48 kHz and the window size is 2,400 samples, yielding exactly
 
 Just as in my current setup at work, I built everything via Cursor Cloud using Claude Opus. To test and deploy the code, I pulled from the relevant GitHub branch directly on the Raspberry Pi. No code was actually written on the Pi.
 
-With agents writing most or all of the code for new projects like this, it is very important for me as the engineer to lay out the vision and the technical design clearly. So the first thing in the repo was not code. It was a technical design document, followed by a plan that broke the work into sequenced pull requests with acceptance criteria for each. The design doc opens with the principles that everything else had to follow:
+With agents writing most or all of the code for new projects like this, it is very important for me as the engineer to lay out the vision and the technical design clearly. So the first thing in the repo was not code. It was a technical design document, followed by a plan that broke the work into sequenced pull requests with acceptance criteria for each.
 
-```markdown
-## Design Philosophy
+With a strong technical design in place for the agent to follow, most of the coding was on autopilot. Running on the edge was where the slowdowns showed up.
 
-- Simple and correct over clever.
-- Each process has a single responsibility.
-- Services fail fast on startup errors.
-- systemd handles process supervision and restart.
-- Configuration lives outside of code.
-- All inter-process communication is local to the Raspberry Pi.
-- Adding a new sensor requires minimal changes.
-```
+For example, I had to tackle some bugs related to the fact that the `googlevoicehat-soundcard` ALSA driver on the Pi 5 requires 48 kHz stereo capture rather than the initial 16 kHz design. I also had to work through mapping the mono signal from the INMP441 to the stereo channels, which depends on the physical wiring of the microphone.
 
-Those seven lines did a lot of work. "Each process has a single responsibility" is why there are four sensor services instead of one loop. "Services fail fast on startup errors" plus "systemd handles process supervision" is why no service contains retry logic for its own initialization; it exits, and systemd restarts it. When the agent had a decision to make that I had not anticipated, those lines usually answered it, and I think that is why the implementation went mostly on autopilot.
-
-The friction came from the physical side instead. The `googlevoicehat-soundcard` ALSA driver on the Pi 5 requires 48 kHz stereo capture and will not do 16 kHz, so I did not choose my sample rate. The driver did, and the design had to move to meet it. The INMP441 is a mono microphone, but the driver presents it as stereo, and which channel carries the signal depends on whether you tied the L/R pin to ground or to 3.3 V. Then `sounddevice` turned out to be unable to negotiate hardware parameters through the ALSA software volume layer, so the service has to address the hardware device directly.
-
-The systemd configuration also took a few rounds, mostly around environment variables and permissions. The audio service needs `Group=audio` for ALSA access, and `ExecStart` ends up shelling through bash so that a path variable from the environment file expands:
-
-```ini
-[Service]
-User=pi
-Group=audio
-EnvironmentFile=/etc/home-monitor.env
-ExecStart=/bin/bash -c \
-  'exec "${ARKADIA_ROOT}/services/audio/.venv/bin/python" \
-        "${ARKADIA_ROOT}/services/audio/main.py"'
-Restart=on-failure
-RestartSec=5
-```
-
-None of that is difficult, but each round trip means pushing a branch, pulling it on the Pi, restarting the unit, and reading the journal. When things are in the cloud I automate that loop without thinking about it. Here I could not, and I also had to take care of the hardware physically. That was a good reminder of how much of my normal speed comes from infrastructure I do not have to think about.
+Each of these debugging iterations involved pushing a branch, pulling it on the Pi, restarting the unit, and reading the journal. This was a good reminder of how much of my normal development speed relies on managed cloud infrastructure that I do not have to worry about.
 
 ## Conclusion
 
 Arkadia is a living project that combines my professional software engineering interests with personal hobbies like electronics and music. I say "living" because it is not just a single collection of sensors. It is a platform for environment monitoring that supports extension and customization.
 
-I was able to make a hobby system this flexible because of software concepts from my career. Event-driven architecture, separation of concerns, and clear contracts between services are what keep Arkadia running smoothly and what separate it from a typical hobby project. This was a chance to apply those tried and true principles in a setting outside of work.
+I was able to make a hobby system this flexible because of software concepts from my career. Event-driven architecture, separation of concerns, and clear contracts between services are what keep Arkadia running smoothly and what separate it from a typical hobby project. This was a chance to apply those tried-and-true principles in a setting outside of work.
 
-Beyond getting reps with familiar concepts, I am most pleased with the new skills Arkadia provided, primarily using WebSockets for real-time data streaming. That framing between old and new skills has implications for coding with AI. In my experience, the role of an engineer is less and less about writing the actual code and more and more about design. The first thing I committed to the repo was a technical design and a development plan drawing on those foundational principles, and that enabled the agent to code mostly on autopilot. But the agent still had to contribute to the design around live streaming. Since that was new for me and came more from the agent than from me, I found it important to review and internalize that code more than other parts of the codebase, so I would actually acquire the skill rather than hand-waving and deferring. The next time I encounter a similar live streaming application at work or in a personal project, I should be able to provide more of a vision from the start.
+Beyond getting reps with familiar concepts, I am most pleased with the new skills Arkadia provided — primarily live data streaming to the browser. That path was newer for me, so I found it important to review and internalize that code more than other parts of the codebase, rather than hand-waving and deferring. The next time I encounter a similar live streaming application at work or in a personal project, I should be able to provide more of a vision from the start.
 
-Next on my list of enhancements is something like a PMS5003 to measure particulates. That would probably be the most helpful sensor for air quality during a wildfire, which was my original motivation for building Arkadia. After that, more in the spirit of the real-time audio and as an attempt to cover more of the human senses, it would be fun to incorporate optical sensors such as a VEML7700 and an AS7341 to report the intensity and composition of ambient light. I also want to extend the consumer side — an LED matrix as a physical monitor, rather than relying only on the web app.
+Next on my list of enhancements is something like a PMS5003 to measure particulates. That would probably be the most helpful sensor for air quality during a wildfire, which was my original motivation for building Arkadia. After that, more in the spirit of the real-time audio and as an attempt to cover more of the human senses, it would be fun to incorporate optical sensors such as a VEML7700 and an AS7341 to report the intensity and composition of ambient light. I also want to extend the display side — an LED matrix as a physical monitor, rather than relying only on the web app.
