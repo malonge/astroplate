@@ -26,7 +26,7 @@ At the top of the stack is a web dashboard as a single place to monitor all of t
 
 The UI is still pretty crude, but it gives a good idea of the direction I would go as I add more sensors and clean up the system. Long term, I would rather display the information on an LED matrix than a web page.
 
-The API is a systemd service that starts when the Raspberry Pi boots. It serves the dashboard on port 8000, which can be reached from any device on the local network, and exposes the data under `/api`. REST endpoints return the latest reading for each sensor, and the dashboard polls those. The EQ and waveform need a continuous stream, so those come over a WebSocket. The API does not talk to the sensors directly. It reads from a local Mosquitto broker that the rest of the system publishes to.
+The API is a systemd service that starts when the Raspberry Pi boots. It serves the dashboard on port 8000, which can be reached from any device on the local network, and exposes the data under `/api`. REST endpoints return the latest reading for each sensor, and the dashboard polls those. The EQ and waveform need a continuous stream, so those come over a WebSocket. The API reads from a local Mosquitto broker that the rest of the system publishes to, rather than talking to the sensors itself.
 
 Each sensor has its own process. That process reads from the hardware, does any quality checks or aggregation the sensor needs, and publishes to the broker.
 
@@ -46,17 +46,15 @@ Power and ground feed the breadboard rails from the Pi. The BME280, SCD40, and S
 
 ## Technical Deep Dive
 
-Now that you have a high-level overview of the project, let's dive into some of the technical details.
-
 ![Arkadia architecture: sensors publish to Mosquitto, the API reads from the broker, and the dashboard consumes REST and WebSocket data](/images/arkadia-architecture.png)
 
 ### Event-driven architecture with MQTT
 
 The core of the software is a Mosquitto MQTT broker on the Pi. Sensor services publish readings to the broker on dedicated topics and other services (like the API) subscribe.
 
-The main benefit is separation of concerns. Each sensor has its own process and its own place on the bus. That process has one job: read the sensor, do a minimal amount of processing, and publish. It does not need to know how the other sensors work, or whether they are up, or how the data will be used. This separation of concerns has already proven useful. I have a hardware problem with the SGP40 right now, and while I debug it the rest of Arkadia keeps running and the dashboard marks that one panel as offline. Aside from helping to mitigate existing bugs, this separation of concerns makes it easier to add new sensors or displays in the future.
+The main benefit is separation of concerns. Each sensor has its own process and its own place on the bus. That process has one job: read the sensor, do a minimal amount of processing, and publish. It does not need to know how the other sensors work, or whether they are up, or how the data will be used. This separation of concerns has already proven useful. I have a hardware problem with the SGP40 right now, and while I debug it the rest of Arkadia keeps running and the dashboard marks that one panel as offline. It also makes it easier to add new sensors or displays in the future.
 
-The bus carries two kinds of data: telemetry and live streaming. Temperature, CO₂, VOC, and the periodic decibel reading are telemetry: sampled every few seconds or every minute, where only the most recent value matters. The live audio signal for the equalizer is real-time and has to be processed as it arrives. The same broker handles both, but not in the same way.
+The bus carries two kinds of data: telemetry and live streaming. Temperature, CO₂, VOC, and the periodic decibel reading are telemetry: sampled every few seconds or every minute, where only the most recent value matters. The live audio signal for the equalizer is real-time and has to be processed as it arrives. The same broker handles both.
 
 Telemetry data is published with `retain=true`, so the broker holds the most recent reading for each sensor. When the API restarts, the broker replays those retained messages and the API rebuilds its state immediately. The audio stream, on the other hand, is published at QoS 0 with no retain.
 
@@ -101,7 +99,7 @@ The bus decouples producers from consumers, and while this underpins the extensi
 
 The envelope and every sensor's readings are defined as Pydantic models in a shared `common` package that all the services import, so the contract is enforced at both ends.
 
-The `meta` section of the schema documents any aggregation or transformation that the producer does. The sensors are fallible, and this raises an interesting and common software design question: who is responsible for data processing steps? To answer this question, we can use a simple heuristic: if a data processing step is generally applicable, it should be done by the producer. For example, no consuming service is ever likely to care about implausibly low or high temperature readings. Therefore, it's cleaner for the producer to take several readings and publish the median, rather than having every consumer deal with implausible values in repetitive and heterogeneous ways. On the other hand, if a data processing step is specific to a consumer, it should be done by that consumer. For example, converting units or displaying trends in the data is likely to be specific to a given consumer, so they should own it.
+The `meta` section of the schema documents any aggregation or transformation that the producer does. The sensors are fallible, which raises a common design question: who is responsible for data processing steps? A simple heuristic: if a data processing step is generally applicable, it should be done by the producer. For example, no consuming service is ever likely to care about implausibly low or high temperature readings. Therefore, it is cleaner for the producer to take several readings and publish the median, rather than having every consumer deal with implausible values in repetitive and heterogeneous ways. On the other hand, if a data processing step is specific to a consumer, it should be done by that consumer. For example, converting units or displaying trends in the data is likely to be specific to a given consumer, so they should own it.
 
 ### The REST API
 
@@ -158,9 +156,9 @@ The sample rate is 48 kHz and the window size is 2,400 samples, yielding exactly
 
 ### Coding with AI
 
-Just as in my current setup at work, I built everything via Cursor Cloud using Claude Opus. To test and deploy the code, I pulled from the relevant GitHub branch directly on the Raspberry Pi. No code was actually written on the Pi.
+Just as in my current setup at work, I built everything via Cursor Cloud using Claude Opus. To test and deploy, I pulled each GitHub branch onto the Raspberry Pi and ran it there.
 
-With agents writing most or all of the code for new projects like this, it is very important for me as the engineer to lay out the vision and the technical design clearly. So the first thing in the repo was not code. It was a technical design document, followed by a plan that broke the work into sequenced pull requests with acceptance criteria for each.
+With agents writing most or all of the code for new projects like this, I need a clear vision and technical design up front. So I started with a technical design document, followed by a plan that broke the work into sequenced pull requests with acceptance criteria for each.
 
 With a strong technical design in place for the agent to follow, most of the coding was on autopilot. Running on the edge was where the slowdowns showed up.
 
@@ -170,7 +168,7 @@ Each of these debugging iterations involved pushing a branch, pulling it on the 
 
 ## Conclusion
 
-Arkadia is a living project that combines my professional software engineering interests with personal hobbies like electronics and music. I say "living" because it is not just a single collection of sensors. It is a platform for environment monitoring that supports extension and customization.
+Arkadia is a living project that combines my professional software engineering interests with personal hobbies like electronics and music. It is a platform for environment monitoring that supports extension and customization.
 
 I was able to make a hobby system this flexible because of software concepts from my career. Event-driven architecture, separation of concerns, and clear contracts between services are what keep Arkadia running smoothly and what separate it from a typical hobby project. This was a chance to apply those tried-and-true principles in a setting outside of work.
 
