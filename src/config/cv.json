@@ -6,7 +6,7 @@
       "email": "malonge11@gmail.com",
       "phone": null,
       "url": "https://michaelalonge.com",
-      "summary": "Software engineer and computational biologist with 10+ years of experience designing and leading scalable genomics analysis. Ph.D. in Computer Science from Johns Hopkins with a strong publication record in top journals including Cell, Science, and Nature. Skilled in cloud-native architecture, data engineering, and bioinformatics, with a proven ability to bridge genomics and software engineering to build reliable, production-ready systems for biotech.",
+      "summary": "Software engineer and data engineering lead with 10+ years of experience building scalable data platforms, distributed pipelines, and computational systems. Ph.D. in Computer Science from Johns Hopkins with a strong publication record in Cell, Science, and Nature. Experienced in cloud-native architecture, modern data stacks (Airflow, dbt), ETL/ELT pipelines, and probabilistic modeling & statistics (Bayesian and frequentist), with a proven track record of bridging complex domain science with production-ready software engineering.",
       "location": {
         "address": null,
         "postalCode": "90036",
@@ -259,87 +259,85 @@
     ],
     "skills": [
       {
-        "name": "Google Cloud & Cloud Engineering",
-        "level": "Advanced",
-        "keywords": [
-          "Cloud Run",
-          "Cloud Functions",
-          "Compute Engine",
-          "Cloud Storage",
-          "BigQuery",
-          "Pub/Sub",
-          "Workflows",
-          "Cloud Scheduler",
-          "Vertex AI",
-          "Service Orchestration",
-          "Serverless Architecture",
-          "CI/CD",
-          "Cloud-native Design"
-        ]
-      },
-      {
         "name": "Data Engineering & Analytics",
         "level": "Advanced",
         "keywords": [
           "Python",
-          "Pandas",
-          "Polars",
-          "PySpark",
           "SQL",
-          "NoSQL",
+          "Apache Airflow",
+          "dbt",
+          "PySpark",
+          "Polars",
+          "Pandas",
+          "ETL/ELT Pipelines",
+          "Data Modeling & Warehousing",
           "Schema Design",
-          "ETL Pipelines",
-          "Data Modeling",
-          "Data Transformation",
           "Scalable Platform Design"
+        ]
+      },
+      {
+        "name": "Statistical Modeling & ML",
+        "level": "Intermediate",
+        "keywords": [
+          "Probabilistic Modeling",
+          "Bayesian Inference",
+          "Frequentist Statistics",
+          "Machine Learning",
+          "Statistical Analysis",
+          "Predictive Modeling"
+        ]
+      },
+      {
+        "name": "Cloud & Distributed Infrastructure",
+        "level": "Advanced",
+        "keywords": [
+          "Google Cloud Platform (GCP)",
+          "BigQuery",
+          "Cloud Storage",
+          "Pub/Sub",
+          "Vertex AI",
+          "Docker",
+          "Serverless Architecture",
+          "Service Orchestration",
+          "CI/CD",
+          "Event-Driven Architecture"
         ]
       },
       {
         "name": "Software Engineering & Architecture",
         "level": "Advanced",
         "keywords": [
-          "Object-Oriented Programming",
+          "System Architecture",
+          "API Design & Development",
           "Domain-Driven Design",
           "Test-Driven Development",
-          "Dependency Inversion",
-          "Service-Oriented Architecture",
-          "Event-Driven Architecture",
-          "API Development",
-          "Context Management"
+          "Object-Oriented Programming",
+          "Microservices",
+          "Git & CI/CD Pipelines"
         ]
       },
       {
         "name": "Genomics & Computational Biology",
         "level": "Advanced",
         "keywords": [
-          "Genome Assembly",
+          "Genome Assembly & Scaffolding",
           "Pan-genomics",
           "Structural Variation",
-          "Gene Annotation",
-          "Repeat Annotation",
-          "RNA-seq",
-          "ChIP-seq",
-          "Hi-C",
-          "Variant Discovery",
-          "Gene Editing",
-          "Molecular Biology",
-          "Plant Biology",
-          "Genetics",
-          "Epigenetics",
-          "Somatic Mutations"
+          "Variant Discovery & Genotyping",
+          "NGS Analysis (RNA-seq, Hi-C)",
+          "Comparative Genomics"
         ]
       },
       {
-        "name": "Leadership & Technical Communication",
+        "name": "Leadership & Communication",
         "level": "Advanced",
         "keywords": [
+          "Technical Leadership",
+          "Cross-Functional Team Management",
           "Mentorship",
-          "Professional Development",
-          "Technical Documentation",
-          "Notion",
-          "Miro",
-          "Jira",
-          "Adobe Illustrator"
+          "Technical Strategy & Architecture",
+          "Agile Collaboration",
+          "Technical Writing"
         ]
       }
     ],
