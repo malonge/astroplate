@@ -40,9 +40,9 @@
         "url": "https://ohalo.com",
         "startDate": "2025-03-16",
         "endDate": "Present",
-        "summary": "Leading the architecture and implementation of Ohalo’s custom cloud-native genomics data platform on Google Cloud, unifying OLTP and OLAP workflows to support breeding, gene editing, and IP strategy. Serving as the company’s lead subject matter expert in genomics and bioinformatics, with an emphasis on scalable, high-throughput computational systems.",
+        "summary": "Leading the architecture and implementation of Ohalo’s custom cloud-native genomics data platform on Google Cloud, integrating event-driven pipelines, operational services, and scalable analytical warehousing to support breeding, gene editing, and IP strategy. Serving as the company’s lead subject matter expert in genomics and bioinformatics.",
         "highlights": [
-          "Lead the design and development of Ohalo’s custom GCP genomics data platform supporting hybrid OLTP and OLAP workloads for breeding and gene editing programs",
+          "Lead the design and development of Ohalo’s custom GCP data platform, integrating event-driven ETL/ELT pipelines, operational APIs, and analytical warehousing (BigQuery) to support breeding and gene editing programs",
           "Manage and mentor a cross-functional team of software engineers and bioinformaticians",
           "Set strategic direction for genomics and bioinformatics in support of IP and product development"
         ]
